@@ -1,0 +1,8 @@
+{
+  "includeCoAuthoredBy": false,
+  "model": "vertex_ai/claude-haiku-4-5",
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/scripts/statusline.sh"
+  }
+}

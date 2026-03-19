@@ -1,0 +1,15 @@
+# .git
+.git
+
+# .claude
+settings.local.json
+
+# .codex
+
+# .cursor
+
+# .rulesync
+
+# scripts
+scripts/backup/
+.syncignore

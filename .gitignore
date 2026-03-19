@@ -1,0 +1,17 @@
+# env
+.env
+
+# .claude
+.claude/settings.local.json
+
+# .cursor
+
+# .codex
+
+# .gemini
+
+# scripts
+scripts/backup/
+
+# others
+.DS_Store
