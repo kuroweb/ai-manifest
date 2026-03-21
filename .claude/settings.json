@@ -1,6 +1,5 @@
 {
   "includeCoAuthoredBy": false,
-  "model": "vertex_ai/claude-haiku-4-5",
   "permissions": {
     "allow": [],
     "deny": [
