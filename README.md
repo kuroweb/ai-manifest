@@ -1,106 +1,69 @@
 # ai-manifest
 
-Cursor / Claude Code / Codex / Gemini CLI 向けの設定を一括管理するためのリポジトリ
+Cursor / Claude Code / Codex / Gemini CLI 向けの設定をまとめるリポジトリ。
 
-## このリポジトリで管理するもの
+## 概要
 
-- **編集正本**: `.rulesync/`
-- **生成物**（各ツール向け）: `.cursor/`, `.claude/`, `.codex/`, `.gemini/`
-- **ホームへの反映**: `scripts/install.sh`（`~/.cursor` 等へのシンボリックリンク）
+- **共通の正本**: `.rulesync/`（`rules` / `skills` / `subagents`。対象は `rulesync.jsonc` の `features` に従う）
+- **生成物**: `rulesync generate` で `.cursor/` `.claude/` `.codex/` `.gemini/` が更新される
+- **ホーム反映**: `bash scripts/install.sh` で `~/.cursor` などへシンボリックリンクを張る
 
-## 初回セットアップ
+hooks や MCP、Claude のモデル設定などは rulesync の対象外。
 
-### 1. Rulesync をインストール（Homebrew）
+## はじめ方
 
-```bash
-brew install rulesync
-```
+1. Rulesync を入れる（例: `brew install rulesync`）。その他は [Rulesync（GitHub）](https://github.com/dyoshikawa/rulesync) を参照する
+2. リポジトリを clone してディレクトリに入る
+3. `rulesync generate` を実行する
+4. `bash scripts/install.sh` を実行する
 
-Homebrew 以外は [Rulesync（GitHub）](https://github.com/dyoshikawa/rulesync) を参照。
-
-### 2. リポジトリを取得
-
-```bash
-git clone <repository-url>
-cd ai-manifest
-```
-
-### 3. 生成物を作成
-
-```bash
-rulesync generate
-```
-
-`.rulesync/` を元に、リポジトリ内の `.cursor/` / `.claude/` / `.codex/` / `.gemini/` を更新する。
-
-### 4. ホームディレクトリへ反映
-
-```bash
-bash scripts/install.sh
-```
-
-`~/.cursor` / `~/.claude` / `~/.codex` / `~/.gemini` にシンボリックリンクを張る。  
-既存のファイルやディレクトリがある場合は、`scripts/backup/<timestamp>/` にバックアップしてから置き換える。
+既存の `~/.cursor` などがある場合は、`scripts/backup/<timestamp>/` に退避してからリンクを張り替える。
 
 ## 日常運用
 
-1. `.rulesync/` を編集する
-2. `rulesync generate` を実行する
-3. 必要なら `bash scripts/install.sh` で `~/` 側へ再反映する
+- ルール・スキル・サブエージェントを変えたい → `.rulesync/` を編集し、`rulesync generate` を実行する
+- `~/.cursor` などホーム側を、リポジトリの現在の内容に合わせたい → `bash scripts/install.sh` を実行する
 
 `.rulesync/` を変えたあとは、必ず `rulesync generate` を実行する。
 
-## よく編集するファイル（個別設定）
+## `.rulesync` と生成先
 
-`install.sh` が `~/` へリンクするうち、手で触ることが多いもの。
+次の対応でファイルが出力される。ここに出てくるパスは **`rulesync generate` で上書き**されるので、内容を保ちたい場合は **`.rulesync/` 側を編集**する（生成物を手で直し続けない）。
 
-| ファイル | 用途 |
-| --- | --- |
-| `.cursor/mcp.json` | Cursor 用 MCP サーバー設定 |
-| `.claude/settings.json` | モデル・statusline など Claude Code の設定 |
-| `.claude/settings.local.json` | マシン固有の上書き（任意） |
-| `.claude/scripts/` | statusline 用シェルスクリプトなど |
-
-MCP やその他の CLI 専用設定は、各ツールの公式手順に従い、このリポジトリ外で管理してもよい。
-
-## rulesync と install.sh の役割
-
-### rulesync
-
-- **入力**: `.rulesync/`
-- **出力**: リポジトリ直下の `.cursor/` / `.claude/` / `.codex/` / `.gemini/`
-- **設定**: `rulesync.jsonc`
-
-| 編集正本 | Cursor | Claude Code | Codex | Gemini CLI |
+| 正本 | Cursor | Claude Code | Codex | Gemini CLI |
 | --- | --- | --- | --- | --- |
 | `.rulesync/rules/` | `.cursor/rules` | `.claude/rules` | `.codex/memories` | `.gemini/memories` |
 | `.rulesync/skills/` | `.cursor/skills` | `.claude/skills` | `.codex/skills` | `.gemini/skills` |
 | `.rulesync/subagents/` | `.cursor/agents` | `.claude/agents` | `.codex/agents` | - |
 
-### install.sh
+## hooks とそのほかの個別設定
 
-リポジトリ内のファイル・ディレクトリを `~/` 配下へリンクする。主な対象は次のとおり。
+rulesync の生成対象ではないものは、リポジトリ内の該当ファイルを直接編集する。
+
+| パス | 用途 |
+| --- | --- |
+| `.cursor/mcp.json` | Cursor 用 MCP |
+| `.cursor/hooks.json` | Cursor 用 hooks |
+| `.claude/settings.json` | Claude Code（モデル・statusline・hooks など） |
+| `.claude/settings.local.json` | マシン固有の上書き（任意） |
+| `.claude/scripts/` | statusline 用スクリプトなど |
+
+MCP などは公式手順に従い、このリポジトリ外だけで管理してもよい。
+
+## `install.sh` がリンクするパス
 
 | ツール | リンク対象 |
 | --- | --- |
-| Cursor | `.cursor/mcp.json`, `.cursor/rules`, `.cursor/skills`, `.cursor/agents` |
+| Cursor | `.cursor/mcp.json`, `.cursor/hooks.json`, `.cursor/rules`, `.cursor/skills`, `.cursor/agents` |
 | Claude Code | `.claude/settings.json`, `.claude/settings.local.json`, `.claude/rules`, `.claude/skills`, `.claude/agents`, `.claude/scripts` |
 | Codex | `.codex/memories`, `.codex/skills`, `.codex/agents` |
 | Gemini CLI | `.gemini/memories`, `.gemini/skills` |
 
-## コマンドリファレンス
-
-### `rulesync generate`
-
-`.rulesync/` の編集正本から各ツール向けの出力を再生成する。
+## コマンド
 
 ```bash
 rulesync generate
 ```
-
-### `bash scripts/install.sh`
-
-生成物・個別設定を `~/.cursor` などへ反映する（既存項目はバックアップのうえで置換）。
 
 ```bash
 bash scripts/install.sh
