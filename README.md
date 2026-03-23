@@ -1,55 +1,107 @@
 # ai-manifest
 
-Cursor と Claude Code 向けのルール定義・スキル・スクリプトを統一管理する。
+Cursor / Claude Code / Codex / Gemini CLI 向けの設定を一括管理するためのリポジトリ
 
-## セットアップ
+## このリポジトリで管理するもの
+
+- **編集正本**: `.rulesync/`
+- **生成物**（各ツール向け）: `.cursor/`, `.claude/`, `.codex/`, `.gemini/`
+- **ホームへの反映**: `scripts/install.sh`（`~/.cursor` 等へのシンボリックリンク）
+
+## 初回セットアップ
+
+### 1. Rulesync をインストール（Homebrew）
 
 ```bash
-bash ~/ai-manifest/scripts/install.sh
+brew install rulesync
 ```
 
-## 管理方針
+Homebrew 以外は [Rulesync（GitHub）](https://github.com/dyoshikawa/rulesync) を参照。
 
-### rulesync で共通化
+### 2. リポジトリを取得
 
-以下は Cursor と Claude Code で共通の内容として管理：
+```bash
+git clone <repository-url>
+cd ai-manifest
+```
 
-| 対象 | 理由 |
+### 3. 生成物を作成
+
+```bash
+rulesync generate
+```
+
+`.rulesync/` を元に、リポジトリ内の `.cursor/` / `.claude/` / `.codex/` / `.gemini/` を更新する。
+
+### 4. ホームディレクトリへ反映
+
+```bash
+bash scripts/install.sh
+```
+
+`~/.cursor` / `~/.claude` / `~/.codex` / `~/.gemini` にシンボリックリンクを張る。  
+既存のファイルやディレクトリがある場合は、`scripts/backup/<timestamp>/` にバックアップしてから置き換える。
+
+## 日常運用
+
+1. `.rulesync/` を編集する
+2. `rulesync generate` を実行する
+3. 必要なら `bash scripts/install.sh` で `~/` 側へ再反映する
+
+`.rulesync/` を変えたあとは、必ず `rulesync generate` を実行する。
+
+## よく編集するファイル（個別設定）
+
+`install.sh` が `~/` へリンクするうち、手で触ることが多いもの。
+
+| ファイル | 用途 |
 | --- | --- |
-| `rules/` | コーディング規約・設計原則は両ツール共通 |
-| `skills/` | 再利用可能なワークフローやパターンは両ツール共通 |
-| `agents/` | サブエージェント定義は両ツール共通 |
+| `.cursor/mcp.json` | Cursor 用 MCP サーバー設定 |
+| `.claude/settings.json` | モデル・statusline など Claude Code の設定 |
+| `.claude/settings.local.json` | マシン固有の上書き（任意） |
+| `.claude/scripts/` | statusline 用シェルスクリプトなど |
 
-### 個別管理
+MCP やその他の CLI 専用設定は、各ツールの公式手順に従い、このリポジトリ外で管理してもよい。
 
-上記以外（`settings.json`, `scripts/` など）はツール固有の設定・実行環境として個別管理する。
+## rulesync と install.sh の役割
 
-## 管理構成
+### rulesync
 
-| 項目 | 説明 |
+- **入力**: `.rulesync/`
+- **出力**: リポジトリ直下の `.cursor/` / `.claude/` / `.codex/` / `.gemini/`
+- **設定**: `rulesync.jsonc`
+
+| 編集正本 | Cursor | Claude Code | Codex | Gemini CLI |
+| --- | --- | --- | --- | --- |
+| `.rulesync/rules/` | `.cursor/rules` | `.claude/rules` | `.codex/memories` | `.gemini/memories` |
+| `.rulesync/skills/` | `.cursor/skills` | `.claude/skills` | `.codex/skills` | `.gemini/skills` |
+| `.rulesync/subagents/` | `.cursor/agents` | `.claude/agents` | `.codex/agents` | - |
+
+### install.sh
+
+リポジトリ内のファイル・ディレクトリを `~/` 配下へリンクする。主な対象は次のとおり。
+
+| ツール | リンク対象 |
 | --- | --- |
-| **ソースコード** | `agents/.claude/` と `agents/.cursor/` |
-| **ビルドツール** | [Rulesync](https://github.com/dyoshikawa/rulesync) |
-| **設定ファイル** | `agents/rulesync.jsonc` |
+| Cursor | `.cursor/mcp.json`, `.cursor/rules`, `.cursor/skills`, `.cursor/agents` |
+| Claude Code | `.claude/settings.json`, `.claude/settings.local.json`, `.claude/rules`, `.claude/skills`, `.claude/agents`, `.claude/scripts` |
+| Codex | `.codex/memories`, `.codex/skills`, `.codex/agents` |
+| Gemini CLI | `.gemini/memories`, `.gemini/skills` |
 
-## ディレクトリ構造
+## コマンドリファレンス
 
-**Claude Code (`~/.claude/`)**
+### `rulesync generate`
 
-| パス | 説明 |
-| --- | --- |
-| `rules/` | プロジェクト固有のルール定義 (rulesync管理) |
-| `skills/` | カスタムスキル定義 (rulesync管理) |
-| `agents/` | サブエージェント定義 (rulesync管理) |
-| `settings.json` | statusline、モデル設定など |
-| `settings.local.json` | ローカル環境固有の設定 |
-| `scripts/` | statusline.sh などのカスタムスクリプト |
+`.rulesync/` の編集正本から各ツール向けの出力を再生成する。
 
-**Cursor (`~/.cursor/`)**
+```bash
+rulesync generate
+```
 
-| パス | 説明 |
-| --- | --- |
-| `rules/` | プロジェクト固有のルール定義 (rulesync管理) |
-| `skills/` | カスタムスキル定義 (rulesync管理) |
-| `agents/` | サブエージェント定義 (rulesync管理) |
-| `scripts/` | カスタムスクリプト |
+### `bash scripts/install.sh`
+
+生成物・個別設定を `~/.cursor` などへ反映する（既存項目はバックアップのうえで置換）。
+
+```bash
+bash scripts/install.sh
+```
