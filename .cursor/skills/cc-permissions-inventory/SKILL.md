@@ -1,11 +1,6 @@
 ---
 name: cc-permissions-inventory
-description: |
-  Claude Code 専用。デバッグログやセッション記録からツール利用・コマンド・パスを棚卸しし、
-  permissions（allow / deny / ask）の候補を「提案のみ」で返す。settings.json は自動編集しない。
-  使うとき: 権限の棚卸し、allow/deny 整理、承認ダイアログが多い、毎回許可したコマンドをルール化したい、
-  デバッグログから permissions を逆引き、/permissions の見直し、チーム用 settings 草案、
-  dontAsk・セキュリティ方針に合わせたルール案。ツール使用履歴の一覧化。
+description: 'Claude Code 専用。デバッグログやセッション記録からツール利用・コマンド・パスを棚卸しし、 permissions（allow / deny / ask）の候補を「提案のみ」で返す。settings.json は自動編集しない。 使うとき: 権限の棚卸し、allow/deny 整理、承認ダイアログが多い、毎回許可したコマンドをルール化したい、 デバッグログから permissions を逆引き、/permissions の見直し、チーム用 settings 草案、 dontAsk・セキュリティ方針に合わせたルール案。ツール使用履歴の一覧化。'
 ---
 # Claude Code 権限ルール・棚卸し（提案のみ）
 

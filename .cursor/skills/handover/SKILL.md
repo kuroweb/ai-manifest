@@ -1,9 +1,6 @@
 ---
 name: handover
-description: |
-  セッション終了時や作業の区切りで引き継ぎノートを生成する。
-  次のセッションに必要な情報のみを .handovers/ に記録する（Cursor / Claude Code / Codex / Gemini 共通）。
-  トリガー: セッション終了時、作業の区切り、「引き継ぎノートを作成」「handover」等。
+description: 'セッション終了時や作業の区切りで引き継ぎノートを生成する。 次のセッションに必要な情報のみを .handovers/ に記録する（Cursor / Claude Code / Codex / Gemini 共通）。 トリガー: セッション終了時、作業の区切り、「引き継ぎノートを作成」「handover」等。'
 ---
 # セッション引き継ぎノート生成
 

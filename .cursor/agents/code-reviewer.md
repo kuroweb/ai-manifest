@@ -1,7 +1,7 @@
 ---
 name: code-reviewer
 description: コード品質・セキュリティ・保守性のエキスパートレビュアー。コードを書いたり変更した直後に積極的に使用。すべてのコード変更で使用すること。
-tools: 'Read, Grep, Glob, Bash'
+tools: Read, Grep, Glob, Bash
 model: opus
 ---
 # コードレビュアー
