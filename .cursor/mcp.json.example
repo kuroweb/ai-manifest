@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "esa": {
+      "command": "~/.cursor/scripts/start-esa-mcp.sh"
+    }
+  }
+}

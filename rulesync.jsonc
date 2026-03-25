@@ -8,7 +8,8 @@
   "features": [
     "rules",
     "skills",
-    "subagents"
+    "subagents",
+    "ignore"
   ],
   "baseDirs": [
     "."

@@ -84,6 +84,7 @@ link_file ".cursor" "mcp.json"
 link_directory ".cursor" "rules"
 link_directory ".cursor" "skills"
 link_directory ".cursor" "agents"
+link_directory ".cursor" "scripts"
 echo ""
 
 # ~/.codex にシンボリックリンクを作成
@@ -103,10 +104,16 @@ echo ""
 
 # ~/.handovers にシンボリックリンクを作成
 echo "Setting up .handovers..."
-link_directory "" ".handovers"
+ln -sfn "$REPO_ROOT/.handovers" "$HOME/.handovers"
 echo ""
 
 # ~/.issues にシンボリックリンクを作成
 echo "Setting up .issues..."
-link_directory "" ".issues"
+ln -sfn "$REPO_ROOT/.issues" "$HOME/.issues"
+echo ""
+
+# ~/.config/ai-manifest/.env にシンボリックリンクを作成
+echo "Setting up .config/ai-manifest/.env..."
+mkdir -p "$HOME/.config/ai-manifest"
+ln -sfn "$REPO_ROOT/.env" "$HOME/.config/ai-manifest/.env"
 echo ""

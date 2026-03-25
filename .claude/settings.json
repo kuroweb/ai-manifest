@@ -3,11 +3,11 @@
   "permissions": {
     "allow": [],
     "deny": [
-      "Read(.env)",
-      "Bash(sudo:*)",
-      "Bash(rm -rf /:*)",
       "Bash(curl *|* sh:*)",
-      "Bash(wget *|* sh:*)"
+      "Bash(rm -rf /:*)",
+      "Bash(sudo:*)",
+      "Bash(wget *|* sh:*)",
+      "Read(.env)"
     ]
   },
   "statusLine": {

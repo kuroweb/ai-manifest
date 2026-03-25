@@ -5,6 +5,7 @@
 .claude/settings.local.json
 
 # .cursor
+.cursor/mcp.json
 
 # .codex
 .codex/skills/.system/
