@@ -100,3 +100,8 @@ mkdir -p "$HOME/.gemini"
 link_directory ".gemini" "memories"
 link_directory ".gemini" "skills"
 echo ""
+
+# ~/.handovers にシンボリックリンクを作成
+echo "Setting up .handovers..."
+link_directory "" ".handovers"
+echo ""
