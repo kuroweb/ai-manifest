@@ -105,3 +105,8 @@ echo ""
 echo "Setting up .handovers..."
 link_directory "" ".handovers"
 echo ""
+
+# ~/.issues にシンボリックリンクを作成
+echo "Setting up .issues..."
+link_directory "" ".issues"
+echo ""

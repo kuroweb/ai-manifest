@@ -20,3 +20,7 @@ scripts/backup/
 
 # others
 .DS_Store
+
+# .issues
+.issues/draft/*
+!.issues/draft/.keep
