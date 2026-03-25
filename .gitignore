@@ -14,5 +14,9 @@
 # scripts
 scripts/backup/
 
+# .handovers
+.handovers/*
+!.handovers/.keep
+
 # others
 .DS_Store
