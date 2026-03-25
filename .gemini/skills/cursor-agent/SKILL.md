@@ -1,6 +1,12 @@
 ---
 name: cursor-agent
-description: 'Cursor CLI（`cursor-agent`）を使用してコードや文言について相談・レビューを行う。 トリガー: "cursor-agent", "cursor agent", "cursor-agentと相談", "cursor-agentに聞いて", "コードレビュー", "レビューして" 使用場面: (1) 文言・メッセージの検討、(2) コードレビュー、(3) 設計の相談、(4) バグ調査、(5) 解消困難な問題の調査'
+description: >
+  Cursor CLI（`cursor-agent`）を使用してコードや文言について相談・レビューを行う。
+
+  トリガー: "cursor-agent", "cursor agent", "cursor-agentと相談", "cursor-agentに聞いて",
+  "コードレビュー", "レビューして"
+
+  使用場面: (1) 文言・メッセージの検討、(2) コードレビュー、(3) 設計の相談、(4) バグ調査、(5) 解消困難な問題の調査
 ---
 # Cursor CLI
 
@@ -61,8 +67,3 @@ cursor-agent --workspace /path/to/project --print --plan --trust "UXリサーチ
 3. **プロンプトを作成する際、末尾に「確認や質問は不要です。具体的な提案まで自主的に出力してください。」を必ず追加する**
 4. 上記コマンド形式で cursor-agent を実行（要: Cursor CLI の認証）
 5. 結果をユーザーに報告
-
-## 補足
-
-- 説明のみ・質問応答中心に寄せたい場合は `--mode ask`（`--plan` の代わり）も読み取り専用として使える。
-- 実ファイルの編集まで任せる場合は `--plan` を外し、ポリシーに応じて `--sandbox` などを検討する（本スキルの範囲外）。
