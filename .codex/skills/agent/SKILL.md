@@ -1,8 +1,11 @@
 ---
-name: agent
-description: |
-  Cursor CLI（`agent`）を使用してコードや文言について相談・レビューを行う。
-  トリガー: "agent", "cursor agent", "agentと相談", "agentに聞いて", "コードレビュー", "レビューして"
+name: cursor-agent
+description: >
+  Cursor CLI（`cursor-agent`）を使用してコードや文言について相談・レビューを行う。
+
+  トリガー: "cursor-agent", "cursor agent", "cursor-agentと相談", "cursor-agentに聞いて",
+  "コードレビュー", "レビューして"
+
   使用場面: (1) 文言・メッセージの検討、(2) コードレビュー、(3) 設計の相談、(4) バグ調査、(5) 解消困難な問題の調査
 ---
 # Cursor CLI
@@ -11,13 +14,13 @@ Cursor CLI を使用してコードレビュー・分析を実行するスキル
 
 ## 実行コマンド
 
-agent --workspace <project_directory> --print --plan --trust "<request>"
+cursor-agent --workspace <project_directory> --print --plan --trust "<request>"
 
 カレントディレクトリが既に対象プロジェクトのルートなら、`--workspace` は省略できる。
 
 ## プロンプトのルール
 
-**重要**: agent に渡すリクエストには、以下の指示を必ず含めること：
+**重要**: cursor-agent に渡すリクエストには、以下の指示を必ず含めること：
 
 > 「確認や質問は不要です。具体的な提案・修正案・コード例まで自主的に出力してください。」
 
@@ -37,40 +40,32 @@ agent --workspace <project_directory> --print --plan --trust "<request>"
 
 ### コードレビュー
 
-agent --workspace /path/to/project --print --plan --trust "このプロジェクトのコードをレビューして、改善点を指摘してください。確認や質問は不要です。具体的な修正案とコード例まで自主的に出力してください。"
+cursor-agent --workspace /path/to/project --print --plan --trust "このプロジェクトのコードをレビューして、改善点を指摘してください。確認や質問は不要です。具体的な修正案とコード例まで自主的に出力してください。"
 
 ### バグ調査
 
-agent --workspace /path/to/project --print --plan --trust "認証処理でエラーが発生する原因を調査してください。確認や質問は不要です。原因の特定と具体的な修正案まで自主的に出力してください。"
+cursor-agent --workspace /path/to/project --print --plan --trust "認証処理でエラーが発生する原因を調査してください。確認や質問は不要です。原因の特定と具体的な修正案まで自主的に出力してください。"
 
 ### アーキテクチャ分析
 
-agent --workspace /path/to/project --print --plan --trust "このプロジェクトのアーキテクチャを分析して説明してください。確認や質問は不要です。改善提案まで自主的に出力してください。"
+cursor-agent --workspace /path/to/project --print --plan --trust "このプロジェクトのアーキテクチャを分析して説明してください。確認や質問は不要です。改善提案まで自主的に出力してください。"
 
 ### リファクタリング提案
 
-agent --workspace /path/to/project --print --plan --trust "技術的負債を特定し、リファクタリング計画を提案してください。確認や質問は不要です。具体的なコード例まで自主的に出力してください。"
+cursor-agent --workspace /path/to/project --print --plan --trust "技術的負債を特定し、リファクタリング計画を提案してください。確認や質問は不要です。具体的なコード例まで自主的に出力してください。"
 
 ### デザイン相談（UI/UX）
 
-agent --workspace /path/to/project --print --plan --trust "あなたは世界トップクラスのUIデザイナーです。以下の観点からこのプロジェクトのUIを評価してください: (1) 視覚的階層構造とタイポグラフィ、(2) 余白・スペーシングのリズム、(3) カラーパレットのコントラストとアクセシビリティ、(4) インタラクションパターンの一貫性、(5) ユーザーの認知負荷の軽減。確認や質問は不要です。具体的な改善案をコード例付きで提示してください。"
+cursor-agent --workspace /path/to/project --print --plan --trust "あなたは世界トップクラスのUIデザイナーです。以下の観点からこのプロジェクトのUIを評価してください: (1) 視覚的階層構造とタイポグラフィ、(2) 余白・スペーシングのリズム、(3) カラーパレットのコントラストとアクセシビリティ、(4) インタラクションパターンの一貫性、(5) ユーザーの認知負荷の軽減。確認や質問は不要です。具体的な改善案をコード例付きで提示してください。"
 
-agent --workspace /path/to/project --print --plan --trust "UXリサーチャー兼デザイナーとして、このフォームのユーザビリティを分析してください。Nielsen の10ヒューリスティクスに基づき、(1) エラー防止の仕組み、(2) ユーザーの制御と自由度、(3) 一貫性と標準、(4) 認識vs記憶の負荷、(5) 柔軟性と効率性を評価してください。確認や質問は不要です。改善したTailwind CSSコードまで自主的に提示してください。"
-
-## ai-workspace 全体を対象にする場合
-
-マルチルートのルートで `projects/` 配下まで含めたいときは、ai-workspace ルートに置いた `bin/agent-ws` 経由で同じフラグを渡す。
-
-bin/agent-ws --print --plan --trust "<request>"
-
-**注意**: `bin/agent-ws` を使うときは **ai-workspace ルートをカレント**にする（スクリプトがルートを `--workspace` に固定するため）。
+cursor-agent --workspace /path/to/project --print --plan --trust "UXリサーチャー兼デザイナーとして、このフォームのユーザビリティを分析してください。Nielsen の10ヒューリスティクスに基づき、(1) エラー防止の仕組み、(2) ユーザーの制御と自由度、(3) 一貫性と標準、(4) 認識vs記憶の負荷、(5) 柔軟性と効率性を評価してください。確認や質問は不要です。改善したTailwind CSSコードまで自主的に提示してください。"
 
 ## 実行手順
 
 1. ユーザーから依頼内容を受け取る
 2. 対象プロジェクトのディレクトリを特定する（現在のワーキングディレクトリまたはユーザー指定）
 3. **プロンプトを作成する際、末尾に「確認や質問は不要です。具体的な提案まで自主的に出力してください。」を必ず追加する**
-4. 上記コマンド形式で agent を実行（要: Cursor CLI の認証）
+4. 上記コマンド形式で cursor-agent を実行（要: Cursor CLI の認証）
 5. 結果をユーザーに報告
 
 ## 補足
