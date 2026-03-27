@@ -40,7 +40,7 @@ disable-model-invocation: true
 
 ## 出力形式
 
-`skills/learned/[pattern-name].md` にスキルファイルを作成:
+`~/.learned/[pattern-name].md` にスキルファイルを作成:
 
 ```markdown
 # [説明的なパターン名]
@@ -67,7 +67,7 @@ disable-model-invocation: true
 2. 最も価値がある/再利用可能な洞察を特定
 3. スキルファイルのドラフトを作成
 4. 保存前にユーザーの確認を求める
-5. `skills/learned/` に保存
+5. `~/.learned/` に保存
 
 ## 注意事項
 

@@ -20,9 +20,13 @@ scripts/backup/
 .handovers/*
 !.handovers/.keep
 
-# others
-.DS_Store
-
 # .issues
 .issues/draft/*
 !.issues/draft/.keep
+
+# .learned
+.learned/*
+!.learned/.keep
+
+# others
+.DS_Store

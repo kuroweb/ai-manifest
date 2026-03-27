@@ -114,6 +114,12 @@ echo "Setting up .issues..."
 ln -sfn "$REPO_ROOT/.issues" "$HOME/.issues"
 echo ""
 
+# ~/.learned にシンボリックリンクを作成
+echo "Setting up .learned..."
+mkdir -p "$REPO_ROOT/.learned"
+ln -sfn "$REPO_ROOT/.learned" "$HOME/.learned"
+echo ""
+
 # ~/.config/ai-manifest/.env にシンボリックリンクを作成
 echo "Setting up .config/ai-manifest/.env..."
 mkdir -p "$HOME/.config/ai-manifest"
