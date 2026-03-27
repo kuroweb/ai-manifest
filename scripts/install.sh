@@ -81,10 +81,12 @@ echo ""
 echo "Setting up .cursor..."
 mkdir -p "$HOME/.cursor"
 link_file ".cursor" "mcp.json"
+link_file ".cursor" "hooks.json"
 link_directory ".cursor" "rules"
 link_directory ".cursor" "skills"
 link_directory ".cursor" "agents"
 link_directory ".cursor" "scripts"
+link_directory ".cursor" "hooks"
 echo ""
 
 # ~/.codex にシンボリックリンクを作成

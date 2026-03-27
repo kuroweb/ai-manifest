@@ -6,6 +6,7 @@
 
 # .cursor
 .cursor/mcp.json
+.cursor/hooks.json
 
 # .codex
 .codex/skills/.system/
