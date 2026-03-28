@@ -34,15 +34,6 @@ movements:
     knowledge:
       - architecture
       - ai-manifest
-    provider_options:
-      claude:
-        allowed_tools:
-          - Read
-          - Glob
-          - Grep
-          - Bash
-          - WebSearch
-          - WebFetch
     rules:
       - condition: 要件が明確で実装可能
         next: implement

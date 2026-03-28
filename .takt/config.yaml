@@ -25,3 +25,11 @@ persona_providers:
 provider_options:
   codex:
     network_access: true
+  claude:
+    allowed_tools:
+      - Read
+      - Glob
+      - Grep
+      - Bash
+      - WebSearch
+      - WebFetch
