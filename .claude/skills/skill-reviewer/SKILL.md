@@ -1,5 +1,5 @@
 ---
-name: reviewing-skills
+name: skill-reviewer
 description: >-
   Claude Codeスキルを公式ベストプラクティスに基づいてレビューする。SKILL.mdファイルのレビュー、
   スキル品質のチェック、スキル構造の検証、改善提案が必要な場合に使用。
