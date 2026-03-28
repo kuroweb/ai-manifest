@@ -1,10 +1,8 @@
 name: ai-manifest
-description: ai-manifest 向けテスト先行開発（計画 → テスト作成 → 実装 → AIアンチパターンレビュー → 並列レビュー → 完了）。ビルトインピース default と同型。
+description: ai-manifest 向けワークフロー（計画 → 変更適用 → AIアンチパターンレビュー → 並列レビュー → 完了）。Cursor / Claude / Codex / Gemini 向けのエージェント設定と rulesync 正本（.rulesync/）の整備を主対象とする。
 piece_config:
   provider_options:
     codex:
-      network_access: true
-    opencode:
       network_access: true
 max_movements: 30
 initial_movement: plan
@@ -15,19 +13,7 @@ loop_monitors:
     threshold: 3
     judge:
       persona: supervisor
-      instruction_template: |
-        ai_review と ai_fix のループが {cycle_count} 回繰り返されました。
-
-        各サイクルのレポートを確認し、このループが健全（進捗がある）か、
-        非生産的（同じ問題を繰り返している）かを判断してください。
-
-        **参照するレポート:**
-        - AIレビュー結果: {report:ai-review.md}
-
-        **判断基準:**
-        - 各サイクルで新しい問題が発見・修正されているか
-        - 同じ指摘が繰り返されていないか
-        - 修正が実際に反映されているか
+      instruction: loop-monitor-ai-fix
       rules:
         - condition: 健全（進捗あり）
           next: ai_review
@@ -39,7 +25,7 @@ loop_monitors:
     threshold: 3
     judge:
       persona: supervisor
-      instruction_template: loop-monitor-reviewers-fix
+      instruction: loop-monitor-reviewers-fix
       rules:
         - condition: 健全（指摘数が減少、修正が反映されている）
           next: reviewers
@@ -49,6 +35,7 @@ movements:
   - name: plan
     edit: false
     persona: planner
+    provider: claude
     knowledge:
       - architecture
       - ai-manifest
@@ -63,7 +50,7 @@ movements:
           - WebFetch
     rules:
       - condition: 要件が明確で実装可能
-        next: write_tests
+        next: implement
       - condition: ユーザーが質問をしている（実装タスクではない）
         next: COMPLETE
       - condition: 要件が不明確、情報不足
@@ -77,68 +64,17 @@ movements:
       report:
         - name: plan.md
           format: plan
-  - name: write_tests
-    edit: true
-    persona: coder
-    policy:
-      - coding
-      - testing
-    knowledge:
-      - architecture
-      - ai-manifest
-    provider_options:
-      claude:
-        allowed_tools:
-          - Read
-          - Glob
-          - Grep
-          - Edit
-          - Write
-          - Bash
-          - WebSearch
-          - WebFetch
-    required_permission_mode: edit
-    instruction: write-tests-first
-    rules:
-      - condition: テスト作成が完了した
-        next: implement
-      - condition: テスト対象が未実装のためテスト作成をスキップする
-        next: implement
-      - condition: テスト作成を進行できない
-        next: ABORT
-      - condition: ユーザーへの確認事項があるためユーザー入力が必要
-        next: write_tests
-        requires_user_input: true
-        interactive_only: true
-    output_contracts:
-      report:
-        - name: test-scope.md
-          format: coder-scope
-        - name: test-decisions.md
-          format: coder-decisions
   - name: implement
     edit: true
     persona: coder
-    policy:
-      - coding
-      - testing
+    provider: cursor
+    policy: coding
     session: refresh
     knowledge:
       - architecture
       - ai-manifest
-    provider_options:
-      claude:
-        allowed_tools:
-          - Read
-          - Glob
-          - Grep
-          - Edit
-          - Write
-          - Bash
-          - WebSearch
-          - WebFetch
     required_permission_mode: edit
-    instruction: implement-after-tests
+    instruction: implement
     rules:
       - condition: 実装完了
         next: ai_review
@@ -159,19 +95,12 @@ movements:
   - name: ai_review
     edit: false
     persona: ai-antipattern-reviewer
+    provider: codex
     policy:
       - review
       - ai-antipattern
     knowledge:
       - ai-manifest
-    provider_options:
-      claude:
-        allowed_tools:
-          - Read
-          - Glob
-          - Grep
-          - WebSearch
-          - WebFetch
     instruction: ai-review
     rules:
       - condition: AI特有の問題なし
@@ -185,24 +114,12 @@ movements:
   - name: ai_fix
     edit: true
     persona: coder
-    policy:
-      - coding
-      - testing
+    provider: cursor
+    policy: coding
     session: refresh
     knowledge:
       - architecture
       - ai-manifest
-    provider_options:
-      claude:
-        allowed_tools:
-          - Read
-          - Glob
-          - Grep
-          - Edit
-          - Write
-          - Bash
-          - WebSearch
-          - WebFetch
     required_permission_mode: edit
     instruction: ai-fix
     pass_previous_response: false
@@ -218,18 +135,11 @@ movements:
       - name: arch-review
         edit: false
         persona: architecture-reviewer
+        provider: codex
         policy: review
         knowledge:
           - architecture
           - ai-manifest
-        provider_options:
-          claude:
-            allowed_tools:
-              - Read
-              - Glob
-              - Grep
-              - WebSearch
-              - WebFetch
         rules:
           - condition: approved
           - condition: needs_fix
@@ -241,20 +151,12 @@ movements:
       - name: supervise
         edit: false
         persona: supervisor
+        provider: codex
         policy: review
-        provider_options:
-          claude:
-            allowed_tools:
-              - Read
-              - Glob
-              - Grep
-              - Bash
-              - WebSearch
-              - WebFetch
         instruction: supervise
         rules:
           - condition: すべて問題なし
-          - condition: 要求未達成、テスト失敗、ビルドエラー
+          - condition: 要求未達成、検証・整合性の問題
         output_contracts:
           report:
             - name: supervisor-validation.md
@@ -265,28 +167,16 @@ movements:
     rules:
       - condition: all("approved", "すべて問題なし")
         next: COMPLETE
-      - condition: any("needs_fix", "要求未達成、テスト失敗、ビルドエラー")
+      - condition: any("needs_fix", "要求未達成、検証・整合性の問題")
         next: fix
   - name: fix
     edit: true
     persona: coder
-    policy:
-      - coding
-      - testing
+    provider: cursor
+    policy: coding
     knowledge:
       - architecture
       - ai-manifest
-    provider_options:
-      claude:
-        allowed_tools:
-          - Read
-          - Glob
-          - Grep
-          - Edit
-          - Write
-          - Bash
-          - WebSearch
-          - WebFetch
     required_permission_mode: edit
     instruction: fix
     pass_previous_response: false
