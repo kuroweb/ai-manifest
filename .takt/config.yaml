@@ -1,6 +1,4 @@
-# TAKT プロジェクト設定（ai-manifest）
-# - このリポジトリで takt を実行するときは、カレントの .takt/config.yaml が読み込まれる。
-# - scripts/install.sh は ~/.takt/config.yaml へ同じファイルをシンボリックリンクする（ホームの既定）。
+# TAKT プロジェクト設定：プロバイダー・モデル・persona 割当てなど（リポジトリローカル）
 
 provider: claude
 model: sonnet
