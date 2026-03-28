@@ -12,7 +12,7 @@ description: >
 
 TAKTのtasks.yamlエントリとタスクディレクトリ（order.md）を作成・編集する。
 
-> **前提 takt バージョン**: v0.31.0
+> **前提 takt バージョン**: v0.33.2
 
 ## 参照資料
 

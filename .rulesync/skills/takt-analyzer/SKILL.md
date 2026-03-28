@@ -17,7 +17,7 @@ description: >
 
 既存のTAKTピースとファセットを分析し、問題点の検出と改善提案を行う。
 
-> **前提 takt バージョン**: v0.31.0
+> **前提 takt バージョン**: v0.33.2
 
 ## 参照資料
 
@@ -64,6 +64,7 @@ description: >
 | supervise失敗の遷移先 | `supervise` の失敗ルールが `plan` に遷移していないか。修正可能な問題は `fix` へ遷移すべきで、`supervise → plan` は根本設計変更が必要な場合のみ | Warning |
 | CI実行の責任配置 | `supervise`/`ai_review` 等の `edit: false` ムーブメントのインストラクションがCIの直接実行を禁止し、`fix`/`implement` のレポート証跡確認のみを求めているか | Warning |
 | provider_options構造 | `allowed_tools` がトップレベルではなく `provider_options.claude.allowed_tools` に配置されているか（v0.30.0〜） | Warning |
+| 拡張機能の設定許可 | `mcp_servers` / `arpeggio` / runtime のカスタム `prepare` / sync 競合解決を使う場合、v0.33.0〜 プロジェクト（またはグローバル）設定で `pieceMcpServers` / `pieceArpeggio` / `pieceRuntimePrepare` / `syncConflictResolver` により **明示許可** されているか | Critical |
 | edit権限 | `edit: true`のムーブメントに適切な`required_permission_mode`があるか | Info |
 | session設定 | 実装系ムーブメントに`session: refresh`があるか | Info |
 

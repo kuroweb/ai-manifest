@@ -20,7 +20,7 @@
 | `branch` | string | - | auto | gitブランチ名（省略時: `takt/{timestamp}-{slug}`） |
 | `auto_pr` | boolean | - | false | 実行後にPR自動作成 |
 | `draft_pr` | boolean | - | false | PRをドラフト状態で作成 |
-| `issue` | int | - | - | GitHub Issue番号 |
+| `issue` | int | - | - | Issue 番号（GitHub / GitLab 等、VCS・`vcs_provider` 設定に依存） |
 | `start_movement` | string | - | - | 開始movement名（pieceのinitial_movementを上書き） |
 | `retry_note` | string | - | - | リトライ時のメモ |
 | `worktree_path` | string | - | - | 実行時worktree絶対パス（自動設定） |

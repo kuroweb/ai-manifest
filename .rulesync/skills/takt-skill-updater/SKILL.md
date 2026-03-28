@@ -13,7 +13,7 @@ description: >
 
 references/taktサブモジュール更新後に、takt-*スキル群を最新バージョンに追従させる。
 
-> **前提 takt バージョン**: v0.31.0
+> **前提 takt バージョン**: v0.33.2
 
 ## パス表記について
 
@@ -248,6 +248,17 @@ chore: update takt-* skills for takt v{バージョン}
 ## 過去の更新履歴
 
 今後の更新時に参照できるよう、主要な変更をここに記録する。
+
+### v0.31.0 → v0.33.2（2026-03-28）
+
+| スキル | 変更内容 |
+|--------|---------|
+| 全スキル | `前提 takt バージョン: v0.33.2` に更新。`scripts/sync-takt-references.sh` で `references/takt` 同期 |
+| takt-task-builder | `schema.ts` に実質差分なし（版上げのみ）。同期ドキュメントに GitLab・監査ピース・設定変更が反映 |
+| takt-piece-builder | 監査ピース（`audit-*`）と `review-*` / `review-fix-*` 命名のビルトインテーブル刷新。`e2e-test`/`unit-test` 廃止・`audit-security` リネームに言及。v0.33.0 の MCP / Arpeggio / runtime prepare / sync 競合解決の **デフォルト拒否** を設計ガイドに追記 |
+| takt-facet-builder | 監査・E2E カバレッジ系の Instruction / Output Contract、Knowledge（`react`, `e2e-testing`, `unit-testing`）、Policy（`design-planning`, `design-fidelity` 等）をビルトイン例に反映 |
+| takt-analyzer | 拡張機能の設定許可（`pieceMcpServers` 等）チェック項目を追加 |
+| takt-optimizer | 同上の設定整合に関する最適化観点を追加 |
 
 ### v0.29.0 → v0.31.0（2026-03-09）
 

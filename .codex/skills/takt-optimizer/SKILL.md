@@ -12,7 +12,7 @@ description: >
 
 既存のTAKTワークフローの最適化を実行する。診断・分析は takt-analyze が担う。
 
-> **前提 takt バージョン**: v0.31.0
+> **前提 takt バージョン**: v0.33.2
 
 ## 参照資料
 
@@ -145,6 +145,7 @@ movements:
 | edit=false ビルド禁止の追記 | `edit: false` のムーブメントが参照するインストラクションに「ビルドコマンドを実行しないこと」の禁止セクション（`## やらないこと`）を追加する |
 | loop monitor judge の instruction 正規化 | `loop_monitors.judge.instruction` をビルトインファセット参照（`loop-monitor-ai-fix`, `loop-monitor-reviewers-fix`）へ統一し、旧 judge テンプレート記法を除去する |
 | allowed_tools の provider_options 移行 | トップレベルの `allowed_tools` を `provider_options.claude.allowed_tools` に移動する（v0.30.0〜） |
+| 拡張機能の許可リスト整理 | v0.33.0〜 は MCP・Arpeggio・runtime のカスタム prepare・sync 競合解決の自動承認が **デフォルト拒否**。残す機能だけ `pieceMcpServers` / `pieceArpeggio` / `pieceRuntimePrepare` / `syncConflictResolver` で明示許可し、不要ならピース側の `mcp_servers` / `arpeggio` / カスタムスクリプトを削除する |
 
 **threshold推奨値:**
 - review→fix サイクル: 3回

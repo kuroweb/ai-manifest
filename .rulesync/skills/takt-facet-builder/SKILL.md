@@ -14,7 +14,7 @@ description: >
 
 TAKTの5種類のファセットファイルを個別に作成・編集する。
 
-> **前提 takt バージョン**: v0.31.0
+> **前提 takt バージョン**: v0.33.2
 
 ## 参照資料
 
@@ -62,11 +62,11 @@ TAKTの5種類のファセットファイルを個別に作成・編集する。
 
 | ファセット | ビルトイン例 |
 |-----------|-------------|
-| Persona | coder, planner, architecture-reviewer, qa-reviewer, supervisor, security-reviewer, frontend-reviewer, cqrs-es-reviewer, requirements-reviewer, testing-reviewer, terraform-reviewer, dual-supervisor |
-| Policy | coding, review, testing, qa, ai-antipattern |
-| Instruction | plan, implement, implement-after-tests, write-tests-first, team-leader-implement, dual-team-leader-implement, review-arch, review-qa, review-security, review-frontend, review-cqrs-es, review-requirements, review-test, review-terraform, supervise, fix, ai-review, ai-fix, loop-monitor-ai-fix, loop-monitor-reviewers-fix |
-| Knowledge | architecture, backend, cqrs-es, frontend, security, task-decomposition, takt, terraform-aws |
-| Output Contract | plan, architecture-review, ai-review, qa-review, security-review, frontend-review, cqrs-es-review, requirements-review, testing-review, terraform-review, summary, validation |
+| Persona | coder, planner, conductor, architect-planner, architecture-reviewer, qa-reviewer, supervisor, dual-supervisor, security-reviewer, frontend-reviewer, cqrs-es-reviewer, requirements-reviewer, testing-reviewer, test-planner, terraform-reviewer, terraform-coder, pr-commenter, research-analyzer, research-digger, research-planner, research-supervisor, ai-antipattern-reviewer, melchior, balthasar, casper |
+| Policy | coding, review, testing, qa, ai-antipattern, task-decomposition, design-planning, design-fidelity, terraform, research |
+| Instruction | plan, plan-test, plan-investigate, implement, implement-after-tests, implement-test, implement-terraform, write-tests-first, team-leader-implement, dual-team-leader-implement, architect, arbitrate, gather-review, review-arch, review-qa, review-security, review-frontend, review-cqrs-es, review-requirements, review-test, review-terraform, review-ai, supervise, fix, fix-supervisor, ai-review, ai-fix, loop-monitor-ai-fix, loop-monitor-reviewers-fix, research-plan, research-dig, research-analyze, research-supervise, architecture-audit-plan, architecture-audit-review, architecture-audit-supervise, architecture-audit-team-leader, audit-security-plan, audit-security-review, audit-security-supervise, audit-security-team-leader, e2e-audit-plan, e2e-audit-review, e2e-audit-supervise, e2e-audit-team-leader, e2e-coverage-plan, e2e-coverage-implement, e2e-coverage-supervise, unit-audit-plan, unit-audit-review, unit-audit-supervise, unit-audit-team-leader |
+| Knowledge | architecture, backend, cqrs-es, frontend, react, security, e2e-testing, unit-testing, task-decomposition, takt, terraform-aws, research, research-comparative |
+| Output Contract | plan, plan-frontend, architecture-review, architecture-design, architecture-audit, architecture-audit-plan, ai-review, qa-review, security-review, audit-security, frontend-review, cqrs-es-review, requirements-review, testing-review, e2e-audit, e2e-audit-plan, e2e-coverage-plan, unit-audit, unit-audit-plan, terraform-review, summary, validation, supervisor-validation, test-plan, review-gather, research-report, coder-scope, coder-decisions |
 
 **再利用判断**: ビルトインで足りる場合はカスタムファセットを作らない。
 
