@@ -97,6 +97,12 @@ link_directory ".codex" "memories"
 link_directory ".codex" "skills"
 echo ""
 
+# ~/.takt にプロジェクト設定をシンボリックリンク（provider / model 等）
+echo "Setting up .takt..."
+mkdir -p "$HOME/.takt"
+link_file ".takt" "config.yaml"
+echo ""
+
 # ~/.gemini にシンボリックリンクを作成
 echo "Setting up .gemini..."
 mkdir -p "$HOME/.gemini"

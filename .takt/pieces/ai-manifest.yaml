@@ -1,10 +1,6 @@
 name: ai-manifest
-description: ai-manifest 向けワークフロー（計画 → 変更適用 → AIアンチパターンレビュー → 並列レビュー → 完了）。Cursor / Claude / Codex / Gemini 向けのエージェント設定と rulesync 正本（.rulesync/）の整備を主対象とする。
-piece_config:
-  provider_options:
-    codex:
-      network_access: true
-max_movements: 30
+description: ai-manifest 向けワークフロー（計画 → 変更適用 → AIアンチパターンレビュー → 並列レビュー → 完了）。Cursor / Claude / Codex / Gemini 向けのエージェント設定と rulesync 正本（.rulesync/）の整備を主対象とする。provider / model は .takt/config.yaml の persona_providers を参照。
+max_movements: 20
 initial_movement: plan
 loop_monitors:
   - cycle:
@@ -35,8 +31,6 @@ movements:
   - name: plan
     edit: false
     persona: planner
-    provider: claude
-    model: sonnet
     knowledge:
       - architecture
       - ai-manifest
@@ -68,8 +62,6 @@ movements:
   - name: implement
     edit: true
     persona: coder
-    provider: cursor
-    model: composer-2
     policy: coding
     session: refresh
     knowledge:
@@ -97,8 +89,6 @@ movements:
   - name: ai_review
     edit: false
     persona: ai-antipattern-reviewer
-    provider: codex
-    model: gpt-5.3-codex
     policy:
       - review
       - ai-antipattern
@@ -117,8 +107,6 @@ movements:
   - name: ai_fix
     edit: true
     persona: coder
-    provider: cursor
-    model: composer-2
     policy: coding
     session: refresh
     knowledge:
@@ -139,8 +127,6 @@ movements:
       - name: arch-review
         edit: false
         persona: architecture-reviewer
-        provider: codex
-        model: gpt-5.3-codex
         policy: review
         knowledge:
           - architecture
@@ -156,8 +142,6 @@ movements:
       - name: supervise
         edit: false
         persona: supervisor
-        provider: codex
-        model: gpt-5.3-codex
         policy: review
         instruction: supervise
         rules:
@@ -178,8 +162,6 @@ movements:
   - name: fix
     edit: true
     persona: coder
-    provider: cursor
-    model: composer-2
     policy: coding
     knowledge:
       - architecture

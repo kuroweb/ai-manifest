@@ -1,0 +1,27 @@
+# TAKT プロジェクト設定（ai-manifest）
+# - このリポジトリで takt を実行するときは、カレントの .takt/config.yaml が読み込まれる。
+# - scripts/install.sh は ~/.takt/config.yaml へ同じファイルをシンボリックリンクする（ホームの既定）。
+
+provider: claude
+model: sonnet
+
+persona_providers:
+  planner:
+    provider: claude
+    model: sonnet
+  coder:
+    provider: cursor
+    model: composer-2
+  ai-antipattern-reviewer:
+    provider: codex
+    model: gpt-5.3-codex
+  architecture-reviewer:
+    provider: codex
+    model: gpt-5.3-codex
+  supervisor:
+    provider: codex
+    model: gpt-5.3-codex
+
+provider_options:
+  codex:
+    network_access: true
