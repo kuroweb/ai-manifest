@@ -1,9 +1,7 @@
 ---
-name: audit-codex-direct
+name: codex-audit-direct
 description: 特定ファイルを OpenAI Codex CLI に送って独立した監査・レビューを行う
-allowed-tools: Bash(git:*), Bash(codex:*), Bash(cat:*), Bash(wc:*)
 ---
-
 # Codex 直接ファイル監査
 
 ## あなたのタスク

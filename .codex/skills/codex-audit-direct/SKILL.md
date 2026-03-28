@@ -1,5 +1,5 @@
 ---
-name: audit-codex-direct
+name: codex-audit-direct
 description: 特定ファイルを OpenAI Codex CLI に送って独立した監査・レビューを行う
 ---
 # Codex 直接ファイル監査

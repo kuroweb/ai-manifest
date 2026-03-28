@@ -1,5 +1,5 @@
 ---
-name: audit-codex
+name: codex-audit
 description: 直近の作業内容を OpenAI Codex CLI に送って独立した監査・レビューを行う
 allowed-tools: Bash(git:*), Bash(codex:*), Bash(git diff:*)
 ---
