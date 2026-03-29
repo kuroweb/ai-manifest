@@ -1,7 +1,19 @@
 {
   "includeCoAuthoredBy": false,
   "permissions": {
-    "allow": [],
+    "allow": [
+      "Bash(cat *)",
+      "Bash(echo *)",
+      "Bash(find *)",
+      "Bash(grep *)",
+      "Bash(head *)",
+      "Bash(ls *)",
+      "Bash(pwd)",
+      "Bash(rg *)",
+      "Bash(tail *)",
+      "Bash(wc *)",
+      "Bash(which *)"
+    ],
     "deny": [
       "Bash(curl *|* sh:*)",
       "Bash(rm -rf /:*)",

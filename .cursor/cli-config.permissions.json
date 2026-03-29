@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(cat)",
+      "Shell(echo)",
+      "Shell(find)",
+      "Shell(grep)",
+      "Shell(head)",
+      "Shell(ls)",
+      "Shell(pwd)",
+      "Shell(rg)",
+      "Shell(sed)",
+      "Shell(tail)",
+      "Shell(wc)",
+      "Shell(which)"
+    ],
+    "deny": [
+      "Shell(curl)",
+      "Shell(sudo)",
+      "Shell(wget)",
+      "Read(.env*)"
+    ]
+  }
+}
