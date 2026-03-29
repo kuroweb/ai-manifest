@@ -1,5 +1,13 @@
 {
   "privacy": {
     "usageStatisticsEnabled": false
+  },
+  "model": {
+    "name": "gemini-3-flash-preview"
+  },
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
   }
 }

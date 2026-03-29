@@ -126,6 +126,7 @@ mkdir -p "$HOME/.gemini"
 link_file ".gemini" "settings.json"
 link_directory ".gemini" "memories"
 link_directory ".gemini" "skills"
+link_directory ".gemini" "policies"
 echo ""
 
 # ~/.handovers にシンボリックリンクを作成

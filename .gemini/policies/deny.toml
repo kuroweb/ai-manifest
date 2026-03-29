@@ -1,0 +1,28 @@
+# --- 拒否ルール (優先度 200) ---
+# sudo コマンドの禁止
+[[rule]]
+toolName = "run_shell_command"
+commandPrefix = "sudo"
+decision = "deny"
+priority = 200
+
+# rm -rf / の禁止
+[[rule]]
+toolName = "run_shell_command"
+commandRegex = "^rm\\s+-rf\\s+/(.*)"
+decision = "deny"
+priority = 200
+
+# curl / wget から sh へのパイプなどを禁止
+[[rule]]
+toolName = "run_shell_command"
+commandRegex = ".*(curl|wget).*\\|.*sh:.*"
+decision = "deny"
+priority = 200
+
+# .env ファイルの読み取り禁止
+[[rule]]
+toolName = "read_file"
+argsPattern = { file_path = ".env" }
+decision = "deny"
+priority = 200
