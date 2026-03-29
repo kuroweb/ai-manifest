@@ -1,3 +1,36 @@
 # TAKT グローバル設定のリポジトリ正本（scripts/install.sh で ~/.takt/config.yaml にリンク）
 
 language: ja
+
+provider: claude
+model: sonnet
+
+persona_providers:
+  planner:
+    provider: cursor
+    model: composer-2-fast
+  coder:
+    provider: cursor
+    model: composer-2-fast
+  ai-antipattern-reviewer:
+    provider: codex
+    model: gpt-5.3-codex
+  architecture-reviewer:
+    provider: codex
+    model: gpt-5.3-codex
+  supervisor:
+    provider: codex
+    model: gpt-5.3-codex
+
+provider_options:
+  codex:
+    network_access: true
+  claude:
+    allowed_tools:
+      - Read
+      - Write
+      - Glob
+      - Grep
+      - Bash
+      - WebSearch
+      - WebFetch
