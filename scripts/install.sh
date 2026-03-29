@@ -97,29 +97,6 @@ link_directory ".codex" "memories"
 link_directory ".codex" "skills"
 echo ""
 
-# ~/.takt/config.yaml ← リポの .takt_global/config.yaml（GlobalConfig 正本）
-echo "Setting up .takt..."
-mkdir -p "$HOME/.takt"
-GLOBAL_CFG_SRC="$REPO_ROOT/.takt_global/config.yaml"
-for legacy in \
-  "$REPO_ROOT/.takt/config.yaml" \
-  "$REPO_ROOT/.takt/config.global.yaml" \
-  "$REPO_ROOT/takt/config.global.yaml" \
-  "$REPO_ROOT/takt/config.yaml"
-do
-  if [ -L "$HOME/.takt/config.yaml" ] && [ "$(readlink "$HOME/.takt/config.yaml")" = "$legacy" ]; then
-    rm -f "$HOME/.takt/config.yaml"
-    ln -sf "$GLOBAL_CFG_SRC" "$HOME/.takt/config.yaml"
-    echo "Replaced legacy ~/.takt/config.yaml link -> .takt_global/config.yaml"
-    break
-  fi
-done
-if [ ! -e "$HOME/.takt/config.yaml" ]; then
-  ln -sf "$GLOBAL_CFG_SRC" "$HOME/.takt/config.yaml"
-  echo "Linked $HOME/.takt/config.yaml -> $GLOBAL_CFG_SRC"
-fi
-echo ""
-
 # ~/.gemini にシンボリックリンクを作成
 echo "Setting up .gemini..."
 mkdir -p "$HOME/.gemini"
@@ -127,6 +104,13 @@ link_file ".gemini" "settings.json"
 link_directory ".gemini" "memories"
 link_directory ".gemini" "skills"
 link_directory ".gemini" "policies"
+echo ""
+
+# ~/.takt/config.yaml ← リポの .takt_global/config.yaml（GlobalConfig 正本）
+echo "Setting up .takt..."
+mkdir -p "$HOME/.takt"
+ln -sfn "$REPO_ROOT/.takt_global/config.yaml" "$HOME/.takt/config.yaml"
+echo "Linked $HOME/.takt/config.yaml -> $REPO_ROOT/.takt_global/config.yaml"
 echo ""
 
 # ~/.handovers にシンボリックリンクを作成
