@@ -12,13 +12,16 @@
       "Bash(rg *)",
       "Bash(tail *)",
       "Bash(wc *)",
-      "Bash(which *)"
+      "Bash(which *)",
+      "WebSearch",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [
       "Bash(curl *|* sh:*)",
       "Bash(rm -rf /:*)",
       "Bash(sudo:*)",
       "Bash(wget *|* sh:*)",
+      "Bash(cat .env*)",
       "Read(.env)"
     ]
   },
