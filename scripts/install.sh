@@ -123,6 +123,7 @@ echo ""
 # ~/.gemini にシンボリックリンクを作成
 echo "Setting up .gemini..."
 mkdir -p "$HOME/.gemini"
+link_file ".gemini" "settings.json"
 link_directory ".gemini" "memories"
 link_directory ".gemini" "skills"
 echo ""
