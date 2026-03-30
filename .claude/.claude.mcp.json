@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "esa": {
+      "type": "stdio",
+      "command": "/paht/to/.claude/scripts/start-esa-mcp.sh"
+    }
+  }
+}

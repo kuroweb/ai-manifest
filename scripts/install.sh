@@ -70,7 +70,6 @@ link_directory() {
 echo "Setting up .claude..."
 mkdir -p "$HOME/.claude"
 link_file ".claude" "settings.json"
-link_file ".claude" "settings.local.json"
 link_directory ".claude" "rules"
 link_directory ".claude" "skills"
 link_directory ".claude" "agents"

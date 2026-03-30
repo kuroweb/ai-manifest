@@ -1,7 +1,0 @@
-{
-  "mcpServers": {
-    "esa": {
-      "command": "~/.claude/scripts/start-esa-mcp.sh"
-    }
-  }
-}
