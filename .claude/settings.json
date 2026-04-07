@@ -17,11 +17,11 @@
       "WebFetch(domain:github.com)"
     ],
     "deny": [
+      "Bash(cat .env*)",
       "Bash(curl *|* sh:*)",
       "Bash(rm -rf /:*)",
       "Bash(sudo:*)",
       "Bash(wget *|* sh:*)",
-      "Bash(cat .env*)",
       "Read(.env)"
     ]
   },
