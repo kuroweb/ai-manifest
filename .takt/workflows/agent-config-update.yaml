@@ -1,7 +1,7 @@
 name: agent-config-update
-description: agent-config-update ピース。ai-manifest リポジトリでの軽量ワークフロー（計画 → 設定整備 → 検証 → 必要時修正）。Cursor / Claude / Codex / Gemini 向けエージェント設定と rulesync 正本（.rulesync/）の整備に限定し、機能実装やテスト実装は対象外とする。
-max_movements: 12
-initial_movement: plan
+description: agent-config-update ワークフロー。ai-manifest リポジトリでの軽量フロー（計画 → 設定整備 → 検証 → 必要時修正）。Cursor / Claude / Codex / Gemini 向けエージェント設定と rulesync 正本（.rulesync/）の整備に限定し、機能実装やテスト実装は対象外とする。
+max_steps: 12
+initial_step: plan
 loop_monitors:
   - cycle:
       - review
@@ -15,7 +15,7 @@ loop_monitors:
           next: review
         - condition: 非生産的（同じ指摘が繰り返される）
           next: ABORT
-movements:
+steps:
   - name: plan
     edit: false
     persona: planner
@@ -51,7 +51,7 @@ movements:
       目的: ai-manifest リポジトリのエージェント設定整備を行う。
       対象:
       - `.rulesync/` 正本の修正
-      - `.takt/` 配下の設定・ピース・ファセット調整
+      - `.takt/` 配下の設定・ワークフロー定義・ファセット調整
       - 対象外設定ファイル（例: `.claude/settings.json`, `.cursor/mcp.json`）の更新
 
       非対象:
