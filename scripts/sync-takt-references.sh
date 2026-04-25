@@ -83,16 +83,19 @@ sync_dir "$TAKT_SRC/docs/" "$DST/docs/"
 sync_dir "$TAKT_SRC/builtins/project/tasks/" "$DST/builtins/project/tasks/"
 # builtins/skill/references
 sync_dir "$TAKT_SRC/builtins/skill/references/" "$DST/builtins/skill/references/"
-# src/infra/task (schema.ts)
-sync_files "$DST" "$TAKT_SRC/src/infra/task/schema.ts"
+# src/infra/task (schema.ts and split files)
+sync_files "$DST" \
+  "$TAKT_SRC/src/infra/task/schema.ts" \
+  "$TAKT_SRC/src/infra/task/taskRecordSchemas.ts" \
+  "$TAKT_SRC/src/infra/task/taskExecutionSchemas.ts"
 clean_orphans "$TAKT_SRC/src/infra/task" "$DST/src/infra/task"
 
 echo ""
 
 # ------------------------------------------------------------------
-# takt-piece-builder
+# takt-workflow-builder
 # ------------------------------------------------------------------
-SKILL="takt-piece-builder"
+SKILL="takt-workflow-builder"
 echo "[$SKILL]"
 DST="$SKILLS_DIR/$SKILL/references/takt"
 
@@ -134,9 +137,9 @@ sync_dir "$TAKT_SRC/builtins/skill/references/" "$DST/builtins/skill/references/
 sync_dir "$TAKT_SRC/builtins/ja/" "$DST/builtins/ja/"
 # src/core/logging
 sync_dir "$TAKT_SRC/src/core/logging/" "$DST/src/core/logging/"
-# src/core/piece/evaluation
-sync_files "$DST" "$TAKT_SRC/src/core/piece/evaluation/RuleEvaluator.ts"
-clean_orphans "$TAKT_SRC/src/core/piece/evaluation" "$DST/src/core/piece/evaluation"
+# src/core/workflow/evaluation
+sync_files "$DST" "$TAKT_SRC/src/core/workflow/evaluation/RuleEvaluator.ts"
+clean_orphans "$TAKT_SRC/src/core/workflow/evaluation" "$DST/src/core/workflow/evaluation"
 # src/shared/utils (types.ts)
 sync_files "$DST" "$TAKT_SRC/src/shared/utils/types.ts"
 clean_orphans "$TAKT_SRC/src/shared/utils" "$DST/src/shared/utils"
@@ -176,11 +179,14 @@ sync_dir "$TAKT_SRC/builtins/ja/" "$DST/builtins/ja/"
 sync_dir "$TAKT_SRC/builtins/project/tasks/" "$DST/builtins/project/tasks/"
 # src/core/logging
 sync_dir "$TAKT_SRC/src/core/logging/" "$DST/src/core/logging/"
-# src/core/piece/evaluation
-sync_files "$DST" "$TAKT_SRC/src/core/piece/evaluation/RuleEvaluator.ts"
-clean_orphans "$TAKT_SRC/src/core/piece/evaluation" "$DST/src/core/piece/evaluation"
+# src/core/workflow/evaluation
+sync_files "$DST" "$TAKT_SRC/src/core/workflow/evaluation/RuleEvaluator.ts"
+clean_orphans "$TAKT_SRC/src/core/workflow/evaluation" "$DST/src/core/workflow/evaluation"
 # src/infra/task
-sync_files "$DST" "$TAKT_SRC/src/infra/task/schema.ts"
+sync_files "$DST" \
+  "$TAKT_SRC/src/infra/task/schema.ts" \
+  "$TAKT_SRC/src/infra/task/taskRecordSchemas.ts" \
+  "$TAKT_SRC/src/infra/task/taskExecutionSchemas.ts"
 clean_orphans "$TAKT_SRC/src/infra/task" "$DST/src/infra/task"
 
 echo ""
