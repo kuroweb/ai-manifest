@@ -1,40 +1,58 @@
 # ai-manifest
 
-Cursor / Claude Code / Codex / Gemini CLI 向け設定の一元管理リポジトリです。  
-`.rulesync/` を正本として各ツール向け設定を生成し、`scripts/install.sh` でホーム配下に反映します。
+Cursor / Claude Code / Codex / Gemini CLI 向け設定の一元管理リポジトリ。
 
-## クイックセットアップ
+`.rulesync/` を正本として各ツール向け設定を生成し、`scripts/install.sh` でホーム配下に反映する。
 
-```bash
-# 1) 前提ツール
-brew install rulesync
-rulesync --version
+## クイックスタート
 
-# 2) リポジトリ取得
-git clone <repository-url>
-cd ai-manifest
-git submodule update --init --recursive
+- 1: 依存パッケージインストール
 
-# 3) 生成（.rulesync -> .cursor/.claude/.codex/.gemini）
-rulesync generate
+  ```bash
+  brew install rulesync
+  ```
 
-# 4) ローカル用ファイルを example から作成（未作成の場合）
-cp -n .env.example .env
-cp -n .cursor/mcp.json.example .cursor/mcp.json
-cp -n .cursor/hooks.json.example .cursor/hooks.json
+- 2: リポジトリ配置
 
-# 5) ホームへリンク反映
-bash scripts/install.sh
-```
+  ```bash
+  git clone <repository-url>
+  cd ai-manifest
+  ```
 
-セットアップ後の確認:
+- 3: サブモジュール取得
 
-```bash
-ls -la ~/.cursor ~/.claude ~/.codex ~/.gemini
-ls -la ~/.config/ai-manifest/.env
-```
+  ```bash
+  git submodule update --init --recursive
+  ```
 
-既存の `~/.cursor` などがある場合は、`scripts/backup/<timestamp>/` に退避してからリンクを張り替えます。
+- 4: 各エージェント向けにファイル生成
+
+  ```bash
+  rulesync generate
+  ```
+
+- 5: ローカル用ファイルを作成
+
+  ```bash
+  cp -n .env.example .env
+  cp -n .cursor/mcp.json.example .cursor/mcp.json
+  cp -n .cursor/hooks.json.example .cursor/hooks.json
+  ```
+
+- 6: ホーム配下にsymlinkを作成して反映
+
+  ```bash
+  bash scripts/install.sh
+  ```
+
+  > 既存の `~/.cursor` などがある場合は、自動的に`scripts/backup/<timestamp>/` に退避してからリンクを張り替える。
+
+- 7: セットアップ後の確認
+
+  ```bash
+  ls -la ~/.cursor ~/.claude ~/.codex ~/.gemini
+  ls -la ~/.config/ai-manifest/.env
+  ```
 
 ## 前提条件
 
