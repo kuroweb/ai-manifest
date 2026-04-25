@@ -13,6 +13,7 @@ rulesync --version
 # 2) リポジトリ取得
 git clone <repository-url>
 cd ai-manifest
+git submodule update --init --recursive
 
 # 3) 生成（.rulesync -> .cursor/.claude/.codex/.gemini）
 rulesync generate
@@ -46,6 +47,7 @@ ls -la ~/.config/ai-manifest/.env
 - 正本: `.rulesync/`（`rules` / `skills` / `subagents`）
 - 生成物: `rulesync generate` で `.cursor/` `.claude/` `.codex/` `.gemini/` を更新
 - 反映: `bash scripts/install.sh` で `~/.cursor` などへシンボリックリンク
+- 参照用サブモジュール: [`references/takt`](references/takt)（TAKT）、[`references/pm-skills`](references/pm-skills)（pm-skills）。クローン後に `git submodule update --init --recursive` が必要
 
 ## 編集ルール（重要）
 
@@ -124,8 +126,8 @@ bash scripts/install.sh
 ## `pm-exec-*` スキル一覧
 
 - `pm-exec-*` は `phuryn/pm-skills` の `pm-execution` 由来の PM 支援スキル
-- 実体は [`.rulesync/skills/`](/Users/higashinoshuhei/Work/ai-manifest-work/.rulesync/skills) 配下の `pm-exec-*` ディレクトリとして管理する
-- 参照元は [`references/pm-skills`](/Users/higashinoshuhei/Work/ai-manifest-work/references/pm-skills) サブモジュール
+- 実体は [`.rulesync/skills/`](.rulesync/skills) 配下の `pm-exec-*` ディレクトリとして管理する
+- 参照元は [`references/pm-skills`](references/pm-skills) サブモジュール（先に `git submodule update --init --recursive`）
 - 更新時は参照元を見て `pm-exec-*` 側に反映し、その後 `rulesync generate` を実行する
 
 | スキル | 用途 |
