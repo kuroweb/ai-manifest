@@ -58,10 +58,6 @@ export interface NdjsonStepStart {
   workflow?: string;
   stack?: NdjsonWorkflowStackEntry[];
   instruction?: string;
-  provider?: string;
-  providerSource?: string;
-  model?: string;
-  modelSource?: string;
 }
 
 export interface NdjsonStepComplete {
