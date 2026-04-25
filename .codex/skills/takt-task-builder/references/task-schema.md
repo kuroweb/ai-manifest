@@ -1,6 +1,6 @@
 # TaskRecord スキーマ詳細
 
-ソース: `references/takt/src/infra/task/schema.ts`
+ソース: `references/takt/src/infra/task/taskRecordSchemas.ts` / `references/takt/src/infra/task/taskExecutionSchemas.ts`
 
 ## TaskRecord フィールド一覧
 
@@ -8,7 +8,7 @@
 |-----------|------|------|---------|------|
 | `name` | string | YES | - | タスク識別名（AI自動生成、一意） |
 | `status` | enum | YES | - | `pending` / `running` / `completed` / `failed` / `exceeded` / `pr_failed` |
-| `piece` | string | - | - | 実行ピース名（例: `default`, `dual`） |
+| `workflow` | string | - | - | 実行ワークフロー名 |
 | `task_dir` | string | ※ | - | タスクディレクトリパス（`.takt/tasks/{slug}` 形式） |
 | `content` | string | ※ | - | インラインタスク本文（レガシー） |
 | `content_file` | string | ※ | - | 外部ファイルパス参照（レガシー） |
@@ -20,8 +20,8 @@
 | `branch` | string | - | auto | gitブランチ名（省略時: `takt/{timestamp}-{slug}`） |
 | `auto_pr` | boolean | - | false | 実行後にPR自動作成 |
 | `draft_pr` | boolean | - | false | PRをドラフト状態で作成 |
-| `issue` | int | - | - | Issue 番号（GitHub / GitLab 等、VCS・`vcs_provider` 設定に依存） |
-| `start_movement` | string | - | - | 開始movement名（pieceのinitial_movementを上書き） |
+| `issue` | int | - | - | GitHub Issue番号 |
+| `start_step` | string | - | - | 開始step名 |
 | `retry_note` | string | - | - | リトライ時のメモ |
 | `worktree_path` | string | - | - | 実行時worktree絶対パス（自動設定） |
 | `pr_url` | string | - | - | 生成PR URL（自動設定） |
@@ -29,8 +29,13 @@
 | `owner_pid` | int/null | - | null | 実行中プロセスPID（自動設定） |
 | `failure` | object | - | - | 失敗情報（自動設定） |
 | `base_branch` | string | - | - | クローン元ブランチ（省略時: デフォルトブランチ） |
-| `exceeded_max_movements` | int | - | - | exceeded時のmax_movements値（自動設定） |
+| `exceeded_max_steps` | int | - | - | exceeded時のmax_steps値（自動設定） |
 | `exceeded_current_iteration` | int | - | - | exceeded時のイテレーション数（自動設定） |
+| `run_slug` | string | - | - | 実行スラグ（タスク実行ごとの一意ID） |
+| `resume_point` | object | - | - | サブワークフロー再開ポイント（自動設定） |
+| `should_publish_branch_to_origin` | boolean | - | - | ブランチをoriginにpushするか |
+| `source` | enum | - | - | タスクソース: `pr_review` / `issue` / `manual` |
+| `pr_number` | int | - | - | PR番号（`source: pr_review` 時は必須） |
 
 **※ `content`, `content_file`, `task_dir` のいずれか正確に1つが必須。**
 
@@ -40,7 +45,7 @@
 
 ```yaml
 failure:
-  movement: plan         # 失敗が発生したmovement名（任意）
+  step: plan             # 失敗が発生したstep名（任意）
   error: "エラーメッセージ"  # エラー本体（必須）
   last_message: "..."    # 最後の出力（任意）
 ```
@@ -60,10 +65,10 @@ pending ──→ running ──→ completed
 | completed_at | **null** | **null** | 必須 | 必須 | 必須 | 必須 |
 | owner_pid | **null** | 任意 | **null** | **null** | **null** | **null** |
 | failure | **null** | **null** | **null** | 必須 | **null** | 任意 |
-| exceeded_max_movements | - | - | - | - | 必須※ | - |
+| exceeded_max_steps | - | - | - | - | 必須※ | - |
 | exceeded_current_iteration | - | - | - | - | 必須※ | - |
 
-**※ `exceeded_max_movements` と `exceeded_current_iteration` は両方同時に設定するか、両方省略する。**
+**※ `exceeded_max_steps` と `exceeded_current_iteration` は両方同時に設定するか、両方省略する。**
 
 ## task_dir パス形式
 
@@ -75,12 +80,14 @@ pending ──→ running ──→ completed
 
 order.md自体ではテンプレート変数は不要。エンジンが `{task}` として自動注入する。
 
-ピースの `instruction_template` 内では以下が使用可能:
+ワークフローの `instruction` 内では以下が使用可能（`instruction_template` は v0.36.0 で完全廃止）:
 
 | 変数 | 説明 |
 |------|------|
 | `{task}` | タスク内容（自動注入） |
-| `{previous_response}` | 前movement出力 |
-| `{iteration}` | ピース全体イテレーション数 |
+| `{previous_response}` | 前step出力 |
+| `{iteration}` | ワークフロー全体イテレーション数 |
+| `{max_steps}` | ワークフローの max_steps 値 |
+| `{step_iteration}` | このstepの実行回数 |
 | `{report_dir}` | レポートディレクトリ名 |
 | `{report:filename}` | レポートファイル内容 |
