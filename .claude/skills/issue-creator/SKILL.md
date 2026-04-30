@@ -48,7 +48,7 @@ description: >-
 
 ### 状態管理
 
-- 状態は配置ディレクトリ（`.issues/draft/`、`.issues/ready/`、`.issues/close/`）で管理する
+- 状態は配置ディレクトリ（`~/.issues/draft/`、`~/.issues/ready/`、`~/.issues/close/`）で管理する
 - `draft`: 作業中の issue。要件やメモが未確定、または整理途中の状態。
 - `ready`: 着手可能な issue。目的・スコープ・前提が揃っている状態。
 - `close`: 完了または終了した issue。対応済み、または対応不要と判断した状態。
@@ -87,15 +87,15 @@ description: >-
 
 ### `!draft`
 
-- 対象 issue ディレクトリを `.issues/draft/<slug>/` へ移す。
+- 対象 issue ディレクトリを `~/.issues/draft/<slug>/` へ移す。
 - `issue.md` 以外の添付ファイルやメモも一緒に移動し、取りこぼさない。
 
 ### `!ready`
 
-- 対象 issue ディレクトリを `.issues/ready/<slug>/` へ移す。
+- 対象 issue ディレクトリを `~/.issues/ready/<slug>/` へ移す。
 - `issue.md` 以外の添付ファイルやメモも一緒に移動し、取りこぼさない。
 
 ### `!close`
 
-- 対象 issue ディレクトリを `.issues/close/<slug>/` へ移す。
+- 対象 issue ディレクトリを `~/.issues/close/<slug>/` へ移す。
 - `issue.md` 以外の添付ファイルやメモも一緒に移動し、取りこぼさない。

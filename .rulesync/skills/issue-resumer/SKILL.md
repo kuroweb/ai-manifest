@@ -1,22 +1,22 @@
 ---
 name: issue-resumer
 description: |
-  `/issue-resume` 実行時に `.issues/` 配下（`close` を除く）から再開対象の issue を特定して読み込む。
-  `issue-creator` が作成した `.issues/<state>/<slug>/issue.md` を再開導線として扱い、
+  `/issue-resume` 実行時に `~/.issues/` 配下（`close` を除く）から再開対象の issue を特定して読み込む。
+  `issue-creator` が作成した `~/.issues/<state>/<slug>/issue.md` を再開導線として扱い、
   複数候補がある場合は必ずユーザーに対象を確認する。
   トリガー: `/issue-resume`, 「issue再開」, 「前回のissueの続き」, 「issueを読み込んで」。
 ---
 
 # セッション再開（issue-resumer）
 
-`/issue-resume` 実行時に、`.issues/` 配下の `draft` / `ready` issue を読み込んで作業再開を補助する。
+`/issue-resume` 実行時に、`~/.issues/` 配下の `draft` / `ready` issue を読み込んで作業再開を補助する。
 
 ## 実行フロー
 
 ### Step 1: issue 一覧を確認する
 
-- `.issues/draft/` と `.issues/ready/` ディレクトリの存在を確認する
-- `.issues/draft/*/issue.md` と `.issues/ready/*/issue.md` を列挙する
+- `~/.issues/draft/` と `~/.issues/ready/` ディレクトリの存在を確認する
+- `~/.issues/draft/*/issue.md` と `~/.issues/ready/*/issue.md` を列挙する
 
 ### Step 2: 候補数に応じて分岐する
 
@@ -59,15 +59,15 @@ description: |
 
 ### `!draft`
 
-- 対象 issue ディレクトリを `.issues/draft/<slug>/` へ移す。
+- 対象 issue ディレクトリを `~/.issues/draft/<slug>/` へ移す。
 - `issue.md` 以外の添付ファイルやメモも一緒に移動し、取りこぼさない。
 
 ### `!ready`
 
-- 対象 issue ディレクトリを `.issues/ready/<slug>/` へ移す。
+- 対象 issue ディレクトリを `~/.issues/ready/<slug>/` へ移す。
 - `issue.md` 以外の添付ファイルやメモも一緒に移動し、取りこぼさない。
 
 ### `!close`
 
-- 対象 issue ディレクトリを `.issues/close/<slug>/` へ移す。
+- 対象 issue ディレクトリを `~/.issues/close/<slug>/` へ移す。
 - `issue.md` 以外の添付ファイルやメモも一緒に移動し、取りこぼさない。
