@@ -56,17 +56,17 @@ description: |
 
 ## サブコマンド
 
-### `!draft`
+### `issue-draft`
 
 - 対象 issue ディレクトリを `~/.issues/draft/<slug>/` へ移す。
 - `issue.md` 以外の添付ファイルやメモも一緒に移動し、取りこぼさない。
 
-### `!ready`
+### `issue-ready`
 
 - 対象 issue ディレクトリを `~/.issues/ready/<slug>/` へ移す。
 - `issue.md` 以外の添付ファイルやメモも一緒に移動し、取りこぼさない。
 
-### `!close`
+### `issue-close`
 
 - 対象 issue ディレクトリを `~/.issues/close/<slug>/` へ移す。
 - `issue.md` 以外の添付ファイルやメモも一緒に移動し、取りこぼさない。
