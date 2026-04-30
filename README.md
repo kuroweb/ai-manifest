@@ -1,9 +1,9 @@
 # ai-manifest
 
 - Cursor / Claude Code / Codex / Gemini CLI 向け設定の一元管理リポジトリ。
-- `.rulesync/` を正本として各ツール向け設定を生成し、`scripts/install.sh` でホーム配下に反映する。
+- `.rulesync/` を正本として設定を生成し、`scripts/install.sh` でホーム配下へ反映する。
 
-## クイックスタート
+# クイックスタート
 
 - 1: 依存パッケージインストール
 
@@ -38,13 +38,13 @@
   cp -n .cursor/hooks.json.example .cursor/hooks.json
   ```
 
-- 6: ホーム配下にsymlinkを作成して反映
+- 6: ホーム配下に symlink を作成して反映
 
   ```bash
   bash scripts/install.sh
   ```
 
-  > 既存の `~/.cursor` などがある場合は、自動的に`scripts/backup/<timestamp>/` に退避してからリンクを張り替える。
+  > 既存の `~/.cursor` などがある場合は、自動的に `scripts/backup/<timestamp>/` に退避してからリンクを張り替える。
 
 - 7: セットアップ後の確認
 
@@ -53,29 +53,49 @@
   ls -la ~/.config/ai-manifest/.env
   ```
 
-## 前提条件
+# 仕様
+
+## 技術スタック
 
 | 項目 | 内容 |
 | --- | --- |
 | OS | macOS / Linux |
-| CLIツール | `rulesync` |
+| 必須 CLI | `rulesync` |
+| 対象エージェント | Cursor / Claude Code / Codex / Gemini CLI |
+| 主な生成コマンド | `rulesync generate` |
+| 主な反映コマンド | `bash scripts/install.sh` |
 
-## コンセプト
+## rulesyncでの構成管理
 
-- dotfilesのようにエージェント用の設定ファイルを一元管理するためのリポジトリ
+- `.rulesync/` を正本として、各ツール向けのルール・スキル・サブエージェントを生成する。
+- 生成先ファイルは `rulesync generate` で上書きされる前提とする。
 
-### ホーム配下にsymlinkを張ることでユーザースコープに展開
+### 共通管理するもの
 
-- `bash scripts/install.sh`ではホーム配下にsymlinkを作成している。
-- ホーム配下の各エージェントディレクトリ（`~/.claude`など）にsymlinkを張ることで、ユーザースコープで利用可能となる。
-- MCP設定などの一部の構成については、自動反映ではなくコピペ運用としている（ユーザーローカルな設定としたほうが取り回りやすいため）
+| 管理ファイル | Cursor | Claude Code | Codex | Gemini CLI |
+| --- | --- | --- | --- | --- |
+| `.rulesync/rules/` | `.cursor/rules` | `.claude/rules` | `.codex/memories` | `.gemini/memories` |
+| `.rulesync/skills/` | `.cursor/skills` | `.claude/skills` | `.codex/skills` | `.gemini/skills` |
+| `.rulesync/subagents/` | `.cursor/agents` | `.claude/agents` | `.codex/agents` | `.gemini/agents` |
 
-### 共通ファイルの管理コスト削減
+### 正本の扱い
 
-- `.rulesync`を設定ファイルの正本として、`rulesync generate`コマンドにより各ディレクトリ（`.claude`など）に自動生成する方式にしている。
-- 差分によっては同期ミスが生じることがあるが、生成先の該当ファイルを手動削除してから`rulesync generate`を実行すれば安定する。
+- `.rulesync/` が Single Source of Truth。
+- `.rulesync/` と生成先が矛盾する場合は `.rulesync/` を正とする。
+- 生成先は手編集の保存場所ではなく、生成結果として扱う。
 
-## `install.sh` で生成するsymlink一覧
+### 禁止事項
+
+- `rulesync generate` で生成されるファイルを直接編集しない。
+- 生成を伴わずに生成先だけを整合調整しない。
+- 意図が不明な大量再生成をしない。
+
+## install.sh によるホーム配下への反映
+
+- `bash scripts/install.sh` で、リポジトリ内の管理対象をホーム配下へ symlink で反映する。
+- 各エージェントがユーザースコープでそのまま利用できる状態を作る。
+
+### symlink を張る対象
 
 | ツール | symlink |
 | --- | --- |
@@ -86,55 +106,67 @@
 | User Tools | `.handovers`<br>`.issues` |
 | App Config | `.env` -> `~/.config/ai-manifest/.env` |
 
-## 運用ルール
+### backup の扱い
 
-- `rulesync generate` で生成されるファイルは直接編集しない
-- 変更したい場合は `.rulesync/` 側を編集する
-- `.rulesync/` を変更したら `rulesync generate` を再実行する
+- 既存の `~/.cursor` などがある場合は、`scripts/backup/<timestamp>/` に退避してから張り替える。
+- 反映前にローカル変更の退避が必要か確認する。
 
-## `.rulesync` と生成先
+## install.sh だけでは反映できない設定
 
-次の対応でファイルが出力されます。以下のパスは `rulesync generate` で上書きされるため、内容を保ちたい場合は `.rulesync/` 側を編集してください。
+- 一部の設定値は symlink 管理に向かない。
+- `install.sh` だけではホーム側へ反映されない設定がある。
+- それらは手動コピペで取り込む。
 
-| 管理ファイル | Cursor | Claude Code | Codex | Gemini CLI |
-| --- | --- | --- | --- | --- |
-| `.rulesync/rules/` | `.cursor/rules` | `.claude/rules` | `.codex/memories` | `.gemini/memories` |
-| `.rulesync/skills/` | `.cursor/skills` | `.claude/skills` | `.codex/skills` | `.gemini/skills` |
-| `.rulesync/subagents/` | `.cursor/agents` | `.claude/agents` | `.codex/agents` | - |
+### 手動コピペが必要な設定
 
-## rulesync の対象外
+- `install.sh` 実行後も、ホーム側の実ファイルに反映されているとは限らない。
+- ツール自身が更新する設定や、ローカル差分を持たせたい設定は手動運用する。
 
-rulesync の生成対象ではないものは、リポジトリ内の該当ファイルを直接編集します。
+### Cursor CLI permissions
 
-| パス | 用途 |
-| --- | --- |
-| `.cursor/cli-config.permissions.json` | Cursor CLI の `permissions` を手動コピペで管理するファイル |
-| `.cursor/cli-config.json` | Cursor CLI 設定の参考ファイル（運用上は `~/.cursor/cli-config.json` を直接更新） |
-| `.cursor/mcp.json` | Cursor 用 MCP |
-| `.cursor/hooks.json` | Cursor 用 hooks |
-| `.cursor/hooks/` | Cursor hooks で呼び出すスクリプト置き場 |
-| `.claude/.claude.mcp.json` | Claude Code の `mcpServers` を手動コピペで管理するファイル |
-| `.claude/settings.json` | Claude Code（モデル・statusline・hooks など） |
-| `.claude/scripts/` | statusline 用スクリプトなど |
+- `.cursor/cli-config.permissions.json` を `~/.cursor/cli-config.json` へコピーして反映する。
+- `~/.cursor/cli-config.json` は symlink 管理せず、コピペ運用とする。
 
-### Cursor CLI - `permissions` の運用
+### Claude Code mcpServers
 
-- `.cursor/cli-config.permissions.json`をコピーして`~/.cursor/cli-config.json`にペーストして反映する
+- `.claude/.claude.mcp.json` を `~/.claude.json` へコピーして反映する。
+- `~/.claude.json` は Claude Code が直接更新するため、symlink 管理しない。
+- `mcpServers.*.command` には絶対パスを使う。`~` や `$HOME` は使わない。
 
-**注意点:**
+# 開発手順
 
-- `~/.cursor/cli-config.json`はsymlink管理ができないので`install.sh`ではなくコピペ運用としている
+## 変更前の確認
 
-### Claude Code - `mcpServers` の運用
+- 変更対象が `.rulesync/` 配下か、手動運用の実ファイルかを確認する。
+- 生成先ファイルを直接編集しようとしていないか確認する。
+- 必要なら現行差分を確認して、意図しない変更が混ざっていないことを確かめる。
 
-- `.claude/.claude.mcp.json`をコピーして`~/.claude.json`にペーストして反映する（`/paht/to`部分は実態に合わせて調整すること）
+## 変更の実施
 
-**注意点:**
+- 共通管理対象を変える場合は `.rulesync/` を編集する。
+- `permissions` や `mcpServers` など自動反映できない設定だけ、対応する実ファイルを更新する。
 
-- `~/.claude.json`はClaude Codeが直接更新するため`install.sh`ではなくコピペ運用としている
-- `mcpServers.*.command` は絶対パスを使う（`~` や `$HOME` は使わない）
+## 生成と差分確認
 
-### 日常運用
+```bash
+rulesync generate
+git diff -- README.md .cursor .claude .codex .gemini .rulesync
+```
 
-- 設定を変える: `.rulesync/` を編集して `rulesync generate`
-- ホーム側を再同期する: `bash scripts/install.sh`
+- 生成先との差分が意図どおりか確認する。
+- 不整合がある場合は、生成先を見直す前に `.rulesync/` 側の記述を確認する。
+
+## ホーム配下への反映
+
+```bash
+bash scripts/install.sh
+```
+
+- ホーム配下の symlink を更新したい場合だけ実行する。
+- 実行後に `~/.cursor` や `~/.claude` のリンク先を確認する。
+
+## トラブル時の復旧
+
+- 生成結果がおかしい場合は、該当する生成先を見直してから `rulesync generate` を再実行する。
+- ホーム反映で問題が起きた場合は `scripts/backup/<timestamp>/` を確認する。
+- 手動反映設定が効かない場合は、コピー先ファイルと絶対パス指定を見直す。
