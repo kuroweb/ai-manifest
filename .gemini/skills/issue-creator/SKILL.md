@@ -1,14 +1,14 @@
 ---
 name: issue-creator
 description: >-
-  調査メモ、実装タスク、設計整理、引き継ぎ用の issue を `~/.issues/draft/<slug>/issue.md`
+  調査メモ、実装タスク、設計整理、引き継ぎ用の issue を `~/.docs/issues/draft/<slug>/issue.md`
   に作成するスキル。ユーザーが 「issues にメモして」「調査用の issue を作って」「issue を作成」など、 作業開始前に issue
   の下書きやメモの器を作りたい依頼をしたら使う。 目的・概要・対象プロジェクトを確認し、他の作業に入る前に issue.md を先に生成する。 既存
   issue の再開は issue-resumer を使い、状態変更はサブコマンドで扱う。
 ---
 # Issue Creator
 
-- `~/.issues/draft/<slug>/issue.md` を生成し、調査・タスク・メモ・設計を軽量に記録する。
+- `~/.docs/issues/draft/<slug>/issue.md` を生成し、調査・タスク・メモ・設計を軽量に記録する。
 
 ## 実行フロー
 
@@ -25,7 +25,7 @@ description: >-
 
 ### Step 3: issue.md を先に作成する
 
-- **ヒアリング完了後、調査・回答・実装などの他作業に着手する前に、必ず先に** `~/.issues/draft/<slug>/issue.md` を作成する
+- **ヒアリング完了後、調査・回答・実装などの他作業に着手する前に、必ず先に** `~/.docs/issues/draft/<slug>/issue.md` を作成する
 - `assets/issue.md` をベースに生成する
 
 ### Step 4: 内容を補完する
@@ -34,7 +34,7 @@ description: >-
 
 ### Step 5: 作成結果を検証する
 
-- `~/.issues/draft/<slug>/issue.md` が存在することを確認する
+- `~/.docs/issues/draft/<slug>/issue.md` が存在することを確認する
 - `slug`、`作成日`、`プロジェクト名` が埋まっていることを確認する
 - 不足があれば修正してから次の作業へ進む
 
@@ -44,11 +44,11 @@ description: >-
 
 - 使える文字は小文字・数字・ハイフンのみ
 - issue.md の H1 に使う
-- 既に `~/.issues/draft/<slug>/` が存在する場合は、別 slug を提案するかユーザーに確認する
+- 既に `~/.docs/issues/draft/<slug>/` が存在する場合は、別 slug を提案するかユーザーに確認する
 
 ### 状態管理
 
-- 状態は配置ディレクトリ（`~/.issues/draft/`、`~/.issues/ready/`、`~/.issues/close/`）で管理する
+- 状態は配置ディレクトリ（`~/.docs/issues/draft/`、`~/.docs/issues/ready/`、`~/.docs/issues/close/`）で管理する
 - `draft`: 作業中の issue。要件やメモが未確定、または整理途中の状態。
 - `ready`: 着手可能な issue。目的・スコープ・前提が揃っている状態。
 - `close`: 完了または終了した issue。対応済み、または対応不要と判断した状態。
@@ -78,8 +78,8 @@ description: >-
 
 ### バリデーション
 
-- `~/.issues/draft/` が存在しない場合は、作成するか、前提不一致としてユーザーに通知する
-- 生成後に `~/.issues/draft/<slug>/issue.md` の存在を確認する
+- `~/.docs/issues/draft/` が存在しない場合は、作成するか、前提不一致としてユーザーに通知する
+- 生成後に `~/.docs/issues/draft/<slug>/issue.md` の存在を確認する
 - 必須項目が未記入なら補完してから次の作業へ進む
 - `目的` が曖昧なままなら、ファイル作成だけで済ませず追加でヒアリングする
 
@@ -87,15 +87,15 @@ description: >-
 
 ### `issue-draft`
 
-- 対象 issue ディレクトリを `~/.issues/draft/<slug>/` へ移す。
+- 対象 issue ディレクトリを `~/.docs/issues/draft/<slug>/` へ移す。
 - `issue.md` 以外の添付ファイルやメモも一緒に移動し、取りこぼさない。
 
 ### `issue-ready`
 
-- 対象 issue ディレクトリを `~/.issues/ready/<slug>/` へ移す。
+- 対象 issue ディレクトリを `~/.docs/issues/ready/<slug>/` へ移す。
 - `issue.md` 以外の添付ファイルやメモも一緒に移動し、取りこぼさない。
 
 ### `issue-close`
 
-- 対象 issue ディレクトリを `~/.issues/close/<slug>/` へ移す。
+- 対象 issue ディレクトリを `~/.docs/issues/close/<slug>/` へ移す。
 - `issue.md` 以外の添付ファイルやメモも一緒に移動し、取りこぼさない。

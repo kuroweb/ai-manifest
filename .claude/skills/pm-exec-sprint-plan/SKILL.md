@@ -59,7 +59,7 @@ description: >-
 
 6. **Sprint goal を定義する**: sprint が生み出す中心価値を、1 文で明確に表す。
 
-段階的に考え、`~/.plans/pm-exec/Sprint-Plan-[team-name]-[sprint].md` という名前の Markdown で保存する。
+段階的に考え、`~/.docs/pm-exec/Sprint-Plan-[team-name]-[sprint].md` という名前の Markdown で保存する。
 
 ---
 

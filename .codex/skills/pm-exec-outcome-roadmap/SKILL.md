@@ -52,7 +52,7 @@ $ARGUMENTS のロードマップを、output 中心 (機能ベース) から out
    - 顧客ニーズに関する主要な前提
    - 具体日付ではなく四半期など柔軟なリリース枠
 
-7. **成果物を保存する**: 分量が十分なら `~/.plans/pm-exec/Outcome-Roadmap-[year].md` という名前の Markdown に保存する。
+7. **成果物を保存する**: 分量が十分なら `~/.docs/pm-exec/Outcome-Roadmap-[year].md` という名前の Markdown に保存する。
 
 ## 注意
 

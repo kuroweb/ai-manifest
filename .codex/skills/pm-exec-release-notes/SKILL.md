@@ -61,4 +61,4 @@ description: >-
 
 5. **トーンを合わせる**: B2B ならプロフェッショナル、コンシューマ向けなら親しみやすく、API なら開発者向けに寄せる。
 
-成果物を保存する: `~/.plans/pm-exec/Release-Notes-[product-name]-[date].md` という名前の Markdown として保存する。
+成果物を保存する: `~/.docs/pm-exec/Release-Notes-[product-name]-[date].md` という名前の Markdown として保存する。

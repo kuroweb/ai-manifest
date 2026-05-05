@@ -16,17 +16,25 @@
 # scripts
 scripts/backup/
 
-# .handovers
-.handovers/*
-!.handovers/.keep
+# .docs/handovers
+.docs/handovers/*
+!.docs/handovers/.keep
 
-# .issues
-.issues/draft/*
-!.issues/draft/.keep
+# .docs/issues
+.docs/issues/draft/*
+!.docs/issues/draft/.keep
 
-# .learned
-.learned/*
-!.learned/.keep
+# .docs/plans
+.docs/plans/*
+!.docs/plans/.keep
+
+# .docs/pm-exec
+.docs/pm-exec/*
+!.docs/pm-exec/.keep
+
+# .docs/learned
+.docs/learned/*
+!.docs/learned/.keep
 
 # others
 .DS_Store

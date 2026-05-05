@@ -75,4 +75,4 @@ description: >-
    - [Previous action] — [Status: Done / In Progress / Not Started]
    ```
 
-成果物を保存する: `~/.plans/pm-exec/Retro-[team-name]-[date].md` という名前の Markdown で保存する。責任追及ではなく改善を目的とした建設的なトーンにする。
+成果物を保存する: `~/.docs/pm-exec/Retro-[team-name]-[date].md` という名前の Markdown で保存する。責任追及ではなく改善を目的とした建設的なトーンにする。

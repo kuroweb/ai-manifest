@@ -1,6 +1,6 @@
 ---
 name: handover
-description: 'セッション終了時や作業の区切りで引き継ぎノートを生成する。 次のセッションに必要な情報のみを .handovers/ に記録する（Cursor / Claude Code / Codex / Gemini 共通）。 トリガー: セッション終了時、作業の区切り、「引き継ぎノートを作成」「handover」等。'
+description: 'セッション終了時や作業の区切りで引き継ぎノートを生成する。 次のセッションに必要な情報のみを .docs/handovers/ に記録する（Cursor / Claude Code / Codex / Gemini 共通）。 トリガー: セッション終了時、作業の区切り、「引き継ぎノートを作成」「handover」等。'
 ---
 # セッション引き継ぎノート生成
 
@@ -14,7 +14,7 @@ description: 'セッション終了時や作業の区切りで引き継ぎノー
 ## 手順
 
 1. 今回のセッションで行ったことを振り返る
-2. `~/.handovers/` ディレクトリが存在しない場合は作成する（`ai-manifest/.handovers/` への symlink 前提）
+2. `~/.docs/handovers/` ディレクトリが存在しない場合は作成する
 3. `YYYY-MM-DD_HHmm.md` のファイル名で引き継ぎノートを生成する（例: `2026-02-17_1430.md`）
 4. 既存のファイルと同名になる場合は末尾に `_2` などの連番を付与する
 

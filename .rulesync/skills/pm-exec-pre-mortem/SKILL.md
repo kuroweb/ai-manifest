@@ -76,7 +76,7 @@ pre-mortem は、まだ手が打てる段階で「何が失敗につながるか
    [Risk, Mitigation, Owner, Due Date]
    ```
 
-7. **成果物を保存する**: `~/.plans/pm-exec/PreMortem-[product-name]-[date].md` として Markdown 保存する。
+7. **成果物を保存する**: `~/.docs/pm-exec/PreMortem-[product-name]-[date].md` として Markdown 保存する。
 
 ## 注意
 

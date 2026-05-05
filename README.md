@@ -103,7 +103,7 @@
 | Claude Code | `.claude/settings.json`<br>`.claude/rules`<br>`.claude/skills`<br>`.claude/agents`<br>`.claude/scripts` |
 | Codex | `.codex/memories`<br>`.codex/skills`<br>`.codex/agents` |
 | Gemini CLI | `.gemini/memories`<br>`.gemini/skills` |
-| User Tools | `.handovers`<br>`.issues` |
+| User Tools | `.docs` |
 | App Config | `.env` -> `~/.config/ai-manifest/.env` |
 
 ### backup の扱い

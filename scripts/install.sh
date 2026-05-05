@@ -204,24 +204,10 @@ ln -sfn "$REPO_ROOT/.takt_global/config.yaml" "$HOME/.takt/config.yaml"
 echo "Linked $HOME/.takt/config.yaml -> $REPO_ROOT/.takt_global/config.yaml"
 echo ""
 
-# ~/.handovers にシンボリックリンクを作成
-echo "Setting up .handovers..."
-ln -sfn "$REPO_ROOT/.handovers" "$HOME/.handovers"
-echo ""
-
-# ~/.issues にシンボリックリンクを作成
-echo "Setting up .issues..."
-ln -sfn "$REPO_ROOT/.issues" "$HOME/.issues"
-echo ""
-
-# ~/.plans にシンボリックリンクを作成
-echo "Setting up .plans..."
-ln -sfn "$REPO_ROOT/.plans" "$HOME/.plans"
-echo ""
-
-# ~/.learned にシンボリックリンクを作成
-echo "Setting up .learned..."
-ln -sfn "$REPO_ROOT/.learned" "$HOME/.learned"
+# ~/.docs にシンボリックリンクを作成
+echo "Setting up .docs..."
+mkdir -p "$REPO_ROOT/.docs"
+ln -sfn "$REPO_ROOT/.docs" "$HOME/.docs"
 echo ""
 
 # ~/.config/ai-manifest/.env にシンボリックリンクを作成

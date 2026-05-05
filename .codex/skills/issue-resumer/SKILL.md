@@ -1,21 +1,21 @@
 ---
 name: issue-resumer
 description: |
-  `/issue-resume` 実行時に `~/.issues/` 配下（`close` を除く）から再開対象の issue を特定して読み込む。
-  `issue-creator` が作成した `~/.issues/<state>/<slug>/issue.md` を再開導線として扱い、
+  `/issue-resume` 実行時に `~/.docs/issues/` 配下（`close` を除く）から再開対象の issue を特定して読み込む。
+  `issue-creator` が作成した `~/.docs/issues/<state>/<slug>/issue.md` を再開導線として扱い、
   複数候補がある場合は必ずユーザーに対象を確認する。
   トリガー: `/issue-resume`, 「issue再開」, 「前回のissueの続き」, 「issueを読み込んで」。
 ---
 # セッション再開（issue-resumer）
 
-`/issue-resume` 実行時に、`~/.issues/` 配下の `draft` / `ready` issue を読み込んで作業再開を補助する。
+`/issue-resume` 実行時に、`~/.docs/issues/` 配下の `draft` / `ready` issue を読み込んで作業再開を補助する。
 
 ## 実行フロー
 
 ### Step 1: issue 一覧を確認する
 
-- `~/.issues/draft/` と `~/.issues/ready/` ディレクトリの存在を確認する
-- `~/.issues/draft/*/issue.md` と `~/.issues/ready/*/issue.md` を列挙する
+- `~/.docs/issues/draft/` と `~/.docs/issues/ready/` ディレクトリの存在を確認する
+- `~/.docs/issues/draft/*/issue.md` と `~/.docs/issues/ready/*/issue.md` を列挙する
 
 ### Step 2: 候補数に応じて分岐する
 
@@ -38,7 +38,7 @@ description: |
 ### 確認テンプレート
 
 ```text
-`~/.issues/draft/` に issue が複数あります。どれを読み込みますか？
+`~/.docs/issues/draft/` に issue が複数あります。どれを読み込みますか？
 1. <slug1>/issue.md
 2. <slug2>/issue.md
 3. <slug3>/issue.md
@@ -58,15 +58,15 @@ description: |
 
 ### `issue-draft`
 
-- 対象 issue ディレクトリを `~/.issues/draft/<slug>/` へ移す。
+- 対象 issue ディレクトリを `~/.docs/issues/draft/<slug>/` へ移す。
 - `issue.md` 以外の添付ファイルやメモも一緒に移動し、取りこぼさない。
 
 ### `issue-ready`
 
-- 対象 issue ディレクトリを `~/.issues/ready/<slug>/` へ移す。
+- 対象 issue ディレクトリを `~/.docs/issues/ready/<slug>/` へ移す。
 - `issue.md` 以外の添付ファイルやメモも一緒に移動し、取りこぼさない。
 
 ### `issue-close`
 
-- 対象 issue ディレクトリを `~/.issues/close/<slug>/` へ移す。
+- 対象 issue ディレクトリを `~/.docs/issues/close/<slug>/` へ移す。
 - `issue.md` 以外の添付ファイルやメモも一緒に移動し、取りこぼさない。
