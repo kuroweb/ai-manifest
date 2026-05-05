@@ -11,7 +11,7 @@
     "subagents",
     "ignore"
   ],
-  "baseDirs": [
+  "outputRoots": [
     "."
   ],
   "delete": true
