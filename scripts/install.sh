@@ -13,6 +13,11 @@ path_exists() {
   [ -e "$path" ] || [ -L "$path" ]
 }
 
+is_system_entry() {
+  local name="$1"
+  [[ "$name" == .system* ]]
+}
+
 backup_path() {
   local dest="$1"
   local backup_dir="$2"
@@ -151,6 +156,7 @@ link_entries() {
     [ -L "$dest" ] || continue
 
     name="$(basename "$dest")"
+    is_system_entry "$name" && continue
     target="$(readlink "$dest")"
 
     case "$target" in
@@ -167,6 +173,7 @@ link_entries() {
     [ -e "$src" ] || continue
 
     name="$(basename "$src")"
+    is_system_entry "$name" && continue
     dest="$home_entry_dir/$name"
 
     if path_exists "$dest"; then
