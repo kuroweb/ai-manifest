@@ -74,6 +74,7 @@
 
 | 管理ファイル | Cursor | Claude Code | Codex | Gemini CLI |
 | --- | --- | --- | --- | --- |
+| `.rulesync/rules/global-policy.md` | `.cursor/rules/global-policy.mdc` | `CLAUDE.md` | `AGENTS.md` | `GEMINI.md` |
 | `.rulesync/rules/` | `.cursor/rules` | `.claude/rules` | `.codex/memories` | `.gemini/memories` |
 | `.rulesync/skills/` | `.cursor/skills` | `.claude/skills` | `.codex/skills` | `.gemini/skills` |
 | `.rulesync/subagents/` | `.cursor/agents` | `.claude/agents` | `.codex/agents` | `.gemini/agents` |
@@ -100,9 +101,10 @@
 | ツール | symlink |
 | --- | --- |
 | Cursor | `.cursor/mcp.json`<br>`.cursor/hooks.json`<br>`.cursor/rules`<br>`.cursor/skills`<br>`.cursor/agents`<br>`.cursor/scripts`<br>`.cursor/hooks` |
-| Claude Code | `.claude/settings.json`<br>`.claude/rules`<br>`.claude/skills`<br>`.claude/agents`<br>`.claude/scripts` |
-| Codex | `.codex/memories`<br>`.codex/skills`<br>`.codex/agents` |
-| Gemini CLI | `.gemini/memories`<br>`.gemini/skills` |
+| Claude Code | `.claude/CLAUDE.md`<br>`.claude/settings.json`<br>`.claude/rules`<br>`.claude/skills`<br>`.claude/agents`<br>`.claude/scripts` |
+| Codex | `.codex/AGENTS.md`<br>`.codex/memories`<br>`.codex/skills`<br>`.codex/agents` |
+| Gemini CLI | `.gemini/GEMINI.md`<br>`.gemini/settings.json`<br>`.gemini/memories`<br>`.gemini/skills`<br>`.gemini/policies` |
+| TAKT | `.takt/config.yaml` |
 | User Tools | `.docs` |
 | App Config | `.env` -> `~/.config/ai-manifest/.env` |
 
