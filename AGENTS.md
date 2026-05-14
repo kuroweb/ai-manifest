@@ -1,6 +1,9 @@
 Please also reference the following rules as needed. The list below is provided in TOON format, and `@` stands for the project root directory.
 
-rules[4]:
+rules[5]:
+  - path: @.codex/memories/answer-style.md
+    description: 回答は前置きを省き、結論ファーストで率直に伝える
+    applyTo[1]: **/*
   - path: @.codex/memories/avoiding-ambiguous-suffixes.md
     description: 曖昧なサフィックスを避ける：型・モジュール命名で責務と境界を明確にする
     applyTo[1]: **/*
