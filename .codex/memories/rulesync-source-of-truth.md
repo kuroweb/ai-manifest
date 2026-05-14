@@ -1,13 +1,6 @@
----
-description: このリポジトリの運用概要と最優先ルール（rulesync正本）
-globs: **/*
----
+# Rulesync Source of Truth
 
-# Overview
-
-## rulesync（正本と生成物）
-
-- このリポジトリでは `.rulesync/` を正本として扱う。
+- `.rulesync/` が存在する場合は、`.rulesync/` を正本として扱う。
 - ルール・スキル・サブエージェントを変更するときは `.rulesync/` のみ編集する。
 - `rulesync generate` の出力物（`AGENTS.md` / `CLAUDE.md` / `GEMINI.md`、各エージェント向け rules・memories など）は直接編集しない。
 - 内容を変更するときは `.rulesync/` を修正してから `rulesync generate` を実行する。

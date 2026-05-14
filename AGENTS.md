@@ -1,14 +1,8 @@
 Please also reference the following rules as needed. The list below is provided in TOON format, and `@` stands for the project root directory.
 
-rules[6]:
-  - path: @.codex/memories/answer-style.md
-    description: 回答は前置きを省き、結論ファーストで率直に伝える
-    applyTo[1]: **/*
+rules[5]:
   - path: @.codex/memories/avoiding-ambiguous-suffixes.md
     description: 曖昧なサフィックスを避ける：型・モジュール命名で責務と境界を明確にする
-    applyTo[1]: **/*
-  - path: @.codex/memories/code-explanation.md
-    description: コード説明は変更前後の差分と意図を説明する
     applyTo[1]: **/*
   - path: @.codex/memories/explain-skill-selection.md
     description: スキル呼び出し前に選択スキルと理由を明示するルール
@@ -19,13 +13,27 @@ rules[6]:
   - path: @.codex/memories/less-is-more.md
     description: "Less Is More: 過剰設計を避け、シンプルで保守しやすいコードを書く"
     applyTo[1]: **/*
+  - path: @.codex/memories/rulesync-source-of-truth.md
+    description: .rulesync があるリポジトリで .rulesync を正本として扱う
+    applyTo[8]: .rulesync/**,.claude/**,.cursor/**,.codex/**,.gemini/**,AGENTS.md,CLAUDE.md,GEMINI.md
 
-# Overview
+# Global Policy
 
-## rulesync（正本と生成物）
+## 回答スタイル
 
-- このリポジトリでは `.rulesync/` を正本として扱う。
-- ルール・スキル・サブエージェントを変更するときは `.rulesync/` のみ編集する。
-- `rulesync generate` の出力物（`AGENTS.md` / `CLAUDE.md` / `GEMINI.md`、各エージェント向け rules・memories など）は直接編集しない。
-- 内容を変更するときは `.rulesync/` を修正してから `rulesync generate` を実行する。
-- `.rulesync/` と生成物が矛盾する場合は `.rulesync/` を正とする。
+- 挨拶・前置き・段階報告・絵文字禁止。結論ファースト
+- 指摘すべきことは率直に指摘
+
+## コード説明のルール
+
+### 指摘対応時
+
+指摘内容の説明と妥当性の評価を行い、変更前の問題点・変更内容・変更後のコードの意図と内容を説明する。
+
+### コード変更時
+
+変更前と変更後で何が変わるのか、それぞれのコードの意図と内容を説明する。
+
+### 新規コード作成時
+
+コードがない状態とある状態で何が変わるのか（何の問題を解決するか）、コードの意図と内容を説明する。

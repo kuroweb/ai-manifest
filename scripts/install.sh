@@ -50,6 +50,33 @@ link_file() {
   fi
 }
 
+# リポジトリルート直下のファイルを、ホーム配下の target_dir にリンクする関数
+link_root_file() {
+  local target_dir="$1"
+  local name="$2"
+  local src="$REPO_ROOT/$name"
+  local dest="$HOME/$target_dir/$name"
+  local backup_dir="$BACKUP_BASE/$target_dir"
+
+  if [ ! -e "$src" ]; then
+    echo "Warning: Source file does not exist: $src (skipping)"
+    return 0
+  fi
+
+  if path_exists "$dest"; then
+    if [ -L "$dest" ] && [ "$(readlink "$dest")" = "$src" ]; then
+      echo "Already linked: $dest -> $(readlink "$dest")"
+    else
+      backup_path "$dest" "$backup_dir" "$name"
+      ln -sfn "$src" "$dest"
+      echo "Linked $dest -> $src"
+    fi
+  else
+    ln -sfn "$src" "$dest"
+    echo "Linked $dest -> $src"
+  fi
+}
+
 # ディレクトリのシンボリックリンクを作成する関数
 link_directory() {
   local target_dir="$1"
@@ -166,6 +193,7 @@ link_entries ".claude" "rules"
 link_entries ".claude" "skills"
 link_entries ".claude" "scripts"
 link_file ".claude" "settings.json"
+link_root_file ".claude" "CLAUDE.md"
 echo ""
 
 # ~/.cursor にシンボリックリンクを作成
@@ -186,6 +214,7 @@ mkdir -p "$HOME/.codex"
 link_entries ".codex" "agents"
 link_entries ".codex" "memories"
 link_entries ".codex" "skills"
+link_root_file ".codex" "AGENTS.md"
 echo ""
 
 # ~/.gemini にシンボリックリンクを作成
@@ -195,6 +224,7 @@ link_entries ".gemini" "memories"
 link_entries ".gemini" "skills"
 link_directory ".gemini" "policies"
 link_file ".gemini" "settings.json"
+link_root_file ".gemini" "GEMINI.md"
 echo ""
 
 # ~/.takt/config.yaml ← リポの .takt_global/config.yaml（GlobalConfig 正本）
