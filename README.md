@@ -53,6 +53,37 @@
   ls -la ~/.config/ai-manifest/.env
   ```
 
+# 日次ワークフロー
+
+やりたいこと・改善したいことが浮かんだら **`/issue`** から始める。正本は `~/.docs/issues/<state>/<slug>/issue.md`。
+
+```
+/issue
+  → 一言メモ → draft issue 作成
+  → grill-me で検討
+  → issue に実施計画を追記
+  → ready 昇格（ユーザー確認）
+  → 実装
+  → close
+```
+
+| コマンド | 用途 |
+| --- | --- |
+| `/issue` | 新規・再開・着手の唯一の入口 |
+| `/grill-me` | 検討フェーズ（`/issue` からも呼ぶ） |
+| `/grill-with-docs` | ドメイン文書ありプロジェクト向け（明示時のみ） |
+| `/plan-export` | Cursor plan モード等の成果物を `~/.docs/plans/` へ退避 |
+| `/learn` | 知見抽出（必要なときに手動で呼ぶ） |
+| `handover` | セッション境界の引き継ぎ（本フローとは別） |
+
+issue の状態はディレクトリで管理する。
+
+| 状態 | パス | 意味 |
+| --- | --- | --- |
+| `draft` | `~/.docs/issues/draft/` | 検討中 |
+| `ready` | `~/.docs/issues/ready/` | 着手可能 |
+| `close` | `~/.docs/issues/close/` | 完了 |
+
 # 仕様
 
 ## 技術スタック
