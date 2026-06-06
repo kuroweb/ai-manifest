@@ -31,7 +31,7 @@ description: |
 
 - `YYYY-MM-DD_<agent>.md`
 - `<agent>` は `claude` `cursor` `codex`
-- 同名衝突時は `_2` `_3` を付ける
+- 同名ファイルが既にある場合は新規作成せず、既存ファイルを更新する
 
 ## frontmatter
 
