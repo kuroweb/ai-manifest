@@ -13,7 +13,7 @@ description: |
 - 入力元: `~/.docs/learn/daily-term/`
 - 出力先: `~/.docs/learn/short-term/`
 - archive: `~/.docs/learn/daily-term/archive/`
-- テンプレート SoT: `~/.docs/learn/templates/learn-short.md`
+- テンプレート SoT: `~/.docs/learn/templates/short-term.md`
 
 ## 入力条件
 
@@ -41,7 +41,7 @@ description: |
 
 ## テンプレート参照
 
-完全テンプレートは `~/.docs/learn/templates/learn-short.md` を参照する。
+完全テンプレートは `~/.docs/learn/templates/short-term.md` を参照する。
 `SKILL.md` にテンプレート全文を重複保持しない。
 
 ## 実行手順

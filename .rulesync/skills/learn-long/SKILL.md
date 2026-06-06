@@ -12,7 +12,7 @@ description: |
 
 - 入力元: `~/.docs/learn/short-term/`
 - 出力先: `~/.docs/learn/long-term/`
-- テンプレート SoT: `~/.docs/learn/templates/learn-long.md`
+- テンプレート SoT: `~/.docs/learn/templates/long-term.md`
 
 ## 入力条件
 
@@ -40,7 +40,7 @@ description: |
 
 ## テンプレート参照
 
-完全テンプレートは `~/.docs/learn/templates/learn-long.md` を参照する。
+完全テンプレートは `~/.docs/learn/templates/long-term.md` を参照する。
 `SKILL.md` にテンプレート全文を重複保持しない。
 
 ## 実行手順

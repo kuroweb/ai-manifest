@@ -14,7 +14,7 @@ description: |
 ## 保存先
 
 - 出力先: `~/.docs/learn/daily-term/`
-- テンプレート SoT: `~/.docs/learn/templates/learn-daily.md`
+- テンプレート SoT: `~/.docs/learn/templates/daily-term.md`
 
 ## 入力ソース
 
@@ -69,7 +69,7 @@ description: |
 
 ## テンプレート参照
 
-完全テンプレートは `~/.docs/learn/templates/learn-daily.md` を参照する。
+完全テンプレートは `~/.docs/learn/templates/daily-term.md` を参照する。
 `SKILL.md` にテンプレート全文を重複保持しない。
 
 ## 非責務

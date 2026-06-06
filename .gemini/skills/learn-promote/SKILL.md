@@ -15,7 +15,7 @@ description: >
 
 - 入力元: `~/.docs/learn/long-term/`
 - 出力先: `~/.docs/learn/promotions/`
-- テンプレート SoT: `~/.docs/learn/templates/learn-promote.md`
+- テンプレート SoT: `~/.docs/learn/templates/promotions.md`
 
 ## 入力条件
 
@@ -57,7 +57,7 @@ description: >
 
 ## テンプレート参照
 
-完全テンプレートは `~/.docs/learn/templates/learn-promote.md` を参照する。
+完全テンプレートは `~/.docs/learn/templates/promotions.md` を参照する。
 `SKILL.md` にテンプレート全文を重複保持しない。
 
 ## 実行手順
