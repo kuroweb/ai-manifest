@@ -2,7 +2,7 @@
 theme: <theme-slug>
 created_at: <YYYY-MM-DDTHH:MM:SS+09:00>
 source_daily_term:
-  - <YYYY-MM-DD_HHMM_agent.md>
+  - <YYYY-MM-DD_agent.md>
 ---
 
 # <theme-slug>

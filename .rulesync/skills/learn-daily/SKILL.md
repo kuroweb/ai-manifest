@@ -29,19 +29,20 @@ description: |
 
 ## ファイル名規則
 
-- `YYYY-MM-DD_HHMM_<agent>.md`
+- `YYYY-MM-DD_<agent>.md`
 - `<agent>` は `claude` `cursor` `codex`
 - 同名衝突時は `_2` `_3` を付ける
 
 ## frontmatter
 
-最低限、次を持たせる。
+最低限、次だけを持たせる。
 
 - `agent`
 - `created_at`
-- `source_session`
 
-`source_session` には会話の識別子だけを入れる。
+セッションの特定は frontmatter では行わない。ファイル名 `YYYY-MM-DD_<agent>.md` と `created_at` で足りる。
+issue slug や session ID など、自動取得できない識別子は入れない。
+会話ログへの逆引きが必要なら、incident の `根拠` に transcript パスやコマンド履歴を書く。
 
 ## 生成ルール
 

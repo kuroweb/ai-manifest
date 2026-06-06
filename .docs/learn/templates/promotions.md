@@ -1,6 +1,6 @@
 ---
 created_at: <YYYY-MM-DDTHH:MM:SS+09:00>
-source_long:
+source_long_term:
   - <theme-slug>.md
 ---
 

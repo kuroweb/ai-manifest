@@ -1,10 +1,9 @@
 ---
 agent: <claude|cursor|codex>
 created_at: <YYYY-MM-DDTHH:MM:SS+09:00>
-source_session: <session-id>
 ---
 
-# <YYYY-MM-DD_HHMM_<agent>>
+# <YYYY-MM-DD_<agent>>
 
 ## <incident-summary>
 

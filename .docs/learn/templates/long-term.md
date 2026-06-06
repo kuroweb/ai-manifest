@@ -1,7 +1,8 @@
 ---
 theme: <theme-slug>
 created_at: <YYYY-MM-DDTHH:MM:SS+09:00>
-source_short: <theme-slug>.md
+source_short_term:
+  - <theme-slug>.md
 ---
 
 # <theme-slug>
