@@ -8,7 +8,7 @@ description: >
 ---
 # Learn Daily
 
-`learn-daily` は、`Claude Code` `Cursor` `Codex` のセッションから観察結果を抽出し、`~/.docs/learn/daily-term/` に 1 セッション 1 ファイルで保存する。
+`learn-daily` は、`Claude Code` `Cursor` `Codex` のセッションから観察結果を抽出し、`~/.docs/learn/daily-term/` に日次原本として保存する。
 
 このスキルが扱う観察対象は、ユーザーの明示的な指摘と、エージェントの失敗・手戻りだけ。
 成功パターンの抽出は初期スコープに含めない。
@@ -16,7 +16,7 @@ description: >
 ## 保存先
 
 - 出力先: `~/.docs/learn/daily-term/`
-- テンプレート SoT: `~/.docs/learn/templates/daily-term.md`
+- テンプレート SoT: `assets/daily-term.md`
 
 ## 入力ソース
 
@@ -31,25 +31,23 @@ description: >
 
 ## ファイル名規則
 
-- `YYYY-MM-DD_<agent>.md`
-- `<agent>` は `claude` `cursor` `codex`
-- 同名ファイルが既にある場合は新規作成せず、既存ファイルを更新する
+- `YYYY-MM-DD.md`
+- 当日ファイルが既にある場合は新規作成せず、既存ファイルを更新する
 
 ## frontmatter
 
 最低限、次だけを持たせる。
 
-- `agent`
 - `created_at`
 
-セッションの特定は frontmatter では行わない。ファイル名 `YYYY-MM-DD_<agent>.md` と `created_at` で足りる。
+セッションや agent の特定は frontmatter では行わない。ファイル名 `YYYY-MM-DD.md` と `created_at` で足りる。
 issue slug や session ID など、自動取得できない識別子は入れない。
-会話ログへの逆引きが必要なら、incident の `根拠` に transcript パスやコマンド履歴を書く。
+会話ログや実行主体への逆引きが必要なら、incident の `根拠` に transcript パス、コマンド履歴、対象 agent 名を書く。
 
 ## 生成ルール
 
 1. 現在のセッションから、ユーザーの明示的な指摘とエージェントの失敗・手戻りを抽出する。
-2. 同一セッションの daily-term 原本がすでに存在するか確認する。
+2. 当日の daily-term 原本がすでに存在するか確認する。
 3. 存在しない場合は新規作成する。
 4. 存在する場合は必ず既存ファイルを読んでから更新する。
 5. 更新時は incident の追加と既存 incident の修正を許可する。
@@ -72,7 +70,7 @@ issue slug や session ID など、自動取得できない識別子は入れな
 
 ## テンプレート参照
 
-完全テンプレートは `~/.docs/learn/templates/daily-term.md` を参照する。
+完全テンプレートは `assets/daily-term.md` を参照する。
 `SKILL.md` にテンプレート全文を重複保持しない。
 
 ## 非責務
@@ -82,4 +80,4 @@ issue slug や session ID など、自動取得できない識別子は入れな
 - `long-term` への抽象化
 - `rules` / `skill` への昇格判断
 
-これらはそれぞれ `learn-short` `learn-long` `learn-promote` の責務。
+これらは `learn-long` と `learn-promote` の責務。

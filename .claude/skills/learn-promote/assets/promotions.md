@@ -28,4 +28,4 @@ source_long_term:
 
 ### <theme-slug>
 
-- **理由:** <今回は昇格しない理由>
+- **理由:** <pain_count が 3 未満など、今回は昇格しない理由>

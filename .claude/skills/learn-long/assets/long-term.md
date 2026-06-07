@@ -1,8 +1,9 @@
 ---
 theme: <theme-slug>
 created_at: <YYYY-MM-DDTHH:MM:SS+09:00>
-source_short_term:
-  - <theme-slug>.md
+source_daily_term:
+  - <YYYY-MM-DD.md>
+pain_count: <number>
 ---
 
 # <theme-slug>
@@ -11,9 +12,9 @@ source_short_term:
 
 <再利用できる形に抽象化した知見>
 
-## 根拠となる short-term
+## 根拠となる daily-term
 
-- [<theme-slug>.md](<path-or-name>)
+- [<daily-term-file>](<path-or-name>)
 
 ## 適用条件
 
@@ -24,3 +25,7 @@ source_short_term:
 - **rules:** <候補の有無>
 - **skill:** <候補の有無>
 - **理由:** <判断理由>
+
+## pain log
+
+- <YYYY-MM-DD>: <再発内容>

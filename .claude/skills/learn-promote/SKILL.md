@@ -15,20 +15,17 @@ description: >
 
 - 入力元: `~/.docs/learn/long-term/`
 - 出力先: `~/.docs/learn/promotions/`
-- テンプレート SoT: `~/.docs/learn/templates/promotions.md`
+- テンプレート SoT: `assets/promotions.md`
 
 ## 入力条件
 
 - 入力元は `long-term` だけに限定する。
-- `short-term` を直接読んで昇格判断しない。
 - テーマごとの `long-term/<theme-slug>.md` を読む。
+- `pain_count >= 3` を満たしたテーマだけを昇格候補として扱う。
 
-## 初期昇格基準
+## 昇格基準
 
-次のいずれかを満たしたときだけ、昇格候補として扱う。
-
-- `ユーザーの明示指摘が3回以上`
-- `long-term で同種テーマが3回以上強化された`
+- `pain_count >= 3`
 
 基準を満たさないものは `見送り` として扱う。
 
@@ -57,13 +54,13 @@ description: >
 
 ## テンプレート参照
 
-完全テンプレートは `~/.docs/learn/templates/promotions.md` を参照する。
+完全テンプレートは `assets/promotions.md` を参照する。
 `SKILL.md` にテンプレート全文を重複保持しない。
 
 ## 実行手順
 
 1. 対象の `long-term` ファイルを読む。
-2. 昇格基準を満たすか確認する。
+2. `pain_count` を確認し、`>= 3` のものだけを候補として扱う。
 3. `rules` 候補と `skill` 候補を整理する。
 4. 見送りも含めて `promotions/` に Markdown レポートを出力する。
 5. 出力後は、人が確認する前提で候補扱いに留める。
@@ -71,9 +68,8 @@ description: >
 ## 非責務
 
 - `daily-term` の生成
-- `short-term` のテーマ整理
-- `long-term` への抽象化
+- `long-term` の抽象化
 - `promotions/archive/` への移動
 - `rules` / `skill` 正本の自動更新
 
-これらはそれぞれ `learn-daily` `learn-short` `learn-long` または別運用の責務。
+これらはそれぞれ `learn-daily` `learn-long` または別運用の責務。
