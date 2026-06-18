@@ -1,0 +1,53 @@
+language: ja
+provider: claude
+model: sonnet
+concurrency: 1
+base_branch: main
+
+persona_providers:
+  planner:
+    provider: claude
+    model: sonnet
+  architect-planner:
+    provider: claude
+    model: sonnet
+  test-planner:
+    provider: claude
+    model: sonnet
+  coder:
+    provider: claude
+    model: sonnet
+  ai-antipattern-reviewer:
+    provider: claude
+    model: sonnet
+  architecture-reviewer:
+    provider: claude
+    model: sonnet
+  frontend-reviewer:
+    provider: claude
+    model: sonnet
+  security-reviewer:
+    provider: claude
+    model: sonnet
+  qa-reviewer:
+    provider: claude
+    model: sonnet
+  requirements-reviewer:
+    provider: claude
+    model: sonnet
+  testing-reviewer:
+    provider: claude
+    model: sonnet
+  supervisor:
+    provider: claude
+    model: sonnet
+  dual-supervisor:
+    provider: claude
+    model: sonnet
+  pr-commenter:
+    provider: claude
+    model: sonnet
+
+provider_options:
+  claude:
+    effort: medium

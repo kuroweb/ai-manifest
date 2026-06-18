@@ -1,0 +1,53 @@
+language: ja
+provider: codex
+model: gpt-5.4
+concurrency: 1
+base_branch: main
+
+persona_providers:
+  planner:
+    provider: codex
+    model: gpt-5.4
+  architect-planner:
+    provider: codex
+    model: gpt-5.4
+  test-planner:
+    provider: codex
+    model: gpt-5.4
+  coder:
+    provider: codex
+    model: gpt-5.4
+  ai-antipattern-reviewer:
+    provider: codex
+    model: gpt-5.4
+  architecture-reviewer:
+    provider: codex
+    model: gpt-5.4
+  frontend-reviewer:
+    provider: codex
+    model: gpt-5.4
+  security-reviewer:
+    provider: codex
+    model: gpt-5.4
+  qa-reviewer:
+    provider: codex
+    model: gpt-5.4
+  requirements-reviewer:
+    provider: codex
+    model: gpt-5.4
+  testing-reviewer:
+    provider: codex
+    model: gpt-5.4
+  supervisor:
+    provider: codex
+    model: gpt-5.4
+  dual-supervisor:
+    provider: codex
+    model: gpt-5.4
+  pr-commenter:
+    provider: codex
+    model: gpt-5.4
+
+provider_options:
+  codex:
+    reasoning_effort: medium

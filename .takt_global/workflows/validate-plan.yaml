@@ -1,0 +1,24 @@
+name: validate-plan
+description: grill-me で確定した plan.md の妥当性を検証し、plan-validation.md で報告する。
+max_steps: 5
+initial_step: validate-plan
+instructions:
+  validate-plan: ../facets/instructions/validate-plan.md
+report_formats:
+  plan-validation: ../facets/output-contracts/plan-validation.md
+steps:
+  - name: validate-plan
+    edit: false
+    persona: planner
+    knowledge:
+      - architecture
+    instruction: validate-plan
+    output_contracts:
+      report:
+        - name: plan-validation.md
+          format: plan-validation
+    rules:
+      - condition: 検証完了
+        next: COMPLETE
+      - condition: 検証不能（plan.md欠落または参照不能）
+        next: ABORT

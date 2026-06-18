@@ -234,11 +234,12 @@ link_file ".gemini" "settings.json"
 link_root_file ".gemini" "GEMINI.md"
 echo ""
 
-# ~/.takt/config.yaml ← リポの .takt_global/config.yaml（GlobalConfig 正本）
+# ~/.takt にシンボリックリンクを作成（グローバル正本のみ。repertoire 等のランタイムデータは ~/.takt 直下に残す）
 echo "Setting up .takt..."
 mkdir -p "$HOME/.takt"
 ln -sfn "$REPO_ROOT/.takt_global/config.yaml" "$HOME/.takt/config.yaml"
-echo "Linked $HOME/.takt/config.yaml -> $REPO_ROOT/.takt_global/config.yaml"
+ln -sfn "$REPO_ROOT/.takt_global/workflows" "$HOME/.takt/workflows"
+ln -sfn "$REPO_ROOT/.takt_global/facets" "$HOME/.takt/facets"
 echo ""
 
 # ~/.docs にシンボリックリンクを作成

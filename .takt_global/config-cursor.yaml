@@ -1,4 +1,3 @@
-# TAKT グローバル設定（scripts/install.sh で ~/.takt/config.yaml にリンク）
 language: ja
 provider: cursor
 model: composer-2-fast
