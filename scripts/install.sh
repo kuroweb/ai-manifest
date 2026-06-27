@@ -224,16 +224,6 @@ link_entries ".codex" "skills"
 link_root_file ".codex" "AGENTS.md"
 echo ""
 
-# ~/.gemini にシンボリックリンクを作成
-echo "Setting up .gemini..."
-mkdir -p "$HOME/.gemini"
-link_entries ".gemini" "memories"
-link_entries ".gemini" "skills"
-link_directory ".gemini" "policies"
-link_file ".gemini" "settings.json"
-link_root_file ".gemini" "GEMINI.md"
-echo ""
-
 # ~/.takt にシンボリックリンクを作成（グローバル正本のみ。repertoire 等のランタイムデータは ~/.takt 直下に残す）
 echo "Setting up .takt..."
 mkdir -p "$HOME/.takt"

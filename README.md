@@ -1,6 +1,6 @@
 # ai-manifest
 
-- Cursor / Claude Code / Codex / Gemini CLI 向け設定の一元管理リポジトリ。
+- Cursor / Claude Code / Codex 向け設定の一元管理リポジトリ。
 - `.rulesync/` を正本として設定を生成し、`scripts/install.sh` でホーム配下へ反映する。
 
 # クイックスタート
@@ -49,7 +49,7 @@
 - 7: セットアップ後の確認
 
   ```bash
-  ls -la ~/.cursor ~/.claude ~/.codex ~/.gemini
+  ls -la ~/.cursor ~/.claude ~/.codex
   ls -la ~/.config/ai-manifest/.env
   ```
 
@@ -92,7 +92,7 @@ issue の状態はディレクトリで管理する。
 | --- | --- |
 | OS | macOS / Linux |
 | 必須 CLI | `rulesync` |
-| 対象エージェント | Cursor / Claude Code / Codex / Gemini CLI |
+| 対象エージェント | Cursor / Claude Code / Codex |
 | 主な生成コマンド | `rulesync generate` |
 | 主な反映コマンド | `bash scripts/install.sh` |
 
@@ -103,12 +103,12 @@ issue の状態はディレクトリで管理する。
 
 ### 共通管理するもの
 
-| 管理ファイル | Cursor | Claude Code | Codex | Gemini CLI |
-| --- | --- | --- | --- | --- |
-| `.rulesync/rules/global-policy.md` | `.cursor/rules/global-policy.mdc` | `CLAUDE.md` | `AGENTS.md` | `GEMINI.md` |
-| `.rulesync/rules/` | `.cursor/rules` | `.claude/rules` | `.codex/memories` | `.gemini/memories` |
-| `.rulesync/skills/` | `.cursor/skills` | `.claude/skills` | `.codex/skills` | `.gemini/skills` |
-| `.rulesync/subagents/` | `.cursor/agents` | `.claude/agents` | `.codex/agents` | `.gemini/agents` |
+| 管理ファイル | Cursor | Claude Code | Codex |
+| --- | --- | --- | --- |
+| `.rulesync/rules/global-policy.md` | `.cursor/rules/global-policy.mdc` | `CLAUDE.md` | `AGENTS.md` |
+| `.rulesync/rules/` | `.cursor/rules` | `.claude/rules` | `.codex/memories` |
+| `.rulesync/skills/` | `.cursor/skills` | `.claude/skills` | `.codex/skills` |
+| `.rulesync/subagents/` | `.cursor/agents` | `.claude/agents` | `.codex/agents` |
 
 ### 正本の扱い
 
@@ -134,7 +134,6 @@ issue の状態はディレクトリで管理する。
 | Cursor | `.cursor/mcp.json`<br>`.cursor/hooks.json`<br>`.cursor/rules`<br>`.cursor/skills`<br>`.cursor/agents`<br>`.cursor/scripts`<br>`.cursor/hooks` |
 | Claude Code | `.claude/CLAUDE.md`<br>`.claude/settings.json`<br>`.claude/rules`<br>`.claude/skills`<br>`.claude/agents`<br>`.claude/scripts` |
 | Codex | `.codex/AGENTS.md`<br>`.codex/memories`<br>`.codex/skills`<br>`.codex/agents` |
-| Gemini CLI | `.gemini/GEMINI.md`<br>`.gemini/settings.json`<br>`.gemini/memories`<br>`.gemini/skills`<br>`.gemini/policies` |
 | TAKT | `.takt/config.yaml` |
 | User Tools | `.docs` |
 | App Config | `.env` -> `~/.config/ai-manifest/.env` |
@@ -183,7 +182,7 @@ issue の状態はディレクトリで管理する。
 
 ```bash
 rulesync generate
-git diff -- README.md .cursor .claude .codex .gemini .rulesync
+git diff -- README.md .cursor .claude .codex .rulesync
 ```
 
 - 生成先との差分が意図どおりか確認する。

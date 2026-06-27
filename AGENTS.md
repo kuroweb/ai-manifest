@@ -15,7 +15,7 @@ rules[5]:
     applyTo[1]: **/*
   - path: @.codex/memories/rulesync-source-of-truth.md
     description: .rulesync があるリポジトリで .rulesync を正本として扱う
-    applyTo[8]: .rulesync/**,.claude/**,.cursor/**,.codex/**,.gemini/**,AGENTS.md,CLAUDE.md,GEMINI.md
+    applyTo[6]: .rulesync/**,.claude/**,.cursor/**,.codex/**,AGENTS.md,CLAUDE.md
 
 # Global Policy
 

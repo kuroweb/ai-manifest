@@ -29,6 +29,5 @@
     "type": "command",
     "command": "~/.claude/scripts/statusline.sh"
   },
-  "model": "opus-4.6",
   "effortLevel": "medium"
 }
