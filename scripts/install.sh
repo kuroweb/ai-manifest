@@ -220,8 +220,13 @@ echo "Setting up .codex..."
 mkdir -p "$HOME/.codex"
 link_entries ".codex" "agents"
 link_entries ".codex" "memories"
-link_entries ".codex" "skills"
 link_root_file ".codex" "AGENTS.md"
+echo ""
+
+# ~/.agents にシンボリックリンクを作成（Codex CLI の skills 生成先）
+echo "Setting up .agents..."
+mkdir -p "$HOME/.agents"
+link_entries ".agents" "skills"
 echo ""
 
 # ~/.takt にシンボリックリンクを作成（グローバル正本のみ。repertoire 等のランタイムデータは ~/.takt 直下に残す）
