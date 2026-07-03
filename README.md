@@ -18,19 +18,13 @@
   cd ai-manifest
   ```
 
-- 3: サブモジュール取得
-
-  ```bash
-  git submodule update --init --recursive
-  ```
-
-- 4: 各エージェント向けにファイル生成
+- 3: 各エージェント向けにファイル生成
 
   ```bash
   rulesync generate
   ```
 
-- 5: ローカル用ファイルを作成
+- 4: ローカル用ファイルを作成
 
   ```bash
   cp -n .env.example .env
@@ -38,7 +32,7 @@
   cp -n .cursor/hooks.json.example .cursor/hooks.json
   ```
 
-- 6: ホーム配下に symlink を作成して反映
+- 5: ホーム配下に symlink を作成して反映
 
   ```bash
   bash scripts/install.sh
@@ -46,7 +40,7 @@
 
   > 既存の `~/.cursor` などがある場合は、自動的に `scripts/backup/<timestamp>/` に退避してからリンクを張り替える。
 
-- 7: セットアップ後の確認
+- 6: セットアップ後の確認
 
   ```bash
   ls -la ~/.cursor ~/.claude ~/.codex
