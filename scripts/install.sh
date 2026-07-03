@@ -191,7 +191,7 @@ link_entries() {
   done
 }
 
-# ~/.claude -> ./config/claude
+# ~/.claude -> ./config/.claude
 echo "Setting up .claude..."
 mkdir -p "$HOME/.claude"
 link_entries ".claude" "agents"
@@ -201,7 +201,7 @@ link_file ".claude" "settings.json"
 link_root_file ".claude" "CLAUDE.md"
 echo ""
 
-# ~/.cursor -> ./config/cursor
+# ~/.cursor -> ./config/.cursor
 echo "Setting up .cursor..."
 mkdir -p "$HOME/.cursor"
 link_entries ".cursor" "agents"
@@ -212,14 +212,14 @@ link_file ".cursor" "mcp.json"
 link_file ".cursor" "hooks.json"
 echo ""
 
-# ~/.codex -> ./config/codex
+# ~/.codex -> ./config/.codex
 echo "Setting up .codex..."
 mkdir -p "$HOME/.codex"
 link_entries ".codex" "agents"
 link_root_file ".codex" "AGENTS.md"
 echo ""
 
-# ~/.takt -> ./config/takt
+# ~/.takt -> ./config/.takt
 echo "Setting up .takt..."
 mkdir -p "$HOME/.takt"
 ln -sfn "$CONFIG_ROOT/.takt/config.yaml" "$HOME/.takt/config.yaml"
@@ -227,7 +227,7 @@ ln -sfn "$CONFIG_ROOT/.takt/workflows" "$HOME/.takt/workflows"
 ln -sfn "$CONFIG_ROOT/.takt/facets" "$HOME/.takt/facets"
 echo ""
 
-# ~/.docs -> ./config/docs
+# ~/.docs -> ./config/.docs
 echo "Setting up .docs..."
 mkdir -p "$CONFIG_ROOT/.docs"
 ln -sfn "$CONFIG_ROOT/.docs" "$HOME/.docs"

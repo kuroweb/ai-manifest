@@ -14,5 +14,9 @@
 !.docs/plans/.keep
 .docs/pm-exec/*
 !.docs/pm-exec/.keep
-.docs/learned/*
-!.docs/learned/.keep
+.docs/learn/daily-term/*
+!.docs/learn/daily-term/archive/.keep
+.docs/learn/long-term/*
+!.docs/learn/long-term/archive/.keep
+.docs/learn/promotions/*
+!.docs/learn/promotions/archive/.keep
