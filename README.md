@@ -5,97 +5,97 @@ Cursor / Claude Code / Codex 向けのルール・サブエージェント・ス
 - エージェント設定の正本は `config/`。`config/.rulesync/` から生成し、`scripts/install.sh` でホーム配下へ symlink 反映する。
 - スキルの正本は `skills/`。`gh skill install` で各エージェントへコピーする。
 
+## 目次
+
+- [リポジトリ構成](#リポジトリ構成)
+- [クイックスタート](#クイックスタート)
+- [仕様](#仕様)
+- [運用](#運用)
+
 ## リポジトリ構成
 
 ```
 ai-manifest/
 ├── README.md
 ├── scripts/install.sh   # config/ → ホーム配下への symlink 反映
-├── skills/              # スキル正本
+├── skills/              # スキル正本。ここだけ編集する
 └── config/              # エージェント設定正本
-    ├── .rulesync/       # ルール・サブエージェント正本（Single Source of Truth）
-    ├── .cursor/
-    ├── .claude/
-    ├── .codex/
+    ├── .rulesync/       # ルール・サブエージェント正本。ここだけ編集する
+    ├── .cursor/         # rulesync generate の生成先。直接編集しない
+    ├── .claude/         # rulesync generate の生成先。直接編集しない
+    ├── .codex/          # rulesync generate の生成先。直接編集しない
     ├── .docs/           # issue / handover / learn など運用データ
     ├── .takt/
     ├── .env             # ローカル用（git 管理外）
     ├── rulesync.jsonc
-    ├── CLAUDE.md        # rulesync 生成物
-    └── AGENTS.md        # rulesync 生成物
+    ├── CLAUDE.md        # rulesync 生成物。直接編集しない
+    └── AGENTS.md        # rulesync 生成物。直接編集しない
 ```
-
-| パス | 役割 |
-| --- | --- |
-| `config/.rulesync/` | ルール・サブエージェントの正本。ここだけ編集する |
-| `config/.cursor/` など | `rulesync generate` の生成先。直接編集しない |
-| `skills/` | スキルの正本 |
-| `scripts/install.sh` | `config/` を `~/.cursor` などへ symlink する |
 
 `install.sh` 実行後、`~/.docs` は `config/.docs` を指す。issue や handover の実行時パスは `~/.docs/...` で記述する。
 
 ## クイックスタート
 
-### 1. 依存パッケージをインストール
+1. **依存パッケージをインストール**
 
-```bash
-brew install rulesync gh
-```
+   ```bash
+   brew install rulesync gh
+   ```
 
-### 2. リポジトリをクローン
+2. **リポジトリをクローン**
 
-```bash
-git clone <repository-url>
-cd ai-manifest
-```
+   ```bash
+   git clone <repository-url>
+   cd ai-manifest
+   ```
 
-### 3. ルール・サブエージェント生成
+3. **ルール・サブエージェント生成**
 
-```bash
-cd config
-rulesync generate
-```
+   ```bash
+   cd config
+   rulesync generate
+   ```
 
-### 4. ローカル用ファイル
+4. **ローカル用ファイル**
 
-```bash
-cp -n config/.env.example config/.env
-cp -n config/.cursor/mcp.json.example config/.cursor/mcp.json
-cp -n config/.cursor/hooks.json.example config/.cursor/hooks.json
-```
+   ```bash
+   cp -n config/.env.example config/.env
+   cp -n config/.cursor/mcp.json.example config/.cursor/mcp.json
+   cp -n config/.cursor/hooks.json.example config/.cursor/hooks.json
+   ```
 
-### 5. スキルインストール
+5. **スキルインストール**
 
-利用するエージェントごとに `--scope user` で実行する。
+   利用するエージェントごとに `--scope user` で実行する。
 
-```bash
-gh skill install . --from-local --all --scope user --agent cursor
-gh skill install . --from-local --all --scope user --agent claude-code
-gh skill install . --from-local --all --scope user --agent codex
-```
+   ```bash
+   gh skill install . --from-local --all --scope user --agent cursor
+   gh skill install . --from-local --all --scope user --agent claude-code
+   gh skill install . --from-local --all --scope user --agent codex
+   ```
 
-リモートから取得する場合:
+   リモートから取得する場合:
 
-```bash
-gh skill install kuroweb/ai-manifest --all --scope user --agent claude-code
-```
+   ```bash
+   gh skill install kuroweb/ai-manifest --all --scope user --agent claude-code
+   ```
 
-### 6. ホーム配下へ反映
+6. **ホーム配下へ反映**
 
-```bash
-bash scripts/install.sh
-```
+   ```bash
+   bash scripts/install.sh
+   ```
 
-- 既存の `~/.cursor` などがある場合は、`scripts/backup/<timestamp>/` に退避してからリンクを張り替える。
-- 手動コピペが必要な設定（permissions / mcpServers）は「install.sh だけでは反映できない設定」を参照。
+   - 既存の `~/.cursor` などがある場合は、`scripts/backup/<timestamp>/` に退避してからリンクを張り替える。
+   - 手動コピペが必要な設定（permissions / mcpServers）は [install.sh だけでは反映できない設定](#installsh-だけでは反映できない設定) を参照。
 
-### 7. 確認
+7. **確認**
 
-```bash
-ls -la ~/.cursor ~/.claude ~/.codex
-ls -la ~/.config/ai-manifest/.env
-gh skill list
-```
+   ```bash
+   ls -la ~/.cursor ~/.claude ~/.codex
+   ls -la ~/.config/ai-manifest/.env
+   gh skill list
+   ```
 
 ## 仕様
 
@@ -144,12 +144,12 @@ gh skill update --all
 
 - symlink 管理に向かない設定は手動コピペで取り込む。
 
-**Cursor CLI permissions:**
+#### Cursor CLI permissions
 
 - `config/.cursor/cli-config.permissions.json` → `~/.cursor/cli-config.json`
 - `~/.cursor/cli-config.json` は symlink 管理しない
 
-**Claude Code mcpServers:**
+#### Claude Code mcpServers
 
 - `config/.claude/.claude.mcp.json` → `~/.claude.json`
 - `~/.claude.json` は Claude Code が直接更新するため symlink 管理しない
@@ -178,7 +178,8 @@ gh skill update --all
   | ルール・サブエージェント | `config/.rulesync/` を編集 → `cd config && rulesync generate` |
   | スキル | `skills/` を編集 → `gh skill install . --from-local --all --scope user --agent <agent> -f` |
   | permissions / mcpServers | `config/` 内の対応ファイルを編集 → 手動コピペでホーム側へ反映 |
-  | symlink 対象 | 上記生成後 → `bash scripts/install.sh` |
+
+- `bash scripts/install.sh` の再実行が必要なのは初回セットアップ時、または `config/` 配下に新しい管理対象パスを追加したときのみ。既存の symlink はファイル内容の変更を自動的に反映するため、ルール編集のたびに実行する必要はない。
 
 - 生成と差分確認
 
