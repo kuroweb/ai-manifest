@@ -6,7 +6,6 @@
   ],
   "features": [
     "rules",
-    "skills",
     "subagents",
     "ignore"
   ],
