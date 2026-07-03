@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# リポジトリルート（.claude, .cursor 等のソースがあるディレクトリ）
-REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+CONFIG_ROOT="$(cd "$(dirname "$0")/../config" && pwd)"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 BACKUP_BASE="$SCRIPT_DIR/backup/$(date +%Y%m%d%H%M%S)"
 
@@ -32,7 +31,7 @@ backup_path() {
 link_file() {
   local target_dir="$1"
   local name="$2"
-  local src="$REPO_ROOT/$target_dir/$name"
+  local src="$CONFIG_ROOT/$target_dir/$name"
   local dest="$HOME/$target_dir/$name"
   local backup_dir="$BACKUP_BASE/$target_dir"
 
@@ -59,7 +58,7 @@ link_file() {
 link_root_file() {
   local target_dir="$1"
   local name="$2"
-  local src="$REPO_ROOT/$name"
+  local src="$CONFIG_ROOT/$name"
   local dest="$HOME/$target_dir/$name"
   local backup_dir="$BACKUP_BASE/$target_dir"
 
@@ -86,7 +85,7 @@ link_root_file() {
 link_directory() {
   local target_dir="$1"
   local name="$2"
-  local src="$REPO_ROOT/$target_dir/$name"
+  local src="$CONFIG_ROOT/$target_dir/$name"
   local dest="$HOME/$target_dir/$name"
   local backup_dir="$BACKUP_BASE/$target_dir"
 
@@ -116,7 +115,7 @@ ensure_directory() {
   local label="$3"
 
   if [ -L "$dir" ]; then
-    if [[ "$(readlink "$dir")" == "$REPO_ROOT/"* ]]; then
+    if [[ "$(readlink "$dir")" == "$CONFIG_ROOT/"* ]]; then
       echo "Replacing repo-managed symlink with directory: $dir"
       rm "$dir"
     else
@@ -134,7 +133,7 @@ ensure_directory() {
 link_entries() {
   local tool_dir="$1"
   local entry_name="$2"
-  local repo_entry_dir="$REPO_ROOT/$tool_dir/$entry_name"
+  local repo_entry_dir="$CONFIG_ROOT/$tool_dir/$entry_name"
   local home_tool_dir="$HOME/$tool_dir"
   local home_entry_dir="$home_tool_dir/$entry_name"
   local backup_dir="$BACKUP_BASE/$tool_dir"
@@ -192,7 +191,7 @@ link_entries() {
   done
 }
 
-# ~/.claude にシンボリックリンクを作成
+# ~/.claude -> ./config/claude
 echo "Setting up .claude..."
 mkdir -p "$HOME/.claude"
 link_entries ".claude" "agents"
@@ -202,7 +201,7 @@ link_file ".claude" "settings.json"
 link_root_file ".claude" "CLAUDE.md"
 echo ""
 
-# ~/.cursor にシンボリックリンクを作成
+# ~/.cursor -> ./config/cursor
 echo "Setting up .cursor..."
 mkdir -p "$HOME/.cursor"
 link_entries ".cursor" "agents"
@@ -213,30 +212,29 @@ link_file ".cursor" "mcp.json"
 link_file ".cursor" "hooks.json"
 echo ""
 
-# ~/.codex にシンボリックリンクを作成
+# ~/.codex -> ./config/codex
 echo "Setting up .codex..."
 mkdir -p "$HOME/.codex"
 link_entries ".codex" "agents"
-link_entries ".codex" "memories"
 link_root_file ".codex" "AGENTS.md"
 echo ""
 
-# ~/.takt にシンボリックリンクを作成（グローバル正本のみ。repertoire 等のランタイムデータは ~/.takt 直下に残す）
+# ~/.takt -> ./config/takt
 echo "Setting up .takt..."
 mkdir -p "$HOME/.takt"
-ln -sfn "$REPO_ROOT/.takt_global/config.yaml" "$HOME/.takt/config.yaml"
-ln -sfn "$REPO_ROOT/.takt_global/workflows" "$HOME/.takt/workflows"
-ln -sfn "$REPO_ROOT/.takt_global/facets" "$HOME/.takt/facets"
+ln -sfn "$CONFIG_ROOT/.takt/config.yaml" "$HOME/.takt/config.yaml"
+ln -sfn "$CONFIG_ROOT/.takt/workflows" "$HOME/.takt/workflows"
+ln -sfn "$CONFIG_ROOT/.takt/facets" "$HOME/.takt/facets"
 echo ""
 
-# ~/.docs にシンボリックリンクを作成
+# ~/.docs -> ./config/docs
 echo "Setting up .docs..."
-mkdir -p "$REPO_ROOT/.docs"
-ln -sfn "$REPO_ROOT/.docs" "$HOME/.docs"
+mkdir -p "$CONFIG_ROOT/.docs"
+ln -sfn "$CONFIG_ROOT/.docs" "$HOME/.docs"
 echo ""
 
 # ~/.config/ai-manifest/.env にシンボリックリンクを作成
 echo "Setting up .config/ai-manifest/.env..."
 mkdir -p "$HOME/.config/ai-manifest"
-ln -sfn "$REPO_ROOT/.env" "$HOME/.config/ai-manifest/.env"
+ln -sfn "$CONFIG_ROOT/.env" "$HOME/.config/ai-manifest/.env"
 echo ""

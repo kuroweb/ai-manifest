@@ -1,38 +1,10 @@
-# env
-.env
-
-# .claude
-.claude/settings.local.json
-
-# .cursor
-.cursor/mcp.json
-.cursor/hooks.json
-
-# .codex
-.codex/skills/.system/
+# others
+.DS_Store
 
 # scripts
 scripts/backup/
 
-# .docs/handovers
-.docs/handovers/*
-!.docs/handovers/.keep
-
-# .docs/issues
-.docs/issues/draft/*
-!.docs/issues/draft/.keep
-
-# .docs/plans
-.docs/plans/*
-!.docs/plans/.keep
-
-# .docs/pm-exec
-.docs/pm-exec/*
-!.docs/pm-exec/.keep
-
-# .docs/learned
-.docs/learned/*
-!.docs/learned/.keep
-
-# others
-.DS_Store
+# agent skills
+.claude/skills
+.cursor/skills
+.agents/skills
