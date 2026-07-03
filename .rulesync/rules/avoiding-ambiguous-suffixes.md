@@ -36,21 +36,27 @@ globs: ["**/*"]
 ## 責務別 命名パターン
 
 ### データ保持・管理
+
 `*Registry`, `*Catalog`, `*Index`, `*Table`, `*Store`
 
 ### 選択・分岐・方針
+
 `*Policy`, `*Selector`, `*Router`
 
 ### 仲介・調停・制御
+
 `*Coordinator`, `*Dispatcher`, `*Controller`
 
 ### 生成・構築
+
 `*Factory`, `*Builder`
 
 ### 変換・適合
+
 `*Adapter`, `*Bridge`, `*Mapper`
 
 ### 実行・評価
+
 `*Executor`, `*Scheduler`, `*Evaluator`
 
 ## 例外ルール

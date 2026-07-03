@@ -1,14 +1,15 @@
 # ai-manifest
 
 - Cursor / Claude Code / Codex 向け設定の一元管理リポジトリ。
-- `.rulesync/` を正本として設定を生成し、`scripts/install.sh` でホーム配下へ反映する。
+- `.rulesync/` を正本としてルール・サブエージェントを生成し、`scripts/install.sh` でホーム配下へ反映する。
+- スキルは `skills/` を正本とし、`gh skill install` で各エージェントへ反映する。
 
 # クイックスタート
 
 - 1: 依存パッケージインストール
 
   ```bash
-  brew install rulesync
+  brew install rulesync gh
   ```
 
 - 2: リポジトリ配置
@@ -32,7 +33,23 @@
   cp -n .cursor/hooks.json.example .cursor/hooks.json
   ```
 
-- 5: ホーム配下に symlink を作成して反映
+- 5: スキルをインストール
+
+  利用するエージェントごとに実行する。`--scope user` でホーム配下に配置し、`install.sh` と同じスコープに揃える。
+
+  ```bash
+  gh skill install . --from-local --all --scope user --agent cursor
+  gh skill install . --from-local --all --scope user --agent claude-code
+  gh skill install . --from-local --all --scope user --agent codex
+  ```
+
+  リモートから取得する場合:
+
+  ```bash
+  gh skill install kuroweb/ai-manifest --all --scope user --agent claude-code
+  ```
+
+- 6: ホーム配下に symlink を作成して反映
 
   ```bash
   bash scripts/install.sh
@@ -40,11 +57,12 @@
 
   > 既存の `~/.cursor` などがある場合は、自動的に `scripts/backup/<timestamp>/` に退避してからリンクを張り替える。
 
-- 6: セットアップ後の確認
+- 7: セットアップ後の確認
 
   ```bash
   ls -la ~/.cursor ~/.claude ~/.codex
   ls -la ~/.config/ai-manifest/.env
+  gh skill list
   ```
 
 # 日次ワークフロー
@@ -85,15 +103,16 @@ issue の状態はディレクトリで管理する。
 | 項目 | 内容 |
 | --- | --- |
 | OS | macOS / Linux |
-| 必須 CLI | `rulesync` |
+| 必須 CLI | `rulesync`, `gh` |
 | 対象エージェント | Cursor / Claude Code / Codex |
 | 主な生成コマンド | `rulesync generate` |
-| 主な反映コマンド | `bash scripts/install.sh` |
+| 主な反映コマンド | `bash scripts/install.sh`, `gh skill install` |
 
 ## rulesyncでの構成管理
 
-- `.rulesync/` を正本として、各ツール向けのルール・スキル・サブエージェントを生成する。
+- `.rulesync/` を正本として、各ツール向けのルール・サブエージェントを生成する。
 - 生成先ファイルは `rulesync generate` で上書きされる前提とする。
+- スキルは rulesync の管理対象外。正本は `skills/` とする。
 
 ### 共通管理するもの
 
@@ -101,12 +120,12 @@ issue の状態はディレクトリで管理する。
 | --- | --- | --- | --- |
 | `.rulesync/rules/global-policy.md` | `.cursor/rules/global-policy.mdc` | `CLAUDE.md` | `AGENTS.md` |
 | `.rulesync/rules/` | `.cursor/rules` | `.claude/rules` | `.codex/memories` |
-| `.rulesync/skills/` | `.cursor/skills` | `.claude/skills` | `.codex/skills` |
 | `.rulesync/subagents/` | `.cursor/agents` | `.claude/agents` | `.codex/agents` |
 
 ### 正本の扱い
 
-- `.rulesync/` が Single Source of Truth。
+- `.rulesync/` が Single Source of Truth（ルール・サブエージェント）。
+- `skills/` が Single Source of Truth（スキル）。
 - `.rulesync/` と生成先が矛盾する場合は `.rulesync/` を正とする。
 - 生成先は手編集の保存場所ではなく、生成結果として扱う。
 
@@ -116,18 +135,38 @@ issue の状態はディレクトリで管理する。
 - 生成を伴わずに生成先だけを整合調整しない。
 - 意図が不明な大量再生成をしない。
 
+## gh skill install によるスキル反映
+
+- `skills/*/SKILL.md` 形式でスキルを管理する（[Agent Skills specification](https://agentskills.io/specification)）。
+- `gh skill install` で各エージェントのスキルディレクトリへコピーする（symlink ではない）。
+- 更新は `gh skill update --all` または `--from-local` で再インストールする。
+
+### よく使うコマンド
+
+```bash
+# ローカル変更を反映（開発中）
+gh skill install . --from-local --all --scope user --agent claude-code -f
+
+# インストール済みスキル一覧
+gh skill list
+
+# リモート更新を取り込む
+gh skill update --all
+```
+
 ## install.sh によるホーム配下への反映
 
 - `bash scripts/install.sh` で、リポジトリ内の管理対象をホーム配下へ symlink で反映する。
 - 各エージェントがユーザースコープでそのまま利用できる状態を作る。
+- スキルは `install.sh` の対象外。`gh skill install` で別途反映する。
 
 ### symlink を張る対象
 
 | ツール | symlink |
 | --- | --- |
-| Cursor | `.cursor/mcp.json`<br>`.cursor/hooks.json`<br>`.cursor/rules`<br>`.cursor/skills`<br>`.cursor/agents`<br>`.cursor/scripts`<br>`.cursor/hooks` |
-| Claude Code | `.claude/CLAUDE.md`<br>`.claude/settings.json`<br>`.claude/rules`<br>`.claude/skills`<br>`.claude/agents`<br>`.claude/scripts` |
-| Codex | `.codex/AGENTS.md`<br>`.codex/memories`<br>`.codex/skills`<br>`.codex/agents` |
+| Cursor | `.cursor/mcp.json`<br>`.cursor/hooks.json`<br>`.cursor/rules`<br>`.cursor/agents`<br>`.cursor/scripts`<br>`.cursor/hooks` |
+| Claude Code | `.claude/CLAUDE.md`<br>`.claude/settings.json`<br>`.claude/rules`<br>`.claude/agents`<br>`.claude/scripts` |
+| Codex | `.codex/AGENTS.md`<br>`.codex/memories`<br>`.codex/agents` |
 | TAKT | `.takt/config.yaml` |
 | User Tools | `.docs` |
 | App Config | `.env` -> `~/.config/ai-manifest/.env` |
@@ -163,13 +202,14 @@ issue の状態はディレクトリで管理する。
 
 ## 変更前の確認
 
-- 変更対象が `.rulesync/` 配下か、手動運用の実ファイルかを確認する。
+- 変更対象が `.rulesync/` 配下か、`skills/` 配下か、手動運用の実ファイルかを確認する。
 - 生成先ファイルを直接編集しようとしていないか確認する。
 - 必要なら現行差分を確認して、意図しない変更が混ざっていないことを確かめる。
 
 ## 変更の実施
 
-- 共通管理対象を変える場合は `.rulesync/` を編集する。
+- ルール・サブエージェントを変える場合は `.rulesync/` を編集する。
+- スキルを変える場合は `skills/` を編集する。
 - `permissions` や `mcpServers` など自動反映できない設定だけ、対応する実ファイルを更新する。
 
 ## 生成と差分確認
@@ -186,13 +226,16 @@ git diff -- README.md .cursor .claude .codex .rulesync
 
 ```bash
 bash scripts/install.sh
+gh skill install . --from-local --all --scope user --agent claude-code -f
 ```
 
-- ホーム配下の symlink を更新したい場合だけ実行する。
-- 実行後に `~/.cursor` や `~/.claude` のリンク先を確認する。
+- ルール・サブエージェントの symlink を更新したい場合は `install.sh` を実行する。
+- スキルを更新した場合は `gh skill install` を実行する。
+- 実行後に `~/.cursor` や `~/.claude` のリンク先、`gh skill list` を確認する。
 
 ## トラブル時の復旧
 
 - 生成結果がおかしい場合は、該当する生成先を見直してから `rulesync generate` を再実行する。
 - ホーム反映で問題が起きた場合は `scripts/backup/<timestamp>/` を確認する。
 - 手動反映設定が効かない場合は、コピー先ファイルと絶対パス指定を見直す。
+- スキルが反映されない場合は `gh skill list` でインストール先とエージェント指定を確認する。

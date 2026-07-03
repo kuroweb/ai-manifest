@@ -51,21 +51,27 @@
 ## 責務別 命名パターン
 
 ### データ保持・管理
+
 `*Registry`, `*Catalog`, `*Index`, `*Table`, `*Store`
 
 ### 選択・分岐・方針
+
 `*Policy`, `*Selector`, `*Router`
 
 ### 仲介・調停・制御
+
 `*Coordinator`, `*Dispatcher`, `*Controller`
 
 ### 生成・構築
+
 `*Factory`, `*Builder`
 
 ### 変換・適合
+
 `*Adapter`, `*Bridge`, `*Mapper`
 
 ### 実行・評価
+
 `*Executor`, `*Scheduler`, `*Evaluator`
 
 ## 例外ルール
@@ -255,11 +261,3 @@ AIは一般的なベストプラクティスに従った「教科書的に正し
 ## 格言
 
 > "Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away." - Antoine de Saint-Exupery
-
-# Rulesync Source of Truth
-
-- `.rulesync/` が存在する場合は、`.rulesync/` を正本として扱う。
-- ルール・スキル・サブエージェントを変更するときは `.rulesync/` のみ編集する。
-- `rulesync generate` の出力物（`AGENTS.md` / `CLAUDE.md`、各エージェント向け rules・memories など）は直接編集しない。
-- 内容を変更するときは `.rulesync/` を修正してから `rulesync generate` を実行する。
-- `.rulesync/` と生成物が矛盾する場合は `.rulesync/` を正とする。
