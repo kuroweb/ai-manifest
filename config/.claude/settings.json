@@ -14,7 +14,8 @@
       "Bash(wc *)",
       "Bash(which *)",
       "WebSearch",
-      "WebFetch(domain:github.com)"
+      "WebFetch",
+      "Bash(git add *)"
     ],
     "deny": [
       "Bash(cat .env*)",
@@ -25,6 +26,7 @@
       "Read(.env)"
     ]
   },
+  "model": "claude-fable-5[1m]",
   "statusLine": {
     "type": "command",
     "command": "~/.claude/scripts/statusline.sh"
