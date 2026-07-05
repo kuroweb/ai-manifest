@@ -1,5 +1,4 @@
 ---
-targets: ["*"]
 root: true
 description: "ユーザースコープに展開する共通方針"
 globs: ["**/*"]

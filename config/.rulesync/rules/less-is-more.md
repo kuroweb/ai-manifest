@@ -1,5 +1,4 @@
 ---
-targets: ["*"]
 description: "Less Is More: 過剰設計を避け、シンプルで保守しやすいコードを書く"
 globs: ["**/*"]
 ---
