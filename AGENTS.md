@@ -31,7 +31,7 @@
   gh skill update --dir ~/.codex/skills
   ```
 
-### スキル改修
+### スキル編集
 
 - 新規作成・既存スキルの改善は `skills/<name>/` を編集する。
 - 反映前にインストール先を削除する（`gh skill install` は削除済みファイルを残すことがあるため）。
@@ -47,44 +47,59 @@
   gh skill install . <name> --from-local --scope user --agent codex --force
   ```
 
-### 禁止事項
+### スキル編集の注意
 
 - `~/.claude/skills` 等のホーム配下スキルを直接編集しない。変更は `skills/` を編集し、上記の手順で反映する。
 - 生成物やインストール先を正本として扱わない。
 
-## エージェント設定運用
+## エージェント設定運用（rules / subagents）
 
-- エージェント設定の正本は `config/.rulesync/`。変更はここだけ編集する。
-- `config/.cursor/`、`config/.claude/`、`config/.codex/`、`config/AGENTS.md`、`config/CLAUDE.md` は `rulesync generate` の生成物。直接編集しない。
+- 正本は `config/.rulesync/`。rules / subagents の変更はここだけ編集する。
+- `rulesync generate` で各エージェント向けに生成し、symlink 経由でホームへ届く。
 
-### 初回反映
+### 正本の編集
 
-- リポジトリをクローンしたあと、生成してからホーム配下へ symlink 反映する。
+- 変更は `config/.rulesync/` のみ。生成物は触らない。
+
+### 生成とホーム反映
+
+- 編集後に生成する。初回や新規パス追加時だけ `install.sh` で symlink を張る。
 
   ```bash
   cd config && rulesync generate
   bash scripts/install.sh
   ```
 
-- permissions / mcpServers など symlink 管理外の設定は、`config/` 内の対応ファイルを編集し、README の手順どおり手動コピペでホームへ反映する。
+- 既存の symlink がある場合、生成だけでホーム側に反映される。
+- 生成物は直接編集しない。gitignore 済み。
+  - `config/.cursor/rules`、`config/.cursor/agents`
+  - `config/.claude/rules`、`config/.claude/agents`
+  - `config/.codex/agents`
+  - `config/AGENTS.md`、`config/CLAUDE.md`
+- 正本と生成物が矛盾する場合、正本（`config/.rulesync/`）を優先する。
+
+## エージェント設定運用（rules / subagents以外）
+
+- rulesync 対象外。`config/` 内の該当ファイルを直接編集する。
+- symlink 対象は内容変更が即反映。permissions / mcpServers だけ手動コピペ。
+
+### 対象ファイルの編集
+
+- `config/` 内を直接編集する。
+  - 直接編集 + symlink: `.cursorignore`、`.claude/settings.json`、`scripts/`、`mcp.json` / `hooks.json` など
+  - 手動コピペ: permissions / mcpServers（README 参照）
+
+### symlink / 手動コピペでの反映
+
+- 初回、または新しい管理対象パス追加時は symlink を張る。
+
+  ```bash
+  bash scripts/install.sh
+  ```
+
+- permissions / mcpServers は README の手順どおり手動コピペでホームへ反映する。
 - `~/.cursor` / `~/.claude` / `~/.codex` が `config/` 配下への symlink になっていることを確認する。
 
   ```bash
   ls -la ~/.cursor ~/.claude ~/.codex
   ```
-
-### エージェント設定改修
-
-- エージェント設定の追加・変更は `config/.rulesync/` を編集する。
-- 編集後は生成する。
-
-  ```bash
-  cd config && rulesync generate
-  ```
-
-- `config/` 配下に新しい管理対象パスを追加したときは `bash scripts/install.sh` を再実行する。
-
-### 禁止事項
-
-- 生成物（`config/AGENTS.md` 含む）を直接編集しない。内容を変える場合は `config/.rulesync/` を編集してから `rulesync generate` する。
-- 正本と生成物が矛盾する場合、正本（`config/.rulesync/`）を優先する。
