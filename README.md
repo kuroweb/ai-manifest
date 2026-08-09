@@ -1,38 +1,31 @@
 # ai-manifest
 
-Cursor / Claude Code / Codex 向けのルール・サブエージェント・スキルを一元管理するリポジトリ。
+Cursor / Claude Code / Codex 向けのエージェント設定・スキルを一元管理するリポジトリ。
 
 - エージェント設定の正本は `config/`。`config/.rulesync/` から生成し、`scripts/install.sh` でホーム配下へ symlink 反映する。
 - スキルの正本は `skills/`。`gh skill install` で各エージェントへコピーする。
-
-## 目次
-
-- [リポジトリ構成](#リポジトリ構成)
-- [クイックスタート](#クイックスタート)
-- [仕様](#仕様)
-- [運用](#運用)
 
 ## リポジトリ構成
 
 ```
 ai-manifest/
 ├── README.md
+├── AGENTS.md            # 本リポジトリ作業時の運用境界。手動管理
+├── CLAUDE.md            # @AGENTS.md を参照するエントリポイント
 ├── scripts/install.sh   # config/ → ホーム配下への symlink 反映
-├── skills/              # スキル正本。ここだけ編集する
-└── config/              # エージェント設定正本
-    ├── .rulesync/       # ルール・サブエージェント正本。ここだけ編集する
-    ├── .cursor/         # rulesync generate の生成先。直接編集しない
-    ├── .claude/         # rulesync generate の生成先。直接編集しない
-    ├── .codex/          # rulesync generate の生成先。直接編集しない
-    ├── .docs/           # issue / handover / learn など運用データ
-    ├── .takt/
-    ├── .env             # ローカル用（git 管理外）
+├── skills/              # スキル正本
+└── config/
+    ├── .rulesync/       # エージェント設定正本
+    ├── .cursor/         # rulesync generate の成果物
+    ├── .claude/         # rulesync generate の成果物
+    ├── .codex/          # rulesync generate の成果物
+    ├── .docs/           # 運用データ
+    ├── .takt/           # taktのグローバル設定
+    ├── .env             # MCPなどのシークレットを記述する
     ├── rulesync.jsonc
-    ├── CLAUDE.md        # rulesync 生成物。直接編集しない
-    └── AGENTS.md        # rulesync 生成物。直接編集しない
+    ├── CLAUDE.md        # rulesync generate の成果物
+    └── AGENTS.md        # rulesync generate の成果物
 ```
-
-`install.sh` 実行後、`~/.docs` は `config/.docs` を指す。issue や handover の実行時パスは `~/.docs/...` で記述する。
 
 ## クイックスタート
 
@@ -49,7 +42,7 @@ ai-manifest/
    cd ai-manifest
    ```
 
-3. **ルール・サブエージェント生成**
+3. **エージェント設定生成**
 
    ```bash
    cd config
@@ -66,30 +59,25 @@ ai-manifest/
 
 5. **スキルインストール**
 
-   利用するエージェントごとに `--scope user` で実行する。
+   利用するエージェントごとにリモートから `--scope user` で実行する。
 
    ```bash
-   gh skill install . --from-local --all --scope user --agent cursor
-   gh skill install . --from-local --all --scope user --agent claude-code
-   gh skill install . --from-local --all --scope user --agent codex
-   ```
-
-   リモートから取得する場合:
-
-   ```bash
+   gh skill install kuroweb/ai-manifest --all --scope user --agent cursor
    gh skill install kuroweb/ai-manifest --all --scope user --agent claude-code
+   gh skill install kuroweb/ai-manifest --all --scope user --agent codex
    ```
 
-6. **ホーム配下へ反映**
+6. **ホーム配下に各種エージェント設定を反映**
 
    ```bash
    bash scripts/install.sh
    ```
 
-   - 既存の `~/.cursor` などがある場合は、`scripts/backup/<timestamp>/` に退避してからリンクを張り替える。
-   - 手動コピペが必要な設定（permissions / mcpServers）は [install.sh だけでは反映できない設定](#installsh-だけでは反映できない設定) を参照。
+7. **手動コピペが必要な設定を反映**
 
-7. **確認**
+   permissions / mcpServers は [手動で取り込む設定（permissions / mcpServers）](#手動で取り込む設定permissions--mcpservers) を参照。
+
+8. **確認**
 
    ```bash
    ls -la ~/.cursor ~/.claude ~/.codex
@@ -97,9 +85,7 @@ ai-manifest/
    gh skill list
    ```
 
-## 仕様
-
-### rulesync
+## rulesyncでエージェント設定を管理する
 
 - 正本: `config/.rulesync/`
 - 実行場所: `config/`（`config/rulesync.jsonc` の `outputRoots` が `.`）
@@ -113,19 +99,7 @@ ai-manifest/
 
 - 正本と生成先が矛盾する場合は `config/.rulesync/` を正とする。意図が不明な大量再生成は避ける。
 
-### gh skill install
-
-- 形式: `skills/*/SKILL.md`（[Agent Skills specification](https://agentskills.io/specification)）
-- 反映方法: 各エージェントのスキルディレクトリへコピー（symlink ではない）
-- 更新: `gh skill update --all` または `--from-local` で再インストール
-
-```bash
-gh skill install . --from-local --all --scope user --agent claude-code -f
-gh skill list
-gh skill update --all
-```
-
-### install.sh
+### ホーム配下へ設定を反映する
 
 - `bash scripts/install.sh` で `config/` 内の管理対象をホーム配下へ symlink する。スキルは対象外。
 
@@ -140,7 +114,7 @@ gh skill update --all
 
 - 既存ファイルがある場合は `scripts/backup/<timestamp>/` に退避してから張り替える。
 
-### install.sh だけでは反映できない設定
+### 手動で取り込む設定（permissions / mcpServers）
 
 - symlink 管理に向かない設定は手動コピペで取り込む。
 
@@ -154,6 +128,26 @@ gh skill update --all
 - `config/.claude/.claude.mcp.json` → `~/.claude.json`
 - `~/.claude.json` は Claude Code が直接更新するため symlink 管理しない
 - `mcpServers.*.command` には絶対パスを使う（`~` や `$HOME` 不可）
+
+## gh skill でスキルを各エージェントへ配布する
+
+- 形式: `skills/*/SKILL.md`（[Agent Skills specification](https://agentskills.io/specification)）
+- 反映方法: GitHub リポジトリから各エージェントのスキルディレクトリへコピー
+
+### リモートからインストールする
+
+```bash
+gh skill install kuroweb/ai-manifest --all --scope user --agent cursor -f
+gh skill install kuroweb/ai-manifest --all --scope user --agent claude-code -f
+gh skill install kuroweb/ai-manifest --all --scope user --agent codex -f
+gh skill list
+```
+
+### インストール済みスキルを更新する
+
+```bash
+gh skill update --all
+```
 
 ## 運用
 
@@ -175,8 +169,8 @@ gh skill update --all
 
   | 変更対象 | 手順 |
   | --- | --- |
-  | ルール・サブエージェント | `config/.rulesync/` を編集 → `cd config && rulesync generate` |
-  | スキル | `skills/` を編集 → `gh skill install . --from-local --all --scope user --agent <agent> -f` |
+  | エージェント設定 | `config/.rulesync/` を編集 → `cd config && rulesync generate` |
+  | スキル | `skills/` を編集 → push → `gh skill install kuroweb/ai-manifest --all --scope user --agent <agent> -f` |
   | permissions / mcpServers | `config/` 内の対応ファイルを編集 → 手動コピペでホーム側へ反映 |
 
 - `bash scripts/install.sh` の再実行が必要なのは初回セットアップ時、または `config/` 配下に新しい管理対象パスを追加したときのみ。既存の symlink はファイル内容の変更を自動的に反映するため、ルール編集のたびに実行する必要はない。
