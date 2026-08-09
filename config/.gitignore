@@ -1,6 +1,15 @@
 # credentials
 .env
 
+# rulesync generate の生成物
+.cursor/rules/
+.cursor/agents/
+.claude/rules/
+.claude/agents/
+.codex/agents/
+AGENTS.md
+CLAUDE.md
+
 # .cursor
 .cursor/mcp.json
 .cursor/hooks.json
