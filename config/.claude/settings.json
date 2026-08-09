@@ -24,9 +24,10 @@
       "Bash(sudo:*)",
       "Bash(wget *|* sh:*)",
       "Read(.env)"
-    ]
+    ],
+    "defaultMode": "auto"
   },
-  "model": "claude-fable-5[1m]",
+  "model": "claude-opus-4-7",
   "statusLine": {
     "type": "command",
     "command": "~/.claude/scripts/statusline.sh"
