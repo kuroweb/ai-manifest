@@ -63,9 +63,9 @@ ai-manifest/
    利用するエージェントごとにリモートから `--scope user` で実行する。
 
    ```bash
-   gh skill install kuroweb/ai-manifest --all --scope user --agent cursor
-   gh skill install kuroweb/ai-manifest --all --scope user --agent claude-code
-   gh skill install kuroweb/ai-manifest --all --scope user --agent codex
+   gh skill install kuroweb/ai-manifest --all --scope user --agent cursor --force
+   gh skill install kuroweb/ai-manifest --all --scope user --agent claude-code --force
+   gh skill install kuroweb/ai-manifest --all --scope user --agent codex --force
    ```
 
 6. **ホーム配下に各種エージェント設定を反映**
