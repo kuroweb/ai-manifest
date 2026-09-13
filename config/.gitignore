@@ -17,8 +17,6 @@ CLAUDE.md
 # .docs
 .docs/handovers/*
 !.docs/handovers/.keep
-.docs/issues/draft/*
-!.docs/issues/draft/.keep
 .docs/plans/*
 !.docs/plans/.keep
 .docs/learn/daily-term/*
