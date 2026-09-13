@@ -19,9 +19,3 @@ CLAUDE.md
 !.docs/handovers/.keep
 .docs/plans/*
 !.docs/plans/.keep
-.docs/learn/daily-term/*
-!.docs/learn/daily-term/archive/.keep
-.docs/learn/long-term/*
-!.docs/learn/long-term/archive/.keep
-.docs/learn/promotions/*
-!.docs/learn/promotions/archive/.keep
