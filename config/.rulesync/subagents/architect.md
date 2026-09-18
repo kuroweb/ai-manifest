@@ -6,7 +6,7 @@ description: >-
   システム設計・スケーラビリティ・技術意思決定のアーキテクチャスペシャリスト。新機能の計画、大規模リファクタリング、アーキテクチャ判断の際に積極的に使用。
 cursor:
   tools: 'Read, Grep, Glob'
-  model: opus
+  model: cursor-grok-4.6-high-fast
 ---
 # アーキテクト
 

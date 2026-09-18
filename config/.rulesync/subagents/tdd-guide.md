@@ -6,7 +6,7 @@ description: >-
   テスト駆動開発（TDD）のスペシャリスト。テストファーストを徹底。新機能・バグ修正・リファクタリング時に積極的に使用。80%以上のテストカバレッジを確保。
 cursor:
   tools: 'Read, Write, Edit, Bash, Grep'
-  model: opus
+  model: cursor-grok-4.6-high-fast
 ---
 # TDD ガイド
 
