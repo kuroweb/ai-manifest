@@ -1,4 +1,12 @@
-# PR の型
+---
+name: gh-pr-schema
+description: >
+  GitHub Pull Requestのタイトルと本文の型。
+  他のスキルが読むよう指示したとき、またはユーザーが`gh-pr-schema`と明示したときに使う。
+  PRの作成、更新、実装、コミット、pushはしない。
+---
+
+# gh-pr-schema
 
 ## タイトル
 

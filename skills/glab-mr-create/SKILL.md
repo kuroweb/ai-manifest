@@ -1,30 +1,31 @@
 ---
-name: glab-mr
+name: glab-mr-create
 description: >
   スキル名で呼ばれたときだけ、push済みブランチからGitLab Merge Requestを構造化して確認後に作成する。
-  対象プロジェクト、base、head、既存MR、リモートとの差分を確認し、references/mr-schema.mdに沿って本文を作る。
-  例: glab-mr、/glab-mr group/project、glab-mr group/subgroup/project --head feat/example --base develop。
+  対象プロジェクト、base、head、既存MR、リモートとの差分を確認し、glab-mr-schemaに沿って本文を作る。
+  例: glab-mr-create、/glab-mr-create group/project、glab-mr-create group/subgroup/project --head feat/example --base develop。
   「MRを作って」「マージリク出して」だけでは使わない。
   スキル名が無いときは使わない。
-  AIによるGitコマンド実行が禁止されているプロジェクトでは使わず、glab-mr-no-gitを使用する。
+  AIによるGitコマンド実行が禁止されているプロジェクトでは使わず、glab-mr-create-no-gitを使用する。
+  既存MRの更新はglab-mr-updateを使う。
   Issue起票、実装、コミット、pushは行わない。
 ---
 
-# glab-mr
+# glab-mr-create
 
 ## できること
 
 - push済みブランチからGitLab Merge Requestを作成する
 - 対象プロジェクト、base、head、既存MR、差分コミットを作成前に確認する
-- `references/mr-schema.md`に沿ってタイトルと本文を組み立てる
+- `glab-mr-schema`に沿ってタイトルと本文を組み立てる
 - 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
 
-- `glab-mr`
-- `glab-mr group/project`
-- `glab-mr group/subgroup/project --head feat/example`
-- `glab-mr group/project --head feat/example --base develop`
+- `glab-mr-create`
+- `glab-mr-create group/project`
+- `glab-mr-create group/subgroup/project --head feat/example`
+- `glab-mr-create group/project --head feat/example --base develop`
 - push済みブランチからMerge Requestを作成するとき
 
 GitHubのPull Requestには使わない。
@@ -84,7 +85,7 @@ git rev-parse HEAD
 git ls-remote --heads <remote> refs/heads/<head>
 ```
 
-SHAが一致しない場合は停止する。ローカルが未push、リモートが先行、または別のコミットをheadとして選んでいるため、`glab-mr`では統合やpushを行わない。
+SHAが一致しない場合は停止する。ローカルが未push、リモートが先行、または別のコミットをheadとして選んでいるため、`glab-mr-create`では統合やpushを行わない。
 
 リモートbaseとの差分コミット数を確認する。
 
@@ -108,12 +109,12 @@ glab mr list --repo <remote-url> --source-branch <head> --all -F json
 
 JSONの`iid`、`state`、`web_url`、`source_branch`、`target_branch`を見る。
 
-- `opened`または`locked`のMRがあれば、URLを返して作成しない
+- `opened`または`locked`のMRがあれば、新しいMRを作成せずURLを返す。タイトルや本文を変えるときは`glab-mr-update`を使う
 - `merged`または`closed`のMRがあれば、同じheadを再利用せず、新しいブランチを使う
 
 ### Step 3: スキーマを読む
 
-`references/mr-schema.md`を読む。タイトルや本文を組む前に読む。
+`glab-mr-schema`を読む。タイトルや本文を組む前に読む。
 
 ### Step 4: MR本文に必要な情報を集める
 
@@ -126,7 +127,7 @@ git --no-pager diff <remote>/<base>...HEAD
 
 - 変更目的は会話から取る。差分から推測しない
 - 変更内容は差分にある事実だけを書く
-- テスト内容は`references/mr-schema.md`に従い、差分にあるテストの追加・変更から取る
+- テスト内容は`glab-mr-schema`に従い、差分にあるテストの追加・変更から取る
 - Issue番号の候補は、会話、head名、コミットメッセージから取る
 - Issue番号の候補があるだけでは、closeするIssueとして扱わない
 
@@ -141,7 +142,7 @@ git --no-pager diff <remote>/<base>...HEAD
 
 ### Step 6: タイトルと本文を組む
 
-タイトルと本文は`references/mr-schema.md`に従う。
+タイトルと本文は`glab-mr-schema`に従う。
 
 - baseがデフォルトブランチでない場合は`Closes`を書かない
 - closeしないIssueは`Related:`で書く
@@ -203,11 +204,14 @@ glab mr view <iid> --repo <remote-url> -F json
 
 | ユーザーの依頼 | ワークフロー |
 |---|---|
-| MR作成 | `glab-mr` |
-| Gitコマンド禁止環境でMR作成 | `glab-mr-no-git` |
-| pushしてMR作成 | `git-push` → `glab-mr` |
-| コミットしてMR作成 | `git-commit` → `git-push` → `glab-mr` |
-| GitHubのPull Request | `gh-pr` |
+| MR作成 | `glab-mr-create` |
+| MR更新 | `glab-mr-update` |
+| Gitコマンド禁止環境でMR作成 | `glab-mr-create-no-git` |
+| Gitコマンド禁止環境でMR更新 | `glab-mr-update-no-git` |
+| pushしてMR作成 | `git-push` → `glab-mr-create` |
+| コミットしてMR作成 | `git-commit` → `git-push` → `glab-mr-create` |
+| MR本文の型 | `glab-mr-schema` |
+| GitHubのPull Request | `gh-pr-create` |
 
 ## コマンドリファレンス
 

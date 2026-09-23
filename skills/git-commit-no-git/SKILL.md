@@ -174,4 +174,4 @@ git commit -m "<type>(<scope>): <description>"
 |---|---|
 | Gitコマンドを実行できる | `git-commit` |
 | AIによるGitコマンド実行が禁止されている | `git-commit-no-git` |
-| push、Pull Request作成、Merge Request作成 | このスキルでは扱わない |
+| push、Pull RequestとMerge Requestの作成・更新 | このスキルでは扱わない |

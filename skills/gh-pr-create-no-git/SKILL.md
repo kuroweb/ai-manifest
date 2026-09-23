@@ -1,29 +1,30 @@
 ---
-name: gh-pr-no-git
+name: gh-pr-create-no-git
 description: >
   AIによるGitコマンド実行が禁止されたプロジェクトで、指定されたpush済みブランチからPull Requestを作成する。
   diffを取るため先に空の下書きを作り、確認済みのタイトルと本文を入れてreadyにする。
   スキル名で呼ばれたときだけ使用し、Gitと.gitには触れない。
-  例: gh-pr-no-git --repo owner/repo --head feat/example、gh-pr-no-git --repo owner/repo --head feat/example --base develop。
-  「PRを作って」「プルリク出して」だけでは使わない。Gitコマンドを実行できるプロジェクトではgh-prを使う。
+  例: gh-pr-create-no-git --repo owner/repo --head feat/example、gh-pr-create-no-git --repo owner/repo --head feat/example --base develop。
+  「PRを作って」「プルリク出して」だけでは使わない。Gitコマンドを実行できるプロジェクトではgh-pr-createを使う。
+  既存PRの更新はgh-pr-update-no-gitを使う。
   Issue起票、実装、コミット、pushは行わない。
 ---
 
-# gh-pr-no-git
+# gh-pr-create-no-git
 
 ## できること
 
 - Gitと`.git`を使わず、指定されたpush済みブランチからPull Requestを作成する
 - 本文を書く前に下書きを作り、そのdiffとコミットを取得する
-- `references/pr-schema.md`に沿ってタイトルと本文を組み立てる
+- `gh-pr-schema`に沿ってタイトルと本文を組み立てる
 - 確認済みのタイトルと本文を、作成したPRへ入れてreadyにする
 - 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
 
-- `gh-pr-no-git`
-- `gh-pr-no-git --repo owner/repo --head feat/example`
-- `gh-pr-no-git --repo owner/repo --head feat/example --base develop`
+- `gh-pr-create-no-git`
+- `gh-pr-create-no-git --repo owner/repo --head feat/example`
+- `gh-pr-create-no-git --repo owner/repo --head feat/example --base develop`
 - AIによるGitコマンド実行が禁止されたプロジェクトでPull Requestを作成するとき
 - GitHub上にpush済みのheadを明示してPull Requestを作成するとき
 
@@ -70,7 +71,7 @@ baseとheadが同じ場合は停止する。
 gh pr list --repo <owner/repo> --head <head> --state all --json number,state,isDraft,url,headRefName,baseRefName
 ```
 
-- `OPEN`のPRがあれば、新しいPRを作成せずURLを返す
+- `OPEN`のPRがあれば、新しいPRを作成せずURLを返す。タイトルや本文を変えるときは`gh-pr-update-no-git`を使う
 - 既存の下書きPRをこのスキルで続けたいとユーザーが明示し、baseとheadが指定内容に一致する場合は、そのPRを再利用する。Step 4とStep 5を飛ばしてStep 6へ進む
 - `MERGED`または`CLOSED`のPRがあれば、同じheadを再利用せず、新しいブランチを使う
 
@@ -139,7 +140,7 @@ diffを取得できなければ本文を作らない。現在のファイル内�
 
 ### Step 7: スキーマを読む
 
-`references/pr-schema.md`を読む。タイトルや本文を組む前に読む。
+`gh-pr-schema`を読む。タイトルや本文を組む前に読む。
 
 ### Step 8: PR本文に必要な情報を集める
 
@@ -147,7 +148,7 @@ diffを取得できなければ本文を作らない。現在のファイル内�
 
 - 変更目的は会話から取る。diffから推測しない
 - 変更内容はPRのdiffにある事実だけを書く
-- テスト内容は`references/pr-schema.md`に従い、diffにあるテストの追加・変更から取る
+- テスト内容は`gh-pr-schema`に従い、diffにあるテストの追加・変更から取る
 - Issue番号の候補は、会話、head名、コミットメッセージから取る
 - Issue番号の候補があるだけでは、closeするIssueとして扱わない
 - ローカルファイルや会話中の未push変更をPR本文へ含めない
@@ -163,7 +164,7 @@ diffを取得できなければ本文を作らない。現在のファイル内�
 
 ### Step 10: タイトルと本文を組む
 
-タイトルと本文は`references/pr-schema.md`に従う。
+タイトルと本文は`gh-pr-schema`に従う。
 
 - baseがデフォルトブランチでない場合は`Closes`を書かない
 - closeしないIssueは`Related:`で書く
@@ -254,6 +255,9 @@ gh pr ready <number> --repo <owner/repo>
 
 | 状況 | 使用するスキル |
 |---|---|
-| Gitコマンドを実行できる | `gh-pr` |
-| AIによるGitコマンド実行が禁止されている | `gh-pr-no-git` |
+| Gitコマンドを実行できる | `gh-pr-create` |
+| Gitコマンドを実行でき、既存PRを更新する | `gh-pr-update` |
+| AIによるGitコマンド実行が禁止されている | `gh-pr-create-no-git` |
+| AIによるGitコマンド実行が禁止され、既存PRを更新する | `gh-pr-update-no-git` |
 | headがGitHubへpushされていない | ユーザーがpushした後に再開する |
+| PR本文の型 | `gh-pr-schema` |

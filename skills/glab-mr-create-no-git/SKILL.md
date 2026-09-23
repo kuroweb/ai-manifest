@@ -1,30 +1,31 @@
 ---
-name: glab-mr-no-git
+name: glab-mr-create-no-git
 description: >
   AIによるGitコマンド実行が禁止されたプロジェクトで、指定されたpush済みブランチからMerge Requestを作成する。
   diffを取るため先に空の下書きを作り、確認済みのタイトルと本文を入れてreadyにする。
   スキル名で呼ばれたときだけ使用し、Gitと.gitには触れない。
-  例: glab-mr-no-git --repo group/project --head feat/example、glab-mr-no-git --repo group/subgroup/project --head feat/example --base develop --hostname gitlab.example.com。
-  「MRを作って」「マージリク出して」だけでは使わない。Gitコマンドを実行できるプロジェクトではglab-mrを使う。
+  例: glab-mr-create-no-git --repo group/project --head feat/example、glab-mr-create-no-git --repo group/subgroup/project --head feat/example --base develop --hostname gitlab.example.com。
+  「MRを作って」「マージリク出して」だけでは使わない。Gitコマンドを実行できるプロジェクトではglab-mr-createを使う。
+  既存MRの更新はglab-mr-update-no-gitを使う。
   Issue起票、実装、コミット、pushは行わない。
 ---
 
-# glab-mr-no-git
+# glab-mr-create-no-git
 
 ## できること
 
 - Gitと`.git`を使わず、指定されたpush済みブランチからMerge Requestを作成する
 - 本文を書く前に下書きを作り、そのdiffとコミットを取得する
-- `references/mr-schema.md`に沿ってタイトルと本文を組み立てる
+- `glab-mr-schema`に沿ってタイトルと本文を組み立てる
 - 確認済みのタイトルと本文を、作成したMRへ入れてreadyにする
 - 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
 
-- `glab-mr-no-git`
-- `glab-mr-no-git --repo group/project --head feat/example`
-- `glab-mr-no-git --repo group/project --head feat/example --base develop`
-- `glab-mr-no-git --repo group/subgroup/project --head feat/example --hostname gitlab.example.com`
+- `glab-mr-create-no-git`
+- `glab-mr-create-no-git --repo group/project --head feat/example`
+- `glab-mr-create-no-git --repo group/project --head feat/example --base develop`
+- `glab-mr-create-no-git --repo group/subgroup/project --head feat/example --hostname gitlab.example.com`
 - AIによるGitコマンド実行が禁止されたプロジェクトでMerge Requestを作成するとき
 - GitLab上にpush済みのheadを明示してMerge Requestを作成するとき
 
@@ -89,7 +90,7 @@ glab api --hostname <host> --paginate "projects/<encoded-path>/merge_requests?st
 
 JSONの`iid`、`state`、`draft`、`web_url`、`source_branch`、`target_branch`を見る。
 
-- `opened`または`locked`のMRがあれば、新しいMRを作成せずURLを返す
+- `opened`または`locked`のMRがあれば、新しいMRを作成せずURLを返す。タイトルや本文を変えるときは`glab-mr-update-no-git`を使う
 - 既存の下書きMRをこのスキルで続けたいとユーザーが明示し、`source_branch`と`target_branch`が指定内容に一致する場合は、そのMRを再利用する。Step 4とStep 5を飛ばしてStep 6へ進む
 - `merged`または`closed`のMRがあれば、同じheadを再利用せず、新しいブランチを使う
 
@@ -159,7 +160,7 @@ diffを取得できなければ本文を作らない。`collapsed`または`too_
 
 ### Step 7: スキーマを読む
 
-`references/mr-schema.md`を読む。タイトルや本文を組む前に読む。
+`glab-mr-schema`を読む。タイトルや本文を組む前に読む。
 
 ### Step 8: MR本文に必要な情報を集める
 
@@ -169,7 +170,7 @@ diffを取得できなければ本文を作らない。`collapsed`または`too_
 
 - 変更目的は会話から取る。diffから推測しない
 - 変更内容はMRのdiffにある事実だけを書く
-- テスト内容は`references/mr-schema.md`に従い、diffにあるテストの追加・変更から取る
+- テスト内容は`glab-mr-schema`に従い、diffにあるテストの追加・変更から取る
 - Issue番号の候補は、会話、head名、コミットメッセージから取る
 - Issue番号の候補があるだけでは、closeするIssueとして扱わない
 - ローカルファイルや会話中の未push変更をMR本文へ含めない
@@ -185,7 +186,7 @@ diffを取得できなければ本文を作らない。`collapsed`または`too_
 
 ### Step 10: タイトルと本文を組む
 
-タイトルと本文は`references/mr-schema.md`に従う。
+タイトルと本文は`glab-mr-schema`に従う。
 
 - baseがデフォルトブランチでない場合は`Closes`を書かない
 - closeしないIssueは`Related:`で書く
@@ -262,7 +263,10 @@ glab api --hostname <host> "projects/<encoded-path>/merge_requests/<iid>"
 
 | 状況 | 使用するスキル |
 |---|---|
-| Gitコマンドを実行できる | `glab-mr` |
-| AIによるGitコマンド実行が禁止されている | `glab-mr-no-git` |
+| Gitコマンドを実行できる | `glab-mr-create` |
+| Gitコマンドを実行でき、既存MRを更新する | `glab-mr-update` |
+| AIによるGitコマンド実行が禁止されている | `glab-mr-create-no-git` |
+| AIによるGitコマンド実行が禁止され、既存MRを更新する | `glab-mr-update-no-git` |
 | headがGitLabへpushされていない | ユーザーがpushした後に再開する |
-| GitHubのPull Request | `gh-pr`または`gh-pr-no-git` |
+| MR本文の型 | `glab-mr-schema` |
+| GitHubのPull Request | `gh-pr-create`または`gh-pr-create-no-git` |

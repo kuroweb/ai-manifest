@@ -1,30 +1,31 @@
 ---
-name: gh-pr
+name: gh-pr-create
 description: >
   スキル名で呼ばれたときだけ、push済みブランチからGitHub Pull Requestを構造化して確認後に作成する。
-  対象リポジトリ、base、head、既存PR、リモートとの差分を確認し、references/pr-schema.mdに沿って本文を作る。
-  例: gh-pr、/gh-pr owner/repo、gh-pr owner/repo --head feat/example --base develop。
+  対象リポジトリ、base、head、既存PR、リモートとの差分を確認し、gh-pr-schemaに沿って本文を作る。
+  例: gh-pr-create、/gh-pr-create owner/repo、gh-pr-create owner/repo --head feat/example --base develop。
   「PRを作って」「プルリク出して」だけでは使わない。
   スキル名が無いときは使わない。
-  AIによるGitコマンド実行が禁止されているプロジェクトでは使わず、gh-pr-no-gitを使用する。
+  AIによるGitコマンド実行が禁止されているプロジェクトでは使わず、gh-pr-create-no-gitを使用する。
+  既存PRの更新はgh-pr-updateを使う。
   Issue起票、実装、コミット、pushは行わない。
 ---
 
-# gh-pr
+# gh-pr-create
 
 ## できること
 
 - push済みブランチからGitHub Pull Requestを作成する
 - 対象リポジトリ、base、head、既存PR、差分コミットを作成前に確認する
-- `references/pr-schema.md`に沿ってタイトルと本文を組み立てる
+- `gh-pr-schema`に沿ってタイトルと本文を組み立てる
 - 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
 
-- `gh-pr`
-- `gh-pr owner/repo`
-- `gh-pr owner/repo --head feat/example`
-- `gh-pr owner/repo --head feat/example --base develop`
+- `gh-pr-create`
+- `gh-pr-create owner/repo`
+- `gh-pr-create owner/repo --head feat/example`
+- `gh-pr-create owner/repo --head feat/example --base develop`
 - push済みブランチからPull Requestを作成するとき
 
 ## 手順
@@ -80,7 +81,7 @@ git rev-parse HEAD
 git ls-remote --heads <remote> refs/heads/<head>
 ```
 
-SHAが一致しない場合は停止する。ローカルが未push、リモートが先行、または別のコミットをheadとして選んでいるため、`gh-pr`では統合やpushを行わない。
+SHAが一致しない場合は停止する。ローカルが未push、リモートが先行、または別のコミットをheadとして選んでいるため、`gh-pr-create`では統合やpushを行わない。
 
 リモートbaseとの差分コミット数を確認する。
 
@@ -102,12 +103,12 @@ git status --porcelain
 gh pr list --repo <owner/repo> --head <head> --state all --json number,state,url,headRefName,baseRefName
 ```
 
-- `OPEN`のPRがあれば、URLを返して作成しない
+- `OPEN`のPRがあれば、新しいPRを作成せずURLを返す。タイトルや本文を変えるときは`gh-pr-update`を使う
 - `MERGED`または`CLOSED`のPRがあれば、同じheadを再利用せず、新しいブランチを使う
 
 ### Step 3: スキーマを読む
 
-`references/pr-schema.md`を読む。タイトルや本文を組む前に読む。
+`gh-pr-schema`を読む。タイトルや本文を組む前に読む。
 
 ### Step 4: PR本文に必要な情報を集める
 
@@ -120,7 +121,7 @@ git --no-pager diff <remote>/<base>...HEAD
 
 - 変更目的は会話から取る。差分から推測しない
 - 変更内容は差分にある事実だけを書く
-- テスト内容は`references/pr-schema.md`に従い、差分にあるテストの追加・変更から取る
+- テスト内容は`gh-pr-schema`に従い、差分にあるテストの追加・変更から取る
 - Issue番号の候補は、会話、head名、コミットメッセージから取る
 - Issue番号の候補があるだけでは、closeするIssueとして扱わない
 
@@ -135,7 +136,7 @@ git --no-pager diff <remote>/<base>...HEAD
 
 ### Step 6: タイトルと本文を組む
 
-タイトルと本文は`references/pr-schema.md`に従う。
+タイトルと本文は`gh-pr-schema`に従う。
 
 - baseがデフォルトブランチでない場合は`Closes`を書かない
 - closeしないIssueは`Related:`で書く
@@ -191,10 +192,13 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headR
 
 | ユーザーの依頼 | ワークフロー |
 |---|---|
-| PR作成 | `gh-pr` |
-| Gitコマンド禁止環境でPR作成 | `gh-pr-no-git` |
-| pushしてPR作成 | `git-push` → `gh-pr` |
-| コミットしてPR作成 | `git-commit` → `git-push` → `gh-pr` |
+| PR作成 | `gh-pr-create` |
+| PR更新 | `gh-pr-update` |
+| Gitコマンド禁止環境でPR作成 | `gh-pr-create-no-git` |
+| Gitコマンド禁止環境でPR更新 | `gh-pr-update-no-git` |
+| pushしてPR作成 | `git-push` → `gh-pr-create` |
+| コミットしてPR作成 | `git-commit` → `git-push` → `gh-pr-create` |
+| PR本文の型 | `gh-pr-schema` |
 
 ## コマンドリファレンス
 

@@ -1,4 +1,12 @@
-# PR の型
+---
+name: glab-mr-schema
+description: >
+  GitLab Merge Requestのタイトルと本文の型。
+  他のスキルが読むよう指示したとき、またはユーザーが`glab-mr-schema`と明示したときに使う。
+  MRの作成、更新、実装、コミット、pushはしない。
+---
+
+# glab-mr-schema
 
 ## タイトル
 
@@ -35,6 +43,8 @@
 
 [関連 Issue]
 ```
+
+本文の行を `/` で始めない。GitLab は説明文の Quick Action を実行する。
 
 ### 変更目的
 
@@ -93,7 +103,8 @@ sequenceDiagram
 - 見出しは diff から付ける。変化が伝わる名前にする
 - ファイル名の羅列にしない
 - 関連コードは、そのトピックの主要な変更箇所だけ書く。不要なら省く
-- リポジトリ URL が分かれば、リンク先は GitHub の blob 形式にする。分からなければパスだけ書く
+- プロジェクトの web URL が分かれば、リンク先は `{web_url}/-/blob/{ref}/{path}#L開始-終了` にする。ref は head のコミット SHA。SHA が無ければ source branch。分からなければパスだけ書く
+- 行範囲は `#L10-20` と書く
 
 ### テスト内容
 
@@ -108,7 +119,7 @@ sequenceDiagram
 
 ### 関連 Issue
 
-この PR と Issue の関係を、本文の末尾に書く。
+この MR と Issue の関係を、本文の末尾に書く。
 
 ```markdown
 Closes #10
@@ -116,9 +127,9 @@ Related: #20
 ```
 
 - プレーンテキストで置く。バッククォート、コードブロック、引用には入れない
-- `Closes` はこの PR で完了する Issue。デフォルトブランチへのマージで GitHub が閉じる
+- `Closes` はこの MR で完了する Issue。デフォルトブランチへのマージで GitLab が閉じる
 - `Related:` は言及するが閉じない Issue。マージしても開いたまま
-- 同じリポジトリの `Closes` は `Closes #10`。別リポジトリは `Closes owner/repo#10`
+- 同じプロジェクトの `Closes` は `Closes #10`。別プロジェクトは `Closes group/project#10`。サブグループがあるときは `Closes group/subgroup/project#10`
 - `Closes` が複数あるときは行を分ける。各行にキーワードを書く。`Closes #10, #123` とは書かない
 - ベースがデフォルトブランチでないときは `Closes` を書かない
 - 書く行が無ければ、見出しごと省く
