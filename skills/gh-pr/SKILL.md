@@ -6,6 +6,7 @@ description: >
   例: gh-pr、/gh-pr owner/repo、gh-pr owner/repo --head feat/example --base develop。
   「PRを作って」「プルリク出して」だけでは使わない。
   スキル名が無いときは使わない。
+  AIによるGitコマンド実行が禁止されているプロジェクトでは使わず、gh-pr-no-gitを使用する。
   Issue起票、実装、コミット、pushは行わない。
 ---
 
@@ -191,6 +192,7 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headR
 | ユーザーの依頼 | ワークフロー |
 |---|---|
 | PR作成 | `gh-pr` |
+| Gitコマンド禁止環境でPR作成 | `gh-pr-no-git` |
 | pushしてPR作成 | `git-push` → `gh-pr` |
 | コミットしてPR作成 | `git-commit` → `git-push` → `gh-pr` |
 
