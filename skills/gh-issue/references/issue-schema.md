@@ -1,12 +1,4 @@
----
-name: gh-issue-schema
-description: >
-  GitHub Issue のタイトルと本文の型。他のスキルが読むよう指示したとき、またはユーザーが
-  gh-issue-schema と明示したときに使う。
-  Issue 起票、更新、実装、PR 作成そのものはしない。
----
-
-# gh-issue-schema
+# Issue の型
 
 ## 文書構成
 
