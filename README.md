@@ -78,7 +78,7 @@ ai-manifest/
 
 7. **手動コピペが必要な設定を反映**
 
-   permissions / mcpServers は [docs/agent-config-guideline.md](docs/agent-config-guideline.md#手動コピペでの反映) を参照。
+   詳細は [docs/agent-config-guideline.md](docs/agent-config-guideline.md#手動コピペでの反映) を参照。
 
 8. **確認**
 

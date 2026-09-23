@@ -20,5 +20,6 @@
       "Shell(wget)",
       "Read(.env*)"
     ]
-  }
+  },
+  "approvalMode": "auto-review"
 }

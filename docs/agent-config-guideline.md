@@ -18,7 +18,7 @@ config/
 │   ├── hooks/                         # → ~/.cursor/hooks/
 │   ├── mcp.json                       # → ~/.cursor/mcp.json
 │   ├── hooks.json                     # → ~/.cursor/hooks.json
-│   └── cli-config.permissions.json    # 手動 → ~/.cursor/cli-config.json
+│   └── cli-config.json                # 手動 → ~/.cursor/cli-config.json
 ├── .claude/
 │   ├── agents/                        # generate → ~/.claude/agents/
 │   ├── rules/                         # generate → ~/.claude/rules/
@@ -73,7 +73,7 @@ config/
 
 - `config/` 内を直接編集する。
   - 直接編集 + symlink: `settings.json`、`scripts/`、`hooks/`、`mcp.json`、`hooks.json`、`.takt/`、`.docs/`、`.env` など
-  - 手動コピペ: `cli-config.permissions.json`、`.claude.mcp.json`
+  - 手動コピペ: `cli-config.json`、`.claude.mcp.json`
 
 ### symlink での反映
 
@@ -94,7 +94,7 @@ config/
 
 ツール側が書き換えるファイルは symlink せず、必要なときだけコピーする。
 
-- `config/.cursor/cli-config.permissions.json` → `~/.cursor/cli-config.json`
+- `config/.cursor/cli-config.json` → `~/.cursor/cli-config.json`
 - `config/.claude/.claude.mcp.json` → `~/.claude.json`
 - `mcpServers.*.command` には絶対パスを使う（`~` や `$HOME` 不可）
 
