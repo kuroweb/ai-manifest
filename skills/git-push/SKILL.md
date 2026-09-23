@@ -5,7 +5,7 @@ description: >
   upstream、ahead/behind、リモートのデフォルトブランチ、push 先ブランチを確認し、通常 push と初回 push を扱う。
   ユーザーが「pushして」「リモートへ送って」「コミットをpush」
   「変更をリモートに反映して」など、既存コミットの push を依頼した場合に使用する。
-  コミット作成、Pull Request 作成、タグの push は行わない。
+  コミット作成、Pull Request 作成、Merge Request 作成、タグの push は行わない。
 ---
 
 # git-push
@@ -172,6 +172,8 @@ git ls-remote --heads <remote> refs/heads/<remote-branch>
 | コミットしてpush | `git-commit` → `git-push` |
 | pushしてPR作成 | `git-push` → `gh-pr` |
 | コミットしてPR作成 | `git-commit` → `git-push` → `gh-pr` |
+| pushしてMR作成 | `git-push` → `glab-mr` |
+| コミットしてMR作成 | `git-commit` → `git-push` → `glab-mr` |
 
 ## コマンドリファレンス
 

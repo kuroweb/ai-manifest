@@ -8,7 +8,7 @@ description: >
   「この変更をコミット」「コミットメッセージを書いて」「コミットお願い」
   などコミット関連のリクエストをした場合に必ず使用すること。
   AIによるGitコマンド実行が禁止されているプロジェクトでは使わず、git-commit-no-gitを使用する。
-  push と Pull Request 作成は含まない。
+  push、Pull Request 作成、Merge Request 作成は含まない。
 ---
 
 # Git Commit
@@ -94,9 +94,10 @@ git log --oneline -5
 | Gitコマンド禁止環境でコミット案を作成 | `git-commit-no-git` |
 | コミットして push | `git-commit` → `git-push` |
 | コミットして PR 作成 | `git-commit` → `git-push` → `gh-pr` |
+| コミットして MR 作成 | `git-commit` → `git-push` → `glab-mr` |
 
 ## 注意事項
 
 - pre-commitフックが失敗した場合、コミットは作成されていない。問題を修正して新しいコミットを作成すること（`--amend`は使わない）
 - `--no-verify`でフックをスキップしない。フックが失敗したら原因を調査して修正する
-- push は `git-push`、Pull Request 作成は `gh-pr` の責務とする
+- push は `git-push`、Pull Request 作成は `gh-pr`、Merge Request 作成は `glab-mr` の責務とする
