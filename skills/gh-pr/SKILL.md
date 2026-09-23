@@ -21,7 +21,6 @@ description: >
 ## いつ使うか
 
 - `gh-pr`
-- `/gh-pr`
 - `gh-pr owner/repo`
 - `gh-pr owner/repo --head feat/example`
 - `gh-pr owner/repo --head feat/example --base develop`
