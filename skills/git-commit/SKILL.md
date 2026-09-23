@@ -7,6 +7,7 @@ description: >
   ユーザーが「コミットして」「変更をコミット」「git commit」「commitして」
   「この変更をコミット」「コミットメッセージを書いて」「コミットお願い」
   などコミット関連のリクエストをした場合に必ず使用すること。
+  AIによるGitコマンド実行が禁止されているプロジェクトでは使わず、git-commit-no-gitを使用する。
   push と Pull Request 作成は含まない。
 ---
 
@@ -90,6 +91,7 @@ git log --oneline -5
 | ユーザーの依頼 | ワークフロー |
 |---|---|
 | コミット | `git-commit` |
+| Gitコマンド禁止環境でコミット案を作成 | `git-commit-no-git` |
 | コミットして push | `git-commit` → `git-push` |
 | コミットして PR 作成 | `git-commit` → `git-push` → `gh-pr` |
 
