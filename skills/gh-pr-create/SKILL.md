@@ -3,7 +3,7 @@ name: gh-pr-create
 description: >
   スキル名で呼ばれたときだけ、push済みブランチからGitHub Pull Requestを構造化して確認後に作成する。
   対象リポジトリ、base、head、既存PR、リモートとの差分を確認し、gh-pr-schemaに沿って本文を作る。
-  例: gh-pr-create、/gh-pr-create owner/repo、gh-pr-create owner/repo --head feat/example --base develop。
+  例: gh-pr-create、gh-pr-create --repo owner/repo、gh-pr-create --repo owner/repo --head feat/example --base develop。
   「PRを作って」「プルリク出して」だけでは使わない。
   スキル名が無いときは使わない。
   AIによるGitコマンド実行が禁止されているプロジェクトでは使わず、gh-pr-create-no-gitを使用する。
@@ -23,16 +23,16 @@ description: >
 ## いつ使うか
 
 - `gh-pr-create`
-- `gh-pr-create owner/repo`
-- `gh-pr-create owner/repo --head feat/example`
-- `gh-pr-create owner/repo --head feat/example --base develop`
+- `gh-pr-create --repo owner/repo`
+- `gh-pr-create --repo owner/repo --head feat/example`
+- `gh-pr-create --repo owner/repo --head feat/example --base develop`
 - push済みブランチからPull Requestを作成するとき
 
 ## 手順
 
 ### Step 1: 対象リポジトリとブランチを決める
 
-対象リポジトリは引数の`owner/repo`。省略時はカレントディレクトリのリポジトリとする。
+対象リポジトリは`--repo owner/repo`で指定する。省略時はカレントディレクトリのリポジトリとする。
 
 ```bash
 gh repo view <owner/repo> --json nameWithOwner,defaultBranchRef --jq '{repo:.nameWithOwner,base:.defaultBranchRef.name}'

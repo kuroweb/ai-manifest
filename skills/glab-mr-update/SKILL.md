@@ -3,7 +3,7 @@ name: glab-mr-update
 description: >
   スキル名で呼ばれたときだけ、指定したGitLab Merge Requestのタイトルと本文を確認後に更新する。
   対象プロジェクト、既存MR、そのMRの差分を確認し、glab-mr-schemaに沿って本文を作る。
-  例: glab-mr-update --number 42、glab-mr-update group/project --number 42。
+  例: glab-mr-update --number 42、glab-mr-update --repo group/project --number 42。
   「MRを更新して」だけでは使わない。
   スキル名が無いときは使わない。
   `--number`が無いときはiidを聞く。
@@ -23,8 +23,8 @@ description: >
 ## いつ使うか
 
 - `glab-mr-update --number <iid>`
-- `glab-mr-update group/project --number <iid>`
-- `glab-mr-update group/subgroup/project --number <iid>`
+- `glab-mr-update --repo group/project --number <iid>`
+- `glab-mr-update --repo group/subgroup/project --number <iid>`
 - 既存Merge Requestのタイトルや本文を変えるとき
 
 GitHubのPull Requestには使わない。
@@ -33,7 +33,7 @@ GitHubのPull Requestには使わない。
 
 ### Step 1: 対象を決める
 
-対象プロジェクトは引数のプロジェクトパスまたはURL。パスは`group/project`または`group/subgroup/project`。省略時はカレントディレクトリのリポジトリとする。
+対象プロジェクトは`--repo`で指定する。`group/project`、`group/subgroup/project`、またはURL。省略時はカレントディレクトリのリポジトリとする。URLの場合は末尾の`.git`を除いたパスをプロジェクトパスにする。
 
 ```bash
 glab repo view <project> -F json --jq '{path:.path_with_namespace,base:.default_branch,web_url:.web_url}'

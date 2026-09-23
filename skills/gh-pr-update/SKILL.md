@@ -3,7 +3,7 @@ name: gh-pr-update
 description: >
   スキル名で呼ばれたときだけ、指定したGitHub Pull Requestのタイトルと本文を確認後に更新する。
   対象リポジトリ、既存PR、そのPRの差分を確認し、gh-pr-schemaに沿って本文を作る。
-  例: gh-pr-update --number 42、gh-pr-update owner/repo --number 42。
+  例: gh-pr-update --number 42、gh-pr-update --repo owner/repo --number 42。
   「PRを更新して」だけでは使わない。
   スキル名が無いときは使わない。
   `--number`が無いときは番号を聞く。
@@ -23,14 +23,14 @@ description: >
 ## いつ使うか
 
 - `gh-pr-update --number <number>`
-- `gh-pr-update owner/repo --number <number>`
+- `gh-pr-update --repo owner/repo --number <number>`
 - 既存Pull Requestのタイトルや本文を変えるとき
 
 ## 手順
 
 ### Step 1: 対象を決める
 
-対象リポジトリは引数の`owner/repo`。省略時はカレントディレクトリのリポジトリとする。
+対象リポジトリは`--repo owner/repo`で指定する。省略時はカレントディレクトリのリポジトリとする。
 
 ```bash
 gh repo view <owner/repo> --json nameWithOwner --jq .nameWithOwner

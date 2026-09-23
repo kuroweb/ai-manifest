@@ -2,7 +2,7 @@
 name: gh-issue-load
 description: >
   スキル名と Issue 番号で呼ばれたときだけ、その GitHub Issue を読み込む。
-  例: gh-issue-load --number 42、/gh-issue-load owner/repo --number 42。
+  例: gh-issue-load --number 42、gh-issue-load --repo owner/repo --number 42。
   「Issue を読み込んで」「内容を見せて」だけでは使わない。
   スキル名が無いときは使わない。
   `--number` が無いときは番号を聞く。
@@ -20,7 +20,7 @@ description: >
 ## いつ使うか
 
 - `gh-issue-load --number <number>`
-- `gh-issue-load owner/repo --number <number>`
+- `gh-issue-load --repo owner/repo --number <number>`
 - 「Issue を読み込んで」「内容を見せて」だけでは使わない
 - スキル名が無いときは使わない
 - `--number` が無いときは番号を聞く
@@ -29,7 +29,7 @@ description: >
 
 ### Step 1: 対象を決める
 
-対象リポジトリは引数の `owner/repo`。省略時はカレントディレクトリのリポジトリとする。
+対象リポジトリは `--repo owner/repo` で指定する。省略時はカレントディレクトリのリポジトリとする。
 
 ```bash
 gh repo view <owner/repo> --json nameWithOwner --jq .nameWithOwner

@@ -3,7 +3,7 @@ name: glab-mr-create
 description: >
   スキル名で呼ばれたときだけ、push済みブランチからGitLab Merge Requestを構造化して確認後に作成する。
   対象プロジェクト、base、head、既存MR、リモートとの差分を確認し、glab-mr-schemaに沿って本文を作る。
-  例: glab-mr-create、/glab-mr-create group/project、glab-mr-create group/subgroup/project --head feat/example --base develop。
+  例: glab-mr-create、glab-mr-create --repo group/project、glab-mr-create --repo group/subgroup/project --head feat/example --base develop。
   「MRを作って」「マージリク出して」だけでは使わない。
   スキル名が無いときは使わない。
   AIによるGitコマンド実行が禁止されているプロジェクトでは使わず、glab-mr-create-no-gitを使用する。
@@ -23,9 +23,9 @@ description: >
 ## いつ使うか
 
 - `glab-mr-create`
-- `glab-mr-create group/project`
-- `glab-mr-create group/subgroup/project --head feat/example`
-- `glab-mr-create group/project --head feat/example --base develop`
+- `glab-mr-create --repo group/project`
+- `glab-mr-create --repo group/subgroup/project --head feat/example`
+- `glab-mr-create --repo group/project --head feat/example --base develop`
 - push済みブランチからMerge Requestを作成するとき
 
 GitHubのPull Requestには使わない。
@@ -34,7 +34,7 @@ GitHubのPull Requestには使わない。
 
 ### Step 1: 対象プロジェクトとブランチを決める
 
-対象プロジェクトは引数のプロジェクトパスまたはURL。パスは `group/project` または `group/subgroup/project`。省略時はカレントディレクトリのリポジトリとする。
+対象プロジェクトは`--repo`で指定する。`group/project`、`group/subgroup/project`、またはURL。省略時はカレントディレクトリのリポジトリとする。URLの場合は末尾の`.git`を除いたパスをプロジェクトパスにする。
 
 ```bash
 glab repo view <project> -F json --jq '{path:.path_with_namespace,base:.default_branch,web_url:.web_url}'
