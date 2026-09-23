@@ -44,7 +44,7 @@ gh repo view --json nameWithOwner --jq .nameWithOwner
 更新なら、Issue を読む。
 
 ```bash
-gh issue view <number> --repo <owner/repo>
+gh issue view <number> --repo <owner/repo> --json number,title,state,body,url
 ```
 
 ```bash
@@ -110,25 +110,19 @@ gh issue list --repo <owner/repo> --search "<keywords>" --state all --limit 10
 
 ### Step 8: 起票または更新する
 
+本文をリポジトリ外の一時ファイルへ書き、`--body-file` で渡す。複数行の本文を `--body` の引数に埋め込まない。
+
 起票なら、次で起票する。
 
 ```bash
-gh issue create --repo <owner/repo> --title "<title>" --body "$(cat <<'EOF'
-<body>
-EOF
-)"
+gh issue create --repo <owner/repo> --title "<title>" --body-file <body-file>
 ```
 
 更新なら、次で更新する。
 
 ```bash
-gh issue edit <number> --repo <owner/repo> --title "<title>" --body "$(cat <<'EOF'
-<body>
-EOF
-)"
+gh issue edit <number> --repo <owner/repo> --title "<title>" --body-file <body-file>
 ```
-
-本文は quoted heredoc。未展開の `${` を残さない。
 
 Issue type は種類から決める。バグは Bug、機能追加は Feature、それ以外は Task。
 
@@ -147,21 +141,27 @@ gh api repos/{owner}/{repo}/issues/{number} --jq .node_id
 gh api graphql -f query='mutation($id:ID!, $typeId:ID!) { updateIssue(input:{id:$id, issueTypeId:$typeId}) { issue { url issueType { name } } } }' -f id="<node_id>" -f typeId="<type_id>"
 ```
 
-起票後または更新後、Issue URL を返す。実装しない。PR を出さない。
+起票後または更新後、次でタイトル、本文、状態、URL を確認する。
+
+```bash
+gh issue view <number> --repo <owner/repo> --json number,title,state,body,url
+```
+
+Issue URL を返す。実装しない。PR を出さない。
 
 ## コマンドリファレンス
 
 | コマンド | 用途 |
 |---|---|
 | `gh repo view --json nameWithOwner --jq .nameWithOwner` | 対象リポジトリを特定する |
-| `gh issue view <number> --repo <owner/repo>` | 更新前に Issue を読む |
+| `gh issue view <number> --repo <owner/repo> --json number,title,state,body,url` | Issue の内容と変更結果を読む |
 | `gh issue view <number> --json assignees,labels,title` | 担当と in-progress を見る |
 | `gh pr list --search "<number>" --state open --limit 10` | この Issue の open PR |
 | `gh api repos/{owner}/{repo} --jq .default_branch` | デフォルトブランチ名を取る |
 | `gh api repos/{owner}/{repo}/commits/<default_branch> --jq '.sha[0:7]'` | 機能追加のバージョン用 short SHA を取る |
 | `gh issue list --repo <owner/repo> --search "<keywords>" --state all --limit 10` | 起票前に重複 Issue を探す |
-| `gh issue create --repo <owner/repo> --title "<title>" --body "..."` | 確認後に起票する |
-| `gh issue edit <number> --repo <owner/repo> --title "<title>" --body "..."` | 確認後にタイトルと本文を更新する |
+| `gh issue create --repo <owner/repo> --title "<title>" --body-file <body-file>` | 確認後に起票する |
+| `gh issue edit <number> --repo <owner/repo> --title "<title>" --body-file <body-file>` | 確認後にタイトルと本文を更新する |
 | `gh api graphql` （`issueTypes`） | リポジトリの Issue type 一覧を取る |
 | `gh api repos/{owner}/{repo}/issues/{number} --jq .node_id` | type 更新用の node_id を取る |
 | `gh api graphql` （`updateIssue`） | Issue type を付ける、または種類が変わるとき変える |

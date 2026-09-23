@@ -39,7 +39,7 @@ gh repo view --json nameWithOwner --jq .nameWithOwner
 ### Step 2: Issue を読み込む
 
 ```bash
-gh issue view <number> --repo <owner/repo>
+gh issue view <number> --repo <owner/repo> --json number,title,state,body,url
 ```
 
 `--repo` はカレントディレクトリのリポジトリなら省略してよい。
@@ -51,4 +51,4 @@ gh issue view <number> --repo <owner/repo>
 | コマンド | 用途 |
 |---|---|
 | `gh repo view --json nameWithOwner --jq .nameWithOwner` | 対象リポジトリを特定する |
-| `gh issue view <number> --repo <owner/repo>` | Issue を読み込む |
+| `gh issue view <number> --repo <owner/repo> --json number,title,state,body,url` | Issue を読み込む |
