@@ -90,7 +90,7 @@ ai-manifest/
 
 ## Skills 運用
 
-運用手順は [docs/skills-guideline.md](docs/skills-guideline.md) を見る。
+一覧は [skills/README.md](skills/README.md)、運用手順は [docs/skills-guideline.md](docs/skills-guideline.md) を見る。
 
 ## エージェント設定運用
 
