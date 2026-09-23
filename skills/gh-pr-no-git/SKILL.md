@@ -1,8 +1,8 @@
 ---
 name: gh-pr-no-git
 description: >
-  AIによるGitコマンド実行が禁止されたプロジェクトで、指定されたpush済みブランチから下書きPull Requestを先行作成し、
-  そのPRのdiffを基にタイトルと本文を組み立てて更新する。
+  AIによるGitコマンド実行が禁止されたプロジェクトで、指定されたpush済みブランチからPull Requestを作成する。
+  diffを取るため先に空の下書きを作り、確認済みのタイトルと本文を入れてreadyにする。
   スキル名で呼ばれたときだけ使用し、Gitと.gitには触れない。
   例: gh-pr-no-git --repo owner/repo --head feat/example、gh-pr-no-git --repo owner/repo --head feat/example --base develop。
   「PRを作って」「プルリク出して」だけでは使わない。Gitコマンドを実行できるプロジェクトではgh-prを使う。
@@ -13,11 +13,11 @@ description: >
 
 ## できること
 
-- Gitと`.git`を使わず、指定されたpush済みブランチから下書きPull Requestを作成する
-- 作成した下書きPRからdiffとコミットを取得する
+- Gitと`.git`を使わず、指定されたpush済みブランチからPull Requestを作成する
+- 本文を書く前に下書きを作り、そのdiffとコミットを取得する
 - `references/pr-schema.md`に沿ってタイトルと本文を組み立てる
-- 確認済みのタイトルと本文で下書きPRを更新する
-- 更新後のタイトル、本文、base、head、下書き状態を検証する
+- 確認済みのタイトルと本文を、作成したPRへ入れてreadyにする
+- 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
 
@@ -120,7 +120,7 @@ gh api --method POST "repos/<owner>/<repo>/pulls" --input <payload-file>
 gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,isDraft,headRefName,baseRefName,commits
 ```
 
-次を確認する。
+これは仮タイトルのPRの確認である。
 
 - stateが`OPEN`
 - isDraftが`true`
@@ -172,11 +172,13 @@ diffを取得できなければ本文を作らない。現在のファイル内�
 
 ### Step 11: 更新前に確認する
 
-タイトルと本文をチャットへ出す。ユーザーが認めたあとだけ下書きPRを更新する。
+タイトルと本文をチャットへ出す。更新後に下書きを解除してreadyにすることと、そのときレビュー依頼と通知が飛ぶことをあわせて出す。
+
+ユーザーが認めたあとだけPRを更新する。
 
 修正指示があれば反映し、タイトルと本文を再度出す。確認前に仮タイトルと空の本文を変更しない。
 
-### Step 12: 下書きPRを更新する
+### Step 12: PRを更新する
 
 確認済みのタイトルと本文をJSONへ変換し、リポジトリ外の一時ファイルへ保存する。
 
@@ -195,7 +197,9 @@ gh api --method PATCH "repos/<owner>/<repo>/pulls/<number>" --input <payload-fil
 
 Issueを起票しない。コミットしない。pushしない。
 
-### Step 13: 更新結果を検証する
+RESTの更新では下書きは解除できない。タイトルと本文を先に反映し、一致したあとだけreadyにする。
+
+### Step 13: 内容が一致したらreadyにする
 
 更新されたPRを取得する。
 
@@ -203,10 +207,26 @@ Issueを起票しない。コミットしない。pushしない。
 gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,isDraft,headRefName,baseRefName
 ```
 
-次を確認する。
+次が一致する場合だけreadyにする。
 
 - stateが`OPEN`
-- isDraftが`true`
+- titleが確認済みのタイトルと一致する
+- bodyが確認済みの本文と一致する
+- headRefNameがheadと一致する
+- baseRefNameがbaseと一致する
+
+一つでも違えばreadyにせず、差異とPR URLを返す。
+
+一致したら、番号と`--repo`を省略せずreadyにする。省略するとカレントブランチのPRを見に行き、Gitに依存する。
+
+```bash
+gh pr ready <number> --repo <owner/repo>
+```
+
+同じ取得コマンドで、更新後のPRを再度確認する。
+
+- stateが`OPEN`
+- isDraftが`false`
 - titleが確認済みのタイトルと一致する
 - bodyが確認済みの本文と一致する
 - headRefNameがheadと一致する
@@ -214,8 +234,6 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,isDra
 - closeするIssueが、本文末尾の`Closes`行に一件ずつ書かれている
 
 一致しない場合は成功として扱わず、差異とPR URLをユーザーへ返す。すべて一致したらPR URLを返す。一時ファイルは削除する。
-
-下書き解除はこのスキルでは行わない。readyにする場合は、ユーザーがPR内容を確認した後に明示的に依頼する。
 
 ## 安全条件
 
@@ -229,8 +247,8 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,isDra
 - 作成したPR以外のdiffを本文作成に使わない
 - PRのdiffにない変更を本文へ含めない
 - ユーザー確認前に仮タイトルと空の本文を更新しない
-- 作成や更新に失敗しても、下書きPRを無断で閉じたり削除したりしない
-- 下書きを無断でreadyにしない
+- タイトルと本文が確認済みの内容と一致する前にreadyにしない
+- 作成や更新に失敗しても、PRを無断で閉じたり削除したりしない
 
 ## スキル連携
 
