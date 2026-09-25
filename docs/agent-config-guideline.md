@@ -26,7 +26,8 @@ config/
 │   ├── settings.json                  # → ~/.claude/settings.json
 │   └── .claude.mcp.json               # 手動 → ~/.claude.json
 ├── .codex/
-│   └── agents/                        # generate → ~/.codex/agents/
+│   ├── agents/                        # generate → ~/.codex/agents/
+│   └── config.toml                    # 手動 → ~/.codex/config.toml
 ├── .takt/
 │   ├── config.yaml                    # → ~/.takt/config.yaml
 │   ├── workflows/                     # → ~/.takt/workflows/
@@ -73,7 +74,7 @@ config/
 
 - `config/` 内を直接編集する。
   - 直接編集 + symlink: `settings.json`、`scripts/`、`hooks/`、`mcp.json`、`hooks.json`、`.takt/`、`.docs/`、`.env` など
-  - 手動コピペ: `cli-config.json`、`.claude.mcp.json`
+  - 手動コピペ: `cli-config.json`、`.claude.mcp.json`、`config.toml`
 
 ### symlink での反映
 
@@ -96,6 +97,7 @@ config/
 
 - `config/.cursor/cli-config.json` → `~/.cursor/cli-config.json`
 - `config/.claude/.claude.mcp.json` → `~/.claude.json`
+- `config/.codex/config.toml` → `~/.codex/config.toml`
 - `mcpServers.*.command` には絶対パスを使う（`~` や `$HOME` 不可）
 
 ## install.sh のバックアップ仕様
