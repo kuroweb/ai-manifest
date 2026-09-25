@@ -4,7 +4,7 @@ description: >
   AIによるGitコマンド実行が禁止されたプロジェクトで、指定されたpush済みブランチからPull Requestを作成する。
   diffを取るため先に空の下書きを作り、確認済みのタイトルと本文を入れてreadyにする。
   スキル名で呼ばれたときだけ使用し、Gitと.gitには触れない。
-  例: gh-pr-create-no-git --repo owner/repo --head feat/example、gh-pr-create-no-git --repo owner/repo --head feat/example --base develop。
+  例: gh-pr-create-no-git --repo owner/repo --head feat/example --issue 123。
   「PRを作って」「プルリク出して」だけでは使わない。Gitコマンドを実行できるプロジェクトではgh-pr-createを使う。
   既存PRの更新はgh-pr-update-no-gitを使う。
   Issue起票、実装、コミット、pushは行わない。
@@ -25,6 +25,7 @@ description: >
 - `gh-pr-create-no-git`
 - `gh-pr-create-no-git --repo owner/repo --head feat/example`
 - `gh-pr-create-no-git --repo owner/repo --head feat/example --base develop`
+- `gh-pr-create-no-git --repo owner/repo --head feat/example --issue 123`
 - AIによるGitコマンド実行が禁止されたプロジェクトでPull Requestを作成するとき
 - GitHub上にpush済みのheadを明示してPull Requestを作成するとき
 
@@ -63,7 +64,14 @@ baseは次の順で決める。
 
 baseとheadが同じ場合は停止する。
 
-### Step 3: 同じheadの既存PRを確認する
+### Step 3: closeするIssueを確認する
+
+closeするIssueは次の順で決める。
+
+1. `--issue`で指定されたIssue
+2. 会話で示されたIssue
+
+### Step 4: 同じheadの既存PRを確認する
 
 下書きPRを作成する前に、同じheadを使ったPRを確認する。
 
@@ -72,10 +80,10 @@ gh pr list --repo <owner/repo> --head <head> --state all --json number,state,isD
 ```
 
 - `OPEN`のPRがあれば、新しいPRを作成せずURLを返す。タイトルや本文を変えるときは`gh-pr-update-no-git`を使う
-- 既存の下書きPRをこのスキルで続けたいとユーザーが明示し、baseとheadが指定内容に一致する場合は、そのPRを再利用する。Step 4とStep 5を飛ばしてStep 6へ進む
+- 既存の下書きPRをこのスキルで続けたいとユーザーが明示し、baseとheadが指定内容に一致する場合は、そのPRを再利用する。Step 5とStep 6を飛ばしてStep 7へ進む
 - `MERGED`または`CLOSED`のPRがあれば、同じheadを再利用せず、新しいブランチを使う
 
-### Step 4: 下書きPRの作成許可を得る
+### Step 5: 下書きPRの作成許可を得る
 
 下書きPRは外部状態を変更する。作成前に次をユーザーへ提示する。
 
@@ -91,7 +99,7 @@ GitHubではタイトルが必須のため、完全に空のPRは作れない。
 
 ユーザーがこの内容での下書きPR作成を明示的に認めたあとだけ次へ進む。
 
-### Step 5: 下書きPRを作成する
+### Step 6: 下書きPRを作成する
 
 仮タイトル、空の本文、base、head、`draft: true`をJSONへ変換し、リポジトリ外の一時ファイルへ保存する。文字列を手作業でJSONエスケープせず、JSONを安全に生成できる手段を使う。
 
@@ -113,7 +121,7 @@ gh api --method POST "repos/<owner>/<repo>/pulls" --input <payload-file>
 
 作成に失敗した場合は自動で再試行しない。エラーを確認し、headが存在しない、baseとの差分がない、権限がないなどの原因をユーザーへ返す。
 
-### Step 6: 作成したPRからdiffを取得する
+### Step 7: 作成したPRからdiffを取得する
 
 作成時のレスポンスからPR番号を取得し、対象リポジトリを明示してPRの状態とコミットを取得する。
 
@@ -138,40 +146,31 @@ gh pr diff <number> --repo <owner/repo>
 
 diffを取得できなければ本文を作らない。現在のファイル内容や会話中の未push変更からdiffを補わない。
 
-### Step 7: スキーマを読む
+### Step 8: スキーマを読む
 
 `gh-pr-schema`を読む。タイトルや本文を組む前に読む。
 
-### Step 8: PR本文に必要な情報を集める
+### Step 9: PR本文に必要な情報を集める
 
-変更目的、変更内容、テスト内容、関連Issueが書けるところまで、会話、作成したPRのコミット、作成したPRのdiffから集める。
+変更目的、変更内容、テスト内容が書けるところまで、会話、作成したPRのコミット、作成したPRのdiffから集める。
 
 - 変更目的は会話から取る。diffから推測しない
 - 変更内容はPRのdiffにある事実だけを書く
 - テスト内容は`gh-pr-schema`に従い、diffにあるテストの追加・変更から取る
-- Issue番号の候補は、会話、head名、コミットメッセージから取る
-- Issue番号の候補があるだけでは、closeするIssueとして扱わない
 - ローカルファイルや会話中の未push変更をPR本文へ含めない
 
-### Step 9: 足りない情報を聞く
+### Step 10: 足りない情報を聞く
 
 本文に書けない情報だけを、一度に一つ聞く。選択肢と推奨回答を出す。
 
 - 変更目的が会話に無ければ聞く
-- Issueをcloseするか参照だけにするか決まっていなければ聞く
-- baseがデフォルトブランチで、候補が一つのときは`Closes`を推奨する
-- 関連Issueの候補が無ければ、Issue番号を聞かない
 
-### Step 10: タイトルと本文を組む
+### Step 11: タイトルと本文を組む
 
 タイトルと本文は`gh-pr-schema`に従う。
-
-- baseがデフォルトブランチでない場合は`Closes`を書かない
-- closeしないIssueは`Related:`で書く
-- 関連Issueが無ければ見出しごと省く
 - 作成したPRのdiffにない変更を本文へ含めない
 
-### Step 11: 更新前に確認する
+### Step 12: 更新前に確認する
 
 タイトルと本文をチャットへ出す。更新後に下書きを解除してreadyにすることと、そのときレビュー依頼と通知が飛ぶことをあわせて出す。
 
@@ -179,7 +178,7 @@ diffを取得できなければ本文を作らない。現在のファイル内�
 
 修正指示があれば反映し、タイトルと本文を再度出す。確認前に仮タイトルと空の本文を変更しない。
 
-### Step 12: PRを更新する
+### Step 13: PRを更新する
 
 確認済みのタイトルと本文をJSONへ変換し、リポジトリ外の一時ファイルへ保存する。
 
@@ -200,7 +199,7 @@ Issueを起票しない。コミットしない。pushしない。
 
 RESTの更新では下書きは解除できない。タイトルと本文を先に反映し、一致したあとだけreadyにする。
 
-### Step 13: 内容が一致したらreadyにする
+### Step 14: 内容が一致したらreadyにする
 
 更新されたPRを取得する。
 
@@ -232,7 +231,7 @@ gh pr ready <number> --repo <owner/repo>
 - bodyが確認済みの本文と一致する
 - headRefNameがheadと一致する
 - baseRefNameがbaseと一致する
-- closeするIssueが、本文末尾の`Closes`行に一件ずつ書かれている
+- closeするIssueが、本文末尾の`Closes`行に書かれている
 
 一致しない場合は成功として扱わず、差異とPR URLをユーザーへ返す。すべて一致したらPR URLを返す。一時ファイルは削除する。
 

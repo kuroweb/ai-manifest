@@ -120,13 +120,9 @@ sequenceDiagram
 
 ```markdown
 Closes #10
-Related: #20
 ```
 
 - プレーンテキストで置く。バッククォート、コードブロック、引用には入れない
 - `Closes` はこの PR で完了する Issue。デフォルトブランチへのマージで GitHub が閉じる
-- `Related:` は言及するが閉じない Issue。マージしても開いたまま
-- 同じリポジトリの `Closes` は `Closes #10`。別リポジトリは `Closes owner/repo#10`
-- `Closes` が複数あるときは行を分ける。各行にキーワードを書く。`Closes #10, #123` とは書かない
-- ベースがデフォルトブランチでないときは `Closes` を書かない
+- `Closes #10`の形式で書く
 - 書く行が無ければ、見出しごと省く

@@ -4,7 +4,7 @@ description: >
   AIによるGitコマンド実行が禁止されたプロジェクトで、指定されたpush済みブランチからMerge Requestを作成する。
   diffを取るため先に空の下書きを作り、確認済みのタイトルと本文を入れてreadyにする。
   スキル名で呼ばれたときだけ使用し、Gitと.gitには触れない。
-  例: glab-mr-create-no-git --repo group/project --head feat/example、glab-mr-create-no-git --repo group/subgroup/project --head feat/example --base develop --hostname gitlab.example.com。
+  例: glab-mr-create-no-git --repo group/project --head feat/example --issue 123、glab-mr-create-no-git --repo group/subgroup/project --head feat/example --hostname gitlab.example.com。
   「MRを作って」「マージリク出して」だけでは使わない。Gitコマンドを実行できるプロジェクトではglab-mr-createを使う。
   既存MRの更新はglab-mr-update-no-gitを使う。
   Issue起票、実装、コミット、pushは行わない。
@@ -25,6 +25,7 @@ description: >
 - `glab-mr-create-no-git`
 - `glab-mr-create-no-git --repo group/project --head feat/example`
 - `glab-mr-create-no-git --repo group/project --head feat/example --base develop`
+- `glab-mr-create-no-git --repo group/project --head feat/example --issue 123`
 - `glab-mr-create-no-git --repo group/subgroup/project --head feat/example --hostname gitlab.example.com`
 - AIによるGitコマンド実行が禁止されたプロジェクトでMerge Requestを作成するとき
 - GitLab上にpush済みのheadを明示してMerge Requestを作成するとき
@@ -80,7 +81,14 @@ baseは次の順で決める。
 
 baseとheadが同じ場合は停止する。
 
-### Step 3: 同じheadの既存MRを確認する
+### Step 3: closeするIssueを確認する
+
+closeするIssueは次の順で決める。
+
+1. `--issue`で指定されたIssue
+2. 会話で示されたIssue
+
+### Step 4: 同じheadの既存MRを確認する
 
 下書きMRを作成する前に、同じheadを使ったMRを確認する。`source_branch`の値はURLエンコードする。
 
@@ -91,10 +99,10 @@ glab api --hostname <host> --paginate "projects/<encoded-path>/merge_requests?st
 JSONの`iid`、`state`、`draft`、`web_url`、`source_branch`、`target_branch`を見る。
 
 - `opened`または`locked`のMRがあれば、新しいMRを作成せずURLを返す。タイトルや本文を変えるときは`glab-mr-update-no-git`を使う
-- 既存の下書きMRをこのスキルで続けたいとユーザーが明示し、`source_branch`と`target_branch`が指定内容に一致する場合は、そのMRを再利用する。Step 4とStep 5を飛ばしてStep 6へ進む
+- 既存の下書きMRをこのスキルで続けたいとユーザーが明示し、`source_branch`と`target_branch`が指定内容に一致する場合は、そのMRを再利用する。Step 5とStep 6を飛ばしてStep 7へ進む
 - `merged`または`closed`のMRがあれば、同じheadを再利用せず、新しいブランチを使う
 
-### Step 4: 下書きMRの作成許可を得る
+### Step 5: 下書きMRの作成許可を得る
 
 下書きMRは外部状態を変更する。作成前に次をユーザーへ提示する。
 
@@ -111,7 +119,7 @@ GitLabではタイトルが必須のため、完全に空のMRは作れない。
 
 ユーザーがこの内容での下書きMR作成を明示的に認めたあとだけ次へ進む。
 
-### Step 5: 下書きMRを作成する
+### Step 6: 下書きMRを作成する
 
 仮タイトル、空の説明、base、headをJSONへ変換し、リポジトリ外の一時ファイルへ保存する。ファイル名は`.json`で終わるものにする。文字列を手作業でJSONエスケープせず、JSONを安全に生成できる手段を使う。
 
@@ -132,7 +140,7 @@ glab api --hostname <host> --method POST -H "Content-Type: application/json" "pr
 
 作成に失敗した場合は自動で再試行しない。エラーを確認し、headが存在しない、baseとの差分がない、権限がないなどの原因をユーザーへ返す。
 
-### Step 6: 作成したMRからdiffを取得する
+### Step 7: 作成したMRからdiffを取得する
 
 作成時のレスポンスから`iid`を取得し、MRを取得する。
 
@@ -158,43 +166,35 @@ glab api --hostname <host> --paginate "projects/<encoded-path>/merge_requests/<i
 
 diffを取得できなければ本文を作らない。`collapsed`または`too_large`のファイルがある場合も、欠けたdiffを補わず停止する。現在のファイル内容や会話中の未push変更からdiffを補わない。
 
-### Step 7: スキーマを読む
+### Step 8: スキーマを読む
 
 `glab-mr-schema`を読む。タイトルや本文を組む前に読む。
 
-### Step 8: MR本文に必要な情報を集める
+### Step 9: MR本文に必要な情報を集める
 
-変更目的、変更内容、テスト内容、関連Issueが書けるところまで、会話、作成したMRのコミット、作成したMRのdiffから集める。
+変更目的、変更内容、テスト内容が書けるところまで、会話、作成したMRのコミット、作成したMRのdiffから集める。
 
 コミットは取得した`title`と`message`だけを使う。
 
 - 変更目的は会話から取る。diffから推測しない
 - 変更内容はMRのdiffにある事実だけを書く
 - テスト内容は`glab-mr-schema`に従い、diffにあるテストの追加・変更から取る
-- Issue番号の候補は、会話、head名、コミットメッセージから取る
-- Issue番号の候補があるだけでは、closeするIssueとして扱わない
 - ローカルファイルや会話中の未push変更をMR本文へ含めない
 
-### Step 9: 足りない情報を聞く
+### Step 10: 足りない情報を聞く
 
 本文に書けない情報だけを、一度に一つ聞く。選択肢と推奨回答を出す。
 
 - 変更目的が会話に無ければ聞く
-- Issueをcloseするか参照だけにするか決まっていなければ聞く
-- baseがデフォルトブランチで、候補が一つのときは`Closes`を推奨する
-- 関連Issueの候補が無ければ、Issue番号を聞かない
 
-### Step 10: タイトルと本文を組む
+### Step 11: タイトルと本文を組む
 
 タイトルと本文は`glab-mr-schema`に従う。
 
-- baseがデフォルトブランチでない場合は`Closes`を書かない
-- closeしないIssueは`Related:`で書く
-- 関連Issueが無ければ見出しごと省く
 - 作成したMRのdiffにない変更を本文へ含めない
 - 本文の行を`/`で始めない
 
-### Step 11: 更新前に確認する
+### Step 12: 更新前に確認する
 
 タイトルと本文をチャットへ出す。更新で仮タイトルの`Draft:`が外れ、GitLabがそのMRをreadyにすることと、そのとき参加者へ通知が飛ぶことをあわせて出す。
 
@@ -202,7 +202,7 @@ diffを取得できなければ本文を作らない。`collapsed`または`too_
 
 修正指示があれば反映し、タイトルと本文を再度出す。確認前に仮タイトルと空の説明を変更しない。
 
-### Step 12: MRを更新する
+### Step 13: MRを更新する
 
 確認済みのタイトルと本文をJSONへ変換し、リポジトリ外の一時ファイルへ保存する。
 
@@ -221,7 +221,7 @@ glab api --hostname <host> --method PUT -H "Content-Type: application/json" "pro
 
 Issueを起票しない。コミットしない。pushしない。
 
-### Step 13: 更新結果を検証する
+### Step 14: 更新結果を検証する
 
 更新されたMRを取得する。
 
@@ -237,7 +237,7 @@ glab api --hostname <host> "projects/<encoded-path>/merge_requests/<iid>"
 - descriptionが確認済みの本文と一致する
 - source_branchがheadと一致する
 - target_branchがbaseと一致する
-- closeするIssueが、本文末尾の`Closes`行に一件ずつ書かれている
+- closeするIssueが、本文末尾の`Closes`行に書かれている
 
 一致しない場合は成功として扱わず、差異とMR URLをユーザーへ返す。すべて一致したらMR URLを返す。一時ファイルは削除する。
 

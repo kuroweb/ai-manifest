@@ -123,13 +123,9 @@ sequenceDiagram
 
 ```markdown
 Closes #10
-Related: #20
 ```
 
 - プレーンテキストで置く。バッククォート、コードブロック、引用には入れない
 - `Closes` はこの MR で完了する Issue。デフォルトブランチへのマージで GitLab が閉じる
-- `Related:` は言及するが閉じない Issue。マージしても開いたまま
-- 同じプロジェクトの `Closes` は `Closes #10`。別プロジェクトは `Closes group/project#10`。サブグループがあるときは `Closes group/subgroup/project#10`
-- `Closes` が複数あるときは行を分ける。各行にキーワードを書く。`Closes #10, #123` とは書かない
-- ベースがデフォルトブランチでないときは `Closes` を書かない
+- `Closes #10`の形式で書く
 - 書く行が無ければ、見出しごと省く
