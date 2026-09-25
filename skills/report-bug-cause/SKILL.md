@@ -1,21 +1,21 @@
 ---
-name: bug-cause-report
+name: report-bug-cause
 description: >-
   観測された不具合が、今のコードのどこで・なぜ起きるかを調査し、
   日本語 Markdown のレポートにする。書く前に既存コードを一次情報として調査する。
-  ユーザーが `bug-cause-report` または `/bug-cause-report` で明示的に呼び出した場合に使用すること。
+  ユーザーが `report-bug-cause` または `/report-bug-cause` で明示的に呼び出した場合に使用すること。
   『バグの原因』『なぜこの不具合が』『どこで起きているか調べて』『原因をレポートして』のような依頼でも使う。
   実装可否の調査、修正の実装、パッチ作成では使わない。
 ---
 
-# bug-cause-report
+# report-bug-cause
 
 ## できること
 
 - 観測された不具合が、今のコードのどこで・なぜ起きるかを調査する
 - `原因特定` / `有力候補` / `特定不可` / `要確認` を判定する
 - 変える箇所が見えているときは、原因の説明に直し方の案内を添えてよい
-- 結果を日本語 Markdown として `bug-cause-report.md` に保存する
+- 結果を日本語 Markdown として `report-bug-cause.md` に保存する
 
 ## いつ使うか
 
@@ -53,9 +53,9 @@ description: >-
 
 ### 4. 保存して返す
 
-手順 3 の本文をワークスペースルートの `bug-cause-report.md` に書き出す。
+手順 3 の本文をワークスペースルートの `report-bug-cause.md` に書き出す。
 
-既存の `bug-cause-report.md` があれば上書きする。保存後、保存先パスと本文をチャットへ 1 回だけ返す。
+既存の `report-bug-cause.md` があれば上書きする。保存後、保存先パスと本文をチャットへ 1 回だけ返す。
 
 ## 禁止事項
 

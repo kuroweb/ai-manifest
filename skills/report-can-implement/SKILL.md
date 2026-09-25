@@ -1,21 +1,21 @@
 ---
-name: can-implement-report
+name: report-can-implement
 description: >-
   やりたいことが、変更を含めて今のコードベースで実装できるかを調査し、既存例と必要な変更を添えて
   日本語 Markdown のレポートにする。書く前に既存コードを一次情報として調査する。
   工数は調査目的に含まれているときだけ扱う。
-  ユーザーが `can-implement-report` または `/can-implement-report` で明示的に呼び出した場合に使用すること。
+  ユーザーが `report-can-implement` または `/report-can-implement` で明示的に呼び出した場合に使用すること。
   『実現できるか調べて』『実装可能か』『これ今のコードでできる？』『実現可能性をレポートして』のような依頼でも使う。
 ---
 
-# can-implement-report
+# report-can-implement
 
 ## できること
 
 - やりたいことが、変更を含めてこのコードベースで実装できるかを調査する
 - `実装可` / `条件付きで実装可` / `実装不可` / `要確認` を判定する
 - 既存例と必要な変更をレポートに出す
-- 結果を日本語 Markdown として `can-implement-report.md` に保存する
+- 結果を日本語 Markdown として `report-can-implement.md` に保存する
 
 ## いつ使うか
 
@@ -52,9 +52,9 @@ description: >-
 
 ### 4. 保存して返す
 
-手順 3 の本文をワークスペースルートの `can-implement-report.md` に書き出す。
+手順 3 の本文をワークスペースルートの `report-can-implement.md` に書き出す。
 
-既存の `can-implement-report.md` があれば上書きする。保存後、保存先パスと本文をチャットへ 1 回だけ返す。
+既存の `report-can-implement.md` があれば上書きする。保存後、保存先パスと本文をチャットへ 1 回だけ返す。
 
 ## 禁止事項
 

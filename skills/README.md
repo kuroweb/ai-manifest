@@ -43,8 +43,8 @@
 
 | スキル | すること |
 |---|---|
-| [bug-cause-report](bug-cause-report/SKILL.md) | 不具合が今のコードのどこで、なぜ起きるかを調べてレポートにする |
-| [can-implement-report](can-implement-report/SKILL.md) | やりたいことが今のコードで実装できるかを調べてレポートにする |
+| [report-bug-cause](report-bug-cause/SKILL.md) | 不具合が今のコードのどこで、なぜ起きるかを調べてレポートにする |
+| [report-can-implement](report-can-implement/SKILL.md) | やりたいことが今のコードで実装できるかを調べてレポートにする |
 | [report-patterns](report-patterns/SKILL.md) | レポートの記述パターン。他のスキルが読む |
 
 ## 設計と文章
