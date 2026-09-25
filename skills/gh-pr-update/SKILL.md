@@ -3,10 +3,10 @@ name: gh-pr-update
 description: >
   スキル名で呼ばれたときだけ、指定したGitHub Pull Requestのタイトルと本文を確認後に更新する。
   対象リポジトリ、既存PR、そのPRの差分を確認し、gh-pr-schemaに沿って本文を作る。
-  例: gh-pr-update --number 42、gh-pr-update --repo owner/repo --number 42。
+  例: gh-pr-update --pr 42、gh-pr-update --repo owner/repo --pr 42。
   「PRを更新して」だけでは使わない。
   スキル名が無いときは使わない。
-  `--number`が無いときは番号を聞く。
+  `--pr`が無いときは番号を聞く。
   AIによるGitコマンド実行が禁止されているプロジェクトでは使わず、gh-pr-update-no-gitを使用する。
   PRの新規作成、Issue起票、実装、コミット、pushは行わない。
 ---
@@ -22,8 +22,8 @@ description: >
 
 ## いつ使うか
 
-- `gh-pr-update --number <number>`
-- `gh-pr-update --repo owner/repo --number <number>`
+- `gh-pr-update --pr <number>`
+- `gh-pr-update --repo owner/repo --pr <number>`
 - 既存Pull Requestのタイトルや本文を変えるとき
 
 ## 手順
@@ -38,7 +38,7 @@ gh repo view <owner/repo> --json nameWithOwner --jq .nameWithOwner
 
 対象リポジトリを省略した呼び出しでは、コマンドの`<owner/repo>`も省略する。
 
-PR番号は`--number`で指定する。`--number`が無いときだけ止まって聞く。カレントディレクトリが対象リポジトリなら、現在のブランチのPRを候補として示してよい。番号をユーザーが認めるまで更新しない。
+PR番号は`--pr`で指定する。`--pr`が無いときだけ止まって聞く。カレントディレクトリが対象リポジトリなら、現在のブランチのPRを候補として示してよい。番号をユーザーが認めるまで更新しない。
 
 ### Step 2: スキーマと既存PRを読む
 

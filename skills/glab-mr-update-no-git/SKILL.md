@@ -3,10 +3,10 @@ name: glab-mr-update-no-git
 description: >
   AIによるGitコマンド実行が禁止されたプロジェクトで、指定したMerge Requestのタイトルと本文を確認後に更新する。
   スキル名で呼ばれたときだけ使用し、Gitと.gitには触れない。
-  例: glab-mr-update-no-git --repo group/project --number 42 --hostname gitlab.example.com。
+  例: glab-mr-update-no-git --repo group/project --mr 42 --hostname gitlab.example.com。
   「MRを更新して」だけでは使わない。Gitコマンドを実行できるプロジェクトではglab-mr-updateを使う。
   スキル名が無いときは使わない。
-  `--repo`、`--number`、`--hostname`が無いときは聞いてから進む。
+  `--repo`、`--mr`、`--hostname`が無いときは聞いてから進む。
   MRの新規作成、Issue起票、実装、コミット、pushは行わない。
 ---
 
@@ -21,8 +21,8 @@ description: >
 
 ## いつ使うか
 
-- `glab-mr-update-no-git --repo group/project --number <iid> --hostname gitlab.example.com`
-- `glab-mr-update-no-git --repo group/subgroup/project --number <iid> --hostname gitlab.example.com`
+- `glab-mr-update-no-git --repo group/project --mr <iid> --hostname gitlab.example.com`
+- `glab-mr-update-no-git --repo group/subgroup/project --mr <iid> --hostname gitlab.example.com`
 - AIによるGitコマンド実行が禁止されたプロジェクトで、既存Merge Requestのタイトルや本文を変えるとき
 
 GitHubのPull Requestには使わない。
@@ -45,7 +45,7 @@ APIパスに`:fullpath`、`:id`、`:namespace`、`:repo`、`:branch`を書かな
 
 対象プロジェクトは`--repo`で指定された値を使う。`group/project`、`group/subgroup/project`、または`https://<host>/<path>`。省略されている場合は、Gitから推測せずユーザーに聞く。URLの場合は末尾の`.git`を除いたパスをプロジェクトパスにする。
 
-MRのiidは`--number`で指定する。無いときはユーザーに聞く。ローカルブランチから推測しない。
+MRのiidは`--mr`で指定する。無いときはユーザーに聞く。ローカルブランチから推測しない。
 
 ホストは次の順で決める。
 

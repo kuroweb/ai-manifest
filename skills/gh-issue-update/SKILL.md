@@ -3,10 +3,10 @@ name: gh-issue-update
 description: >
   スキル名で呼ばれたときだけ、指定したGitHub Issueを構造化して確認後に更新する。
   対象、既存Issue、担当状況、関連PR、Issue typeを確認し、gh-issue-schemaに沿って本文を作る。
-  例: gh-issue-update --number 42、gh-issue-update --repo owner/repo --number 42。
+  例: gh-issue-update --issue 42、gh-issue-update --repo owner/repo --issue 42。
   「Issueを更新して」だけでは使わない。
   スキル名が無いときは使わない。
-  `--number`が無いときは番号を聞く。
+  `--issue`が無いときは番号を聞く。
   読み込みだけ、起票、実装、PR作成では使わない。
 ---
 
@@ -20,8 +20,8 @@ description: >
 
 ## いつ使うか
 
-- `gh-issue-update --number <number>`
-- `gh-issue-update --repo owner/repo --number <number>`
+- `gh-issue-update --issue <number>`
+- `gh-issue-update --repo owner/repo --issue <number>`
 - 既存Issueに書いてある要求を変えるとき
 
 ## 手順
@@ -36,7 +36,7 @@ gh repo view <owner/repo> --json nameWithOwner --jq .nameWithOwner
 
 対象リポジトリを省略した呼び出しでは、コマンドの`<owner/repo>`も省略する。
 
-Issue番号は`--number`で指定する。`--number`が無いときだけ止まって聞く。
+Issue番号は`--issue`で指定する。`--issue`が無いときだけ止まって聞く。
 
 ### Step 2: スキーマと既存Issueを読む
 
@@ -109,7 +109,7 @@ Issueの状態、担当者、ラベルは変更しない。実装しない。PR�
 
 ### Step 8: 結果を検証する
 
-`--number`の値を使って結果を取得する。
+`--issue`の値を使って結果を取得する。
 
 ```bash
 gh issue view <number> --repo <owner/repo> --json number,title,state,body,url,issueType

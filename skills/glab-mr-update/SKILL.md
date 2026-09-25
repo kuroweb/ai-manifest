@@ -3,10 +3,10 @@ name: glab-mr-update
 description: >
   スキル名で呼ばれたときだけ、指定したGitLab Merge Requestのタイトルと本文を確認後に更新する。
   対象プロジェクト、既存MR、そのMRの差分を確認し、glab-mr-schemaに沿って本文を作る。
-  例: glab-mr-update --number 42、glab-mr-update --repo group/project --number 42。
+  例: glab-mr-update --mr 42、glab-mr-update --repo group/project --mr 42。
   「MRを更新して」だけでは使わない。
   スキル名が無いときは使わない。
-  `--number`が無いときはiidを聞く。
+  `--mr`が無いときはiidを聞く。
   AIによるGitコマンド実行が禁止されているプロジェクトでは使わず、glab-mr-update-no-gitを使用する。
   MRの新規作成、Issue起票、実装、コミット、pushは行わない。
 ---
@@ -22,9 +22,9 @@ description: >
 
 ## いつ使うか
 
-- `glab-mr-update --number <iid>`
-- `glab-mr-update --repo group/project --number <iid>`
-- `glab-mr-update --repo group/subgroup/project --number <iid>`
+- `glab-mr-update --mr <iid>`
+- `glab-mr-update --repo group/project --mr <iid>`
+- `glab-mr-update --repo group/subgroup/project --mr <iid>`
 - 既存Merge Requestのタイトルや本文を変えるとき
 
 GitHubのPull Requestには使わない。
@@ -41,7 +41,7 @@ glab repo view <project> -F json --jq '{path:.path_with_namespace,base:.default_
 
 対象プロジェクトを省略した呼び出しでは、コマンドの`<project>`も省略する。
 
-MRのiidは`--number`で指定する。`--number`が無いときだけ止まって聞く。
+MRのiidは`--mr`で指定する。`--mr`が無いときだけ止まって聞く。
 
 対象プロジェクトに対応するgit remoteを、remote URLのホストとプロジェクトパスから特定する。パス比較では末尾の`.git`を除く。対応するremoteが無い、または複数あって一意でない場合は停止する。カレントディレクトリが対象プロジェクトでない場合も停止する。
 

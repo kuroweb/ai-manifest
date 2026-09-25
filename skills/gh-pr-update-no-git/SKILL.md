@@ -3,10 +3,10 @@ name: gh-pr-update-no-git
 description: >
   AIによるGitコマンド実行が禁止されたプロジェクトで、指定したPull Requestのタイトルと本文を確認後に更新する。
   スキル名で呼ばれたときだけ使用し、Gitと.gitには触れない。
-  例: gh-pr-update-no-git --repo owner/repo --number 42。
+  例: gh-pr-update-no-git --repo owner/repo --pr 42。
   「PRを更新して」だけでは使わない。Gitコマンドを実行できるプロジェクトではgh-pr-updateを使う。
   スキル名が無いときは使わない。
-  `--repo`または`--number`が無いときは聞いてから進む。
+  `--repo`または`--pr`が無いときは聞いてから進む。
   PRの新規作成、Issue起票、実装、コミット、pushは行わない。
 ---
 
@@ -21,7 +21,7 @@ description: >
 
 ## いつ使うか
 
-- `gh-pr-update-no-git --repo owner/repo --number <number>`
+- `gh-pr-update-no-git --repo owner/repo --pr <number>`
 - AIによるGitコマンド実行が禁止されたプロジェクトで、既存Pull Requestのタイトルや本文を変えるとき
 
 ## 手順
@@ -38,7 +38,7 @@ description: >
 
 対象リポジトリは`--repo owner/repo`で指定された値を使う。省略されている場合は、Gitから推測せずユーザーに聞く。
 
-PR番号は`--number`で指定する。無いときはユーザーに聞く。ローカルブランチから推測しない。
+PR番号は`--pr`で指定する。無いときはユーザーに聞く。ローカルブランチから推測しない。
 
 対象リポジトリをGitHubから確認する。
 
