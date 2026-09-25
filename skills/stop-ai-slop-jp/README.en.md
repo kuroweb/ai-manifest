@@ -50,11 +50,13 @@ stop-ai-slop-jp/
 ## Quick start
 
 **Claude Code (personal)**
+
 ```bash
 git clone https://github.com/iKora128/stop-ai-slop-jp ~/.claude/skills/stop-ai-slop-jp
 ```
 
 **Claude Code (project)**
+
 ```bash
 git clone https://github.com/iKora128/stop-ai-slop-jp <project>/.claude/skills/stop-ai-slop-jp
 ```
@@ -135,7 +137,7 @@ Before/after examples showing how to rewrite actual passages.
 Rate 1–10 on each dimension. Below 35/50: revise.
 
 | Dimension | Question |
-|---|---|
+| --- | --- |
 | Stance | Is there a falsifiable, specific claim? |
 | Rhythm | Varied length, tone, conclusion? |
 | Agency | Is "who did what" explicit? (no false agency) |
