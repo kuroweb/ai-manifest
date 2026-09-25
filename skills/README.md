@@ -55,7 +55,13 @@
 | [grill-with-docs](grill-with-docs/SKILL.md) | プランを既存の用語と文書に突き合わせ、決まったら CONTEXT.md と ADR を更新する |
 | [intent-based-dedup](intent-based-dedup/SKILL.md) | 字面ではなく意図で、コードを共通化するか判断する |
 | [law-of-demeter](law-of-demeter/SKILL.md) | 連鎖呼び出しを減らし、直接の相手とだけ話す設計にする |
+
+## 文章
+
+| スキル | すること |
+| --- | --- |
 | [stop-ai-slop-jp](stop-ai-slop-jp/SKILL.md) | AIで書いた日本語を、人が書いた文章に戻す |
+| [humanizer-jp](humanizer-jp/SKILL.md) | AIで書いた文章を、内容は変えずに人が書いた文章へ戻す |
 
 ## セッション
 
