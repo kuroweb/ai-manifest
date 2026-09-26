@@ -19,6 +19,14 @@
   gh skill list --scope user
   ```
 
+- インストール先は `--agent` ごとに決まる。`codex` は共有ディレクトリ `~/.agents/skills`（`cline` / `universal` / `warp` と共用）で、`~/.codex/skills` ではない。
+
+  | agent | user scope のインストール先 |
+  | --- | --- |
+  | `cursor` | `~/.cursor/skills` |
+  | `claude-code` | `~/.claude/skills` |
+  | `codex` | `~/.agents/skills` |
+
 ## スキル更新
 
 - リモートの更新をインストール済みスキルへ反映する。
@@ -26,7 +34,7 @@
   ```bash
   gh skill update --dir ~/.cursor/skills
   gh skill update --dir ~/.claude/skills
-  gh skill update --dir ~/.codex/skills
+  gh skill update --dir ~/.agents/skills
   ```
 
 ## スキル編集
@@ -41,7 +49,7 @@
   rm -rf ~/.claude/skills/<name>
   gh skill install . <name> --from-local --scope user --agent claude-code --force
 
-  rm -rf ~/.codex/skills/<name>
+  rm -rf ~/.agents/skills/<name>
   gh skill install . <name> --from-local --scope user --agent codex --force
   ```
 
