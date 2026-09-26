@@ -21,7 +21,6 @@ ai-manifest/
     ├── .claude/         # rulesync 生成物 + 手動管理ファイル
     ├── .codex/          # rulesync 生成物
     ├── .docs/           # 運用データ
-    ├── .takt/           # taktのグローバル設定
     ├── .env             # MCPなどのシークレットを記述する
     ├── rulesync.jsonc
     ├── CLAUDE.md        # rulesync generate の成果物

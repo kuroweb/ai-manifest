@@ -219,14 +219,6 @@ link_entries ".codex" "agents"
 link_root_file ".codex" "AGENTS.md"
 echo ""
 
-# ~/.takt -> ./config/.takt
-echo "Setting up .takt..."
-mkdir -p "$HOME/.takt"
-ln -sfn "$CONFIG_ROOT/.takt/config.yaml" "$HOME/.takt/config.yaml"
-ln -sfn "$CONFIG_ROOT/.takt/workflows" "$HOME/.takt/workflows"
-ln -sfn "$CONFIG_ROOT/.takt/facets" "$HOME/.takt/facets"
-echo ""
-
 # ~/.docs -> ./config/.docs
 echo "Setting up .docs..."
 mkdir -p "$CONFIG_ROOT/.docs"
