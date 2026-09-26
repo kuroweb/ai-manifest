@@ -1,11 +1,10 @@
 ---
 name: gh-issue-create
 description: >
-  スキル名で呼ばれたときだけ、GitHub Issueを構造化して確認後に起票する。
-  対象、重複、Issue typeを確認し、gh-issue-schemaに沿って本文を作る。
+  GitHub Issueを構造化して確認後に起票する。
+  対象、重複、Issue typeを確認し、スキーマに沿って本文を作る。
   例: gh-issue-create、gh-issue-create --repo owner/repo。
-  「Issueを作って」「起票して」「チケット切って」だけでは使わない。
-  スキル名が無いときは使わない。
+  「Issueを作成」「Issueを起票」「チケットを切る」などの操作を行う際に使用する。
 ---
 
 # gh-issue-create

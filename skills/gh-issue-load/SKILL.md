@@ -1,10 +1,9 @@
 ---
 name: gh-issue-load
 description: >
-  スキル名と Issue 番号で呼ばれたときだけ、その GitHub Issue を読み込む。
+  指定した GitHub Issue を読み込む。
   例: gh-issue-load --issue 42、gh-issue-load --repo owner/repo --issue 42。
-  「Issue を読み込んで」「内容を見せて」だけでは使わない。
-  スキル名が無いときは使わない。
+  「Issueを読み込む」「Issueの内容を確認」などの操作を行う際に使用する。
   `--issue` が無いときは番号を聞く。
 ---
 
@@ -20,8 +19,7 @@ description: >
 
 - `gh-issue-load --issue <number>`
 - `gh-issue-load --repo owner/repo --issue <number>`
-- 「Issue を読み込んで」「内容を見せて」だけでは使わない
-- スキル名が無いときは使わない
+- 指定した Issue の内容を確認するとき
 - `--issue` が無いときは番号を聞く
 
 ## 手順

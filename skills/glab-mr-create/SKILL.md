@@ -1,14 +1,10 @@
 ---
 name: glab-mr-create
 description: >
-  スキル名で呼ばれたときだけ、push済みブランチからGitLab Merge Requestを構造化して確認後に作成する。
-  対象プロジェクト、base、head、既存MR、リモートとの差分を確認し、glab-mr-schemaに沿って本文を作る。
+  push済みブランチからGitLab Merge Requestを構造化して確認後に作成する。
+  対象プロジェクト、base、head、既存MR、リモートとの差分を確認し、スキーマに沿って本文を作る。
   例: glab-mr-create、glab-mr-create --repo group/project --issue 123。
-  「MRを作って」「マージリク出して」だけでは使わない。
-  スキル名が無いときは使わない。
-  AIによるGitコマンド実行が禁止されているプロジェクトでは使わず、glab-mr-create-no-gitを使用する。
-  既存MRの更新はglab-mr-updateを使う。
-  Issue起票、実装、コミット、pushは行わない。
+  「MRを作成」「マージリクエストを開く」「レビューのために送信」などの操作を行う際に使用する。
 ---
 
 # glab-mr-create

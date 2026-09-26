@@ -1,14 +1,10 @@
 ---
 name: gh-pr-create
 description: >
-  スキル名で呼ばれたときだけ、push済みブランチからGitHub Pull Requestを構造化して確認後に作成する。
-  対象リポジトリ、base、head、既存PR、リモートとの差分を確認し、gh-pr-schemaに沿って本文を作る。
+  push済みブランチからGitHub Pull Requestを構造化して確認後に作成する。
+  対象リポジトリ、base、head、既存PR、リモートとの差分を確認し、スキーマに沿って本文を作る。
   例: gh-pr-create、gh-pr-create --repo owner/repo --issue 123。
-  「PRを作って」「プルリク出して」だけでは使わない。
-  スキル名が無いときは使わない。
-  AIによるGitコマンド実行が禁止されているプロジェクトでは使わず、gh-pr-create-no-gitを使用する。
-  既存PRの更新はgh-pr-updateを使う。
-  Issue起票、実装、コミット、pushは行わない。
+  「PRを作成」「プルリクエストを開く」「レビューのために送信」などの操作を行う際に使用する。
 ---
 
 # gh-pr-create

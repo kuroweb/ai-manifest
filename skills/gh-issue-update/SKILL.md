@@ -1,11 +1,10 @@
 ---
 name: gh-issue-update
 description: >
-  スキル名で呼ばれたときだけ、指定したGitHub Issueを構造化して確認後に更新する。
-  対象、既存Issue、担当状況、関連PR、Issue typeを確認し、gh-issue-schemaに沿って本文を作る。
+  指定したGitHub Issueを構造化して確認後に更新する。
+  対象、既存Issue、担当状況、関連PR、Issue typeを確認し、スキーマに沿って本文を作る。
   例: gh-issue-update --issue 42、gh-issue-update --repo owner/repo --issue 42。
-  「Issueを更新して」だけでは使わない。
-  スキル名が無いときは使わない。
+  「Issueを更新」「Issueに追記」「Issueの内容を修正」などの操作を行う際に使用する。
   `--issue`が無いときは番号を聞く。
 ---
 

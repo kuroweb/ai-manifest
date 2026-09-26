@@ -1,10 +1,9 @@
 ---
 name: gh-issue-list
 description: >
-  スキル名で呼ばれたときだけ、openなGitHub Issueの一覧を出す。
+  openなGitHub Issueの一覧を出す。
   例: gh-issue-list、gh-issue-list --repo owner/repo。
-  「Issue一覧を見せて」「openなIssueは」だけでは使わない。
-  スキル名が無いときは使わない。
+  「Issue一覧を確認」「openなIssueを確認」などの操作を行う際に使用する。
 ---
 
 # gh-issue-list
@@ -18,8 +17,7 @@ description: >
 
 - `gh-issue-list`
 - `gh-issue-list --repo owner/repo`
-- 「Issue一覧を見せて」「openなIssueは」だけでは使わない
-- スキル名が無いときは使わない
+- open な Issue の一覧を確認するとき
 
 ## 手順
 

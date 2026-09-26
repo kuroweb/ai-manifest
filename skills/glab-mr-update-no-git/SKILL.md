@@ -2,12 +2,10 @@
 name: glab-mr-update-no-git
 description: >
   AIによるGitコマンド実行が禁止されたプロジェクトで、指定したMerge Requestのタイトルと本文を確認後に更新する。
-  スキル名で呼ばれたときだけ使用し、Gitと.gitには触れない。
+  Gitと.gitには触れない。
   例: glab-mr-update-no-git --repo group/project --mr 42 --hostname gitlab.example.com。
-  「MRを更新して」だけでは使わない。Gitコマンドを実行できるプロジェクトではglab-mr-updateを使う。
-  スキル名が無いときは使わない。
+  「MRを更新」「MRの説明を修正」「MRのタイトルを変更」などの操作を、Gitコマンドを使わずに行う際に使用する。
   `--repo`、`--mr`、`--hostname`が無いときは聞いてから進む。
-  MRの新規作成、Issue起票、実装、コミット、pushは行わない。
 ---
 
 # glab-mr-update-no-git

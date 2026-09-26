@@ -1,14 +1,11 @@
 ---
 name: glab-mr-update
 description: >
-  スキル名で呼ばれたときだけ、指定したGitLab Merge Requestのタイトルと本文を確認後に更新する。
-  対象プロジェクト、既存MR、そのMRの差分を確認し、glab-mr-schemaに沿って本文を作る。
+  指定したGitLab Merge Requestのタイトルと本文を確認後に更新する。
+  対象プロジェクト、既存MR、そのMRの差分を確認し、スキーマに沿って本文を作る。
   例: glab-mr-update --mr 42、glab-mr-update --repo group/project --mr 42。
-  「MRを更新して」だけでは使わない。
-  スキル名が無いときは使わない。
+  「MRを更新」「MRの説明を修正」「MRのタイトルを変更」などの操作を行う際に使用する。
   `--mr`が無いときはiidを聞く。
-  AIによるGitコマンド実行が禁止されているプロジェクトでは使わず、glab-mr-update-no-gitを使用する。
-  MRの新規作成、Issue起票、実装、コミット、pushは行わない。
 ---
 
 # glab-mr-update

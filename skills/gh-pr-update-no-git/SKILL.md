@@ -2,12 +2,10 @@
 name: gh-pr-update-no-git
 description: >
   AIによるGitコマンド実行が禁止されたプロジェクトで、指定したPull Requestのタイトルと本文を確認後に更新する。
-  スキル名で呼ばれたときだけ使用し、Gitと.gitには触れない。
+  Gitと.gitには触れない。
   例: gh-pr-update-no-git --repo owner/repo --pr 42。
-  「PRを更新して」だけでは使わない。Gitコマンドを実行できるプロジェクトではgh-pr-updateを使う。
-  スキル名が無いときは使わない。
+  「PRを更新」「PRの説明を修正」「PRのタイトルを変更」などの操作を、Gitコマンドを使わずに行う際に使用する。
   `--repo`または`--pr`が無いときは聞いてから進む。
-  PRの新規作成、Issue起票、実装、コミット、pushは行わない。
 ---
 
 # gh-pr-update-no-git

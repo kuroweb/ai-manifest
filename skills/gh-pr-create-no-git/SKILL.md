@@ -3,11 +3,9 @@ name: gh-pr-create-no-git
 description: >
   AIによるGitコマンド実行が禁止されたプロジェクトで、指定されたpush済みブランチからPull Requestを作成する。
   diffを取るため先に空の下書きを作り、確認済みのタイトルと本文を入れてreadyにする。
-  スキル名で呼ばれたときだけ使用し、Gitと.gitには触れない。
+  Gitと.gitには触れない。
   例: gh-pr-create-no-git --repo owner/repo --head feat/example --issue 123。
-  「PRを作って」「プルリク出して」だけでは使わない。Gitコマンドを実行できるプロジェクトではgh-pr-createを使う。
-  既存PRの更新はgh-pr-update-no-gitを使う。
-  Issue起票、実装、コミット、pushは行わない。
+  「PRを作成」「プルリクエストを開く」「レビューのために送信」などの操作を、Gitコマンドを使わずに行う際に使用する。
 ---
 
 # gh-pr-create-no-git

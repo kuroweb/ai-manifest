@@ -3,11 +3,9 @@ name: glab-mr-create-no-git
 description: >
   AIによるGitコマンド実行が禁止されたプロジェクトで、指定されたpush済みブランチからMerge Requestを作成する。
   diffを取るため先に空の下書きを作り、確認済みのタイトルと本文を入れてreadyにする。
-  スキル名で呼ばれたときだけ使用し、Gitと.gitには触れない。
+  Gitと.gitには触れない。
   例: glab-mr-create-no-git --repo group/project --head feat/example --issue 123、glab-mr-create-no-git --repo group/subgroup/project --head feat/example --hostname gitlab.example.com。
-  「MRを作って」「マージリク出して」だけでは使わない。Gitコマンドを実行できるプロジェクトではglab-mr-createを使う。
-  既存MRの更新はglab-mr-update-no-gitを使う。
-  Issue起票、実装、コミット、pushは行わない。
+  「MRを作成」「マージリクエストを開く」「レビューのために送信」などの操作を、Gitコマンドを使わずに行う際に使用する。
 ---
 
 # glab-mr-create-no-git

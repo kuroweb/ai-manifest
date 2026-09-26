@@ -1,14 +1,11 @@
 ---
 name: gh-pr-update
 description: >
-  スキル名で呼ばれたときだけ、指定したGitHub Pull Requestのタイトルと本文を確認後に更新する。
-  対象リポジトリ、既存PR、そのPRの差分を確認し、gh-pr-schemaに沿って本文を作る。
+  指定したGitHub Pull Requestのタイトルと本文を確認後に更新する。
+  対象リポジトリ、既存PR、そのPRの差分を確認し、スキーマに沿って本文を作る。
   例: gh-pr-update --pr 42、gh-pr-update --repo owner/repo --pr 42。
-  「PRを更新して」だけでは使わない。
-  スキル名が無いときは使わない。
+  「PRを更新」「PRの説明を修正」「PRのタイトルを変更」などの操作を行う際に使用する。
   `--pr`が無いときは番号を聞く。
-  AIによるGitコマンド実行が禁止されているプロジェクトでは使わず、gh-pr-update-no-gitを使用する。
-  PRの新規作成、Issue起票、実装、コミット、pushは行わない。
 ---
 
 # gh-pr-update
