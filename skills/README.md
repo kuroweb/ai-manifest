@@ -6,6 +6,8 @@
 
 | スキル | すること |
 |---|---|
+| [git-branch-naming](git-branch-naming/SKILL.md) | ブランチ名を種類・Issue連携・kebab-caseで決める |
+| [git-branch-create](git-branch-create/SKILL.md) | ローカルブランチを新規作成する |
 | [git-commit](git-commit/SKILL.md) | 変更を意味のある単位でコミットする |
 | [git-commit-no-git](git-commit-no-git/SKILL.md) | Gitコマンドを実行せず、コミット手順を作る |
 | [git-push](git-push/SKILL.md) | 既存コミットをリモートへ push する |
