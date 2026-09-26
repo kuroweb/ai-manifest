@@ -19,6 +19,7 @@
 | [gh-issue-create](gh-issue-create/SKILL.md) | Issueを確認後に起票する |
 | [gh-issue-update](gh-issue-update/SKILL.md) | 既存Issueのタイトルと本文を確認後に更新する |
 | [gh-issue-load](gh-issue-load/SKILL.md) | 指定したIssueを読み込む |
+| [gh-issue-list](gh-issue-list/SKILL.md) | openなIssueの一覧を出す |
 | [gh-issue-schema](gh-issue-schema/SKILL.md) | Issueのタイトルと本文の型。起票と更新が読む |
 
 ## GitHub Pull Request

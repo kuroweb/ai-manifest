@@ -3,7 +3,6 @@ name: gh-issue-schema
 description: >
   GitHub Issueのタイトルと本文の型。
   他のスキルが読むよう指示したとき、またはユーザーが`gh-issue-schema`と明示したときに使う。
-  起票、更新、読み込み、実装、PR作成はしない。
 ---
 
 # gh-issue-schema

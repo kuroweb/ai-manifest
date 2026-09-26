@@ -6,7 +6,6 @@ description: >
   例: gh-issue-create、gh-issue-create --repo owner/repo。
   「Issueを作って」「起票して」「チケット切って」だけでは使わない。
   スキル名が無いときは使わない。
-  読み込みだけ、更新、実装、PR作成では使わない。
 ---
 
 # gh-issue-create
@@ -130,6 +129,7 @@ gh issue view <url> --repo <owner/repo> --json number,title,state,body,url,issue
 
 | ユーザーの依頼 | ワークフロー |
 |---|---|
+| openなIssue一覧 | `gh-issue-list` |
 | Issueを読むだけ | `gh-issue-load` |
 | Issueを起票 | `gh-issue-create` |
 | Issueを更新 | `gh-issue-update` |

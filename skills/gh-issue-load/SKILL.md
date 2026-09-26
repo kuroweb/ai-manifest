@@ -6,7 +6,6 @@ description: >
   「Issue を読み込んで」「内容を見せて」だけでは使わない。
   スキル名が無いときは使わない。
   `--issue` が無いときは番号を聞く。
-  起票は gh-issue-create、更新は gh-issue-update を使う。実装、PR 作成では使わない。
 ---
 
 # gh-issue-load
@@ -53,6 +52,7 @@ gh issue view <number> --repo <owner/repo> --json number,title,state,body,url
 
 | ユーザーの依頼 | ワークフロー |
 |---|---|
+| openなIssue一覧 | `gh-issue-list` |
 | Issueを読むだけ | `gh-issue-load` |
 | Issueを起票 | `gh-issue-create` |
 | Issueを更新 | `gh-issue-update` |
