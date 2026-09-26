@@ -7,8 +7,6 @@ description: >
   ユーザーが「コミットして」「変更をコミット」「git commit」「commitして」
   「この変更をコミット」「コミットメッセージを書いて」「コミットお願い」
   などコミット関連のリクエストをした場合に必ず使用すること。
-  AIによるGitコマンド実行が禁止されているプロジェクトでは使わず、git-commit-no-gitを使用する。
-  push、Pull Request と Merge Request の作成・更新は含まない。
 ---
 
 # Git Commit

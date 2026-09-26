@@ -5,7 +5,6 @@ description: >
   upstream、ahead/behind、リモートのデフォルトブランチ、push 先ブランチを確認し、通常 push と初回 push を扱う。
   ユーザーが「pushして」「リモートへ送って」「コミットをpush」
   「変更をリモートに反映して」など、既存コミットの push を依頼した場合に使用する。
-  コミット作成、Pull Request と Merge Request の作成・更新、タグの push は行わない。
 ---
 
 # git-push

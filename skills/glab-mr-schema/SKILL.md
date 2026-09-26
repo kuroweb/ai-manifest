@@ -3,7 +3,6 @@ name: glab-mr-schema
 description: >
   GitLab Merge Requestのタイトルと本文の型。
   他のスキルが読むよう指示したとき、またはユーザーが`glab-mr-schema`と明示したときに使う。
-  MRの作成、更新、実装、コミット、pushはしない。
 ---
 
 # glab-mr-schema
