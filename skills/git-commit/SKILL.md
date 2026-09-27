@@ -100,4 +100,4 @@ git log --oneline -5
 
 - pre-commitフックが失敗した場合、コミットは作成されていない。問題を修正して新しいコミットを作成すること（`--amend`は使わない）
 - `--no-verify`でフックをスキップしない。フックが失敗したら原因を調査して修正する
-- push は `git-push`、Pull Request の作成は `gh-pr-create`、更新は `gh-pr-update`、Merge Request の作成は `glab-mr-create`、更新は `glab-mr-update` の責務とする
+- ブランチの作成・切り替えはしない。現在のブランチへコミットする
