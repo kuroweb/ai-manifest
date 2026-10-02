@@ -50,15 +50,20 @@ description: >-
 
 このステップの前に `references/report-schema.md` でレポートの型を確認する。書き方は `report-patterns` に従う。
 
-### 4. 保存して返す
+### 4. 可読性を確認する
 
-手順 3 の本文をワークスペースルートの `report-can-implement.md` に書き出す。
+保存する前に `report-patterns` を読み、手順 3 の本文がその書き方で読みやすくできるか確認する。できる箇所があれば、調査結果と節の順は変えずに直す。
+
+### 5. 保存して返す
+
+手順 4 を経た本文をワークスペースルートの `report-can-implement.md` に書き出す。
 
 既存の `report-can-implement.md` があれば上書きする。保存後、保存先パスと本文をチャットへ 1 回だけ返す。
 
 ## 禁止事項
 
 - `references/report-schema.md` を読まずに出力しない
+- `report-patterns` を読まずに可読性を確認しない
 - コードを調査する前にレポートを生成しない
 - 調査していない事実を断定しない
 - 見つからないことを「存在しない」と言い切らない
