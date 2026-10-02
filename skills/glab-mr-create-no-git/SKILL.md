@@ -3,8 +3,9 @@ name: glab-mr-create-no-git
 description: >
   AIによるGitコマンド実行が禁止されたプロジェクトで、指定されたpush済みブランチからMerge Requestを作成する。
   diffを取るため先に空の下書きを作り、確認済みのタイトルと本文を入れてreadyにする。
+  `.gitlab/merge_request_templates` があればその構成で、無ければスキーマに沿って本文を作る。
   Gitと.gitには触れない。
-  例: glab-mr-create-no-git --repo group/project --head feat/example --issue 123、glab-mr-create-no-git --repo group/subgroup/project --head feat/example --hostname gitlab.example.com。
+  例: glab-mr-create-no-git --head feat/example --issue 123。
   「MRを作成」「マージリクエストを開く」「レビューのために送信」などの操作を、Gitコマンドを使わずに行う際に使用する。
 ---
 
@@ -14,17 +15,16 @@ description: >
 
 - Gitと`.git`を使わず、指定されたpush済みブランチからMerge Requestを作成する
 - 本文を書く前に下書きを作り、そのdiffとコミットを取得する
-- `glab-mr-schema`に沿ってタイトルと本文を組み立てる
+- `.gitlab/merge_request_templates` があればその構成で、無ければ `glab-mr-schema` で本文を組み立てる
 - 確認済みのタイトルと本文を、作成したMRへ入れてreadyにする
 - 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
 
 - `glab-mr-create-no-git`
-- `glab-mr-create-no-git --repo group/project --head feat/example`
-- `glab-mr-create-no-git --repo group/project --head feat/example --base develop`
-- `glab-mr-create-no-git --repo group/project --head feat/example --issue 123`
-- `glab-mr-create-no-git --repo group/subgroup/project --head feat/example --hostname gitlab.example.com`
+- `glab-mr-create-no-git --head feat/example`
+- `glab-mr-create-no-git --head feat/example --base develop`
+- `glab-mr-create-no-git --head feat/example --issue 123`
 - AIによるGitコマンド実行が禁止されたプロジェクトでMerge Requestを作成するとき
 - GitLab上にpush済みのheadを明示してMerge Requestを作成するとき
 
@@ -36,17 +36,25 @@ GitHubのPull Requestには使わない。
 
 プロジェクトの指示を読み、AIによるGitコマンド実行が禁止されていることを確認する。
 
-このスキルでは、読み取り専用を含むすべての`git`コマンドを実行しない。Gitを内部で呼び出すツールや、`.git`を直接読んで同等の情報を取得する方法も使わない。
+このスキルでは、読み取り専用を含むすべての`git`コマンドを実行しない。`.git`を直接読んで同等の情報を取得しない。
 
-`glab`は`glab api`だけを使う。`glab mr`はカレントブランチやカレントディレクトリのGitホストに依存するため使わない。
+プロジェクトとホストは、引数なしの`glab repo view`で取る。`glab mr`はカレントブランチに依存するため使わない。以降のAPIは`glab api`だけを使う。
 
 APIパスに`:fullpath`、`:id`、`:namespace`、`:repo`、`:branch`を書かない。プレースホルダはカレントディレクトリのGit情報で展開される。
 
-プロジェクトとホストは引数で明示する。`--hostname`を必ず渡す。
-
 ### Step 2: 対象プロジェクトとブランチを決める
 
-対象プロジェクトは`--repo`で指定された値を使う。`group/project`、`group/subgroup/project`、または`https://<host>/<path>`。省略されている場合は、Gitから推測せずユーザーに聞く。URLの場合は末尾の`.git`を除いたパスをプロジェクトパスにする。
+対象プロジェクトとホストは、引数なしの`glab repo view`で取る。
+
+```bash
+glab repo view -F json --jq '{path:.path_with_namespace,default_branch:.default_branch,web_url:.web_url}'
+```
+
+`path`をプロジェクトパスにする。ホストは`web_url`から取る。スキームとパスを除く。ポートがあれば`host:port`。`default_branch`はデフォルトブランチである。
+
+取得できなければ停止する。Gitコマンドや`.git`からは取らない。
+
+以降の`glab api`には、ここで得たホストを`--hostname`で渡す。プロジェクトパスの`/`は`%2F`にする。例: `group/subgroup/project`は`group%2Fsubgroup%2Fproject`。
 
 headは次の順で決める。
 
@@ -55,27 +63,11 @@ headは次の順で決める。
 
 headを特定できない場合はユーザーに聞く。ローカルブランチから推測しない。
 
-ホストは次の順で決める。
-
-1. `--hostname`
-2. `--repo`がURLなら、そのホスト。ポートがあれば`host:port`
-3. 会話で指定されたホスト
-
-決まらなければユーザーに聞く。Git remoteやカレントディレクトリからは取らない。`--hostname`にはスキームとパスを含めない。
-
-対象プロジェクトとデフォルトブランチをGitLab APIから取得する。プロジェクトパスの`/`は`%2F`にする。例: `group/subgroup/project`は`group%2Fsubgroup%2Fproject`。
-
-```bash
-glab api --hostname <host> "projects/<encoded-path>"
-```
-
-レスポンスの`path_with_namespace`、`default_branch`、`web_url`を使う。
-
 baseは次の順で決める。
 
 1. `--base`で指定されたブランチ
 2. 会話で指定されたブランチ
-3. 対象プロジェクトのデフォルトブランチ
+3. `glab repo view`で得たデフォルトブランチ
 
 baseとheadが同じ場合は停止する。
 
@@ -176,7 +168,6 @@ diffを取得できなければ本文を作らない。`collapsed`または`too_
 
 - 変更目的は会話から取る。diffから推測しない
 - 変更内容はMRのdiffにある事実だけを書く
-- テスト内容は`glab-mr-schema`に従い、diffにあるテストの追加・変更から取る
 - ローカルファイルや会話中の未push変更をMR本文へ含めない
 
 ### Step 10: 足りない情報を聞く
@@ -187,12 +178,19 @@ diffを取得できなければ本文を作らない。`collapsed`または`too_
 
 ### Step 11: タイトルと本文を組む
 
-タイトルと本文は`glab-mr-schema`に従う。
+本文の前に、プロジェクトルートの`.gitlab/merge_request_templates`を見る。
+
+`.md`が無いときは、本文は`glab-mr-schema`の文書構成で書く。あるときはそのファイルを構成にする。`Default.md`があればそれを使う。1件ならそれを使う。複数で`Default.md`が無ければ、ファイル名を一度聞いてから使う。
+
+テンプレートの見出しの並びで書く。意味が近い節は、`glab-mr-schema`のその節の書き方で埋める。書き方は`report-patterns`にも従う。
 
 - 作成したMRのdiffにない変更を本文へ含めない
-- 本文の行を`/`で始めない
 
-### Step 12: 更新前に確認する
+### Step 12: 可読性を確認する
+
+ユーザー確認の前に`report-patterns`を読み、Step 11のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、採用した見出し構成と記載した事実は変えずに直す。
+
+### Step 13: 更新前に確認する
 
 タイトルと本文をチャットへ出す。更新で仮タイトルの`Draft:`が外れ、GitLabがそのMRをreadyにすることと、そのとき参加者へ通知が飛ぶことをあわせて出す。
 
@@ -200,7 +198,7 @@ diffを取得できなければ本文を作らない。`collapsed`または`too_
 
 修正指示があれば反映し、タイトルと本文を再度出す。確認前に仮タイトルと空の説明を変更しない。
 
-### Step 13: MRを更新する
+### Step 14: MRを更新する
 
 確認済みのタイトルと本文をJSONへ変換し、リポジトリ外の一時ファイルへ保存する。
 
@@ -219,7 +217,7 @@ glab api --hostname <host> --method PUT -H "Content-Type: application/json" "pro
 
 Issueを起票しない。コミットしない。pushしない。
 
-### Step 14: 更新結果を検証する
+### Step 15: 更新結果を検証する
 
 更新されたMRを取得する。
 
@@ -246,25 +244,27 @@ glab api --hostname <host> "projects/<encoded-path>/merge_requests/<iid>"
 - `.git`を直接読んで禁止を迂回しない
 - `glab mr`を使わない
 - APIパスのプレースホルダを使わない
-- `--hostname`を省略しない
+- `glab api`の`--hostname`は、`glab repo view`の`web_url`から取ったホストにする
+- 対象プロジェクトとホストを`glab repo view`以外から取らない
+- baseとheadをローカルブランチから推測しない
 - 下書きMRを作る前にdiffを取得しない
-- 対象プロジェクト、ホスト、base、headをGitから推測しない
 - 同じheadのMRを重複して作成しない
 - ユーザー確認前に下書きMRを作成しない
 - 作成したMR以外のdiffを本文作成に使わない
 - MRのdiffにない変更を本文へ含めない
 - ユーザー確認前に仮タイトルと空の説明を更新しない
+- `report-patterns`を読まずにユーザー確認へ進まない
 - 作成や更新に失敗しても、MRを無断で閉じたり削除したりしない
-- 本文の行を`/`で始めない
 
 ## スキル連携
 
 | 状況 | 使用するスキル |
-|---|---|
+| --- | --- |
 | Gitコマンドを実行できる | `glab-mr-create` |
 | Gitコマンドを実行でき、既存MRを更新する | `glab-mr-update` |
 | AIによるGitコマンド実行が禁止されている | `glab-mr-create-no-git` |
 | AIによるGitコマンド実行が禁止され、既存MRを更新する | `glab-mr-update-no-git` |
 | headがGitLabへpushされていない | ユーザーがpushした後に再開する |
 | MR本文の型 | `glab-mr-schema` |
+| 本文の書き方・可読性 | `report-patterns` |
 | GitHubのPull Request | `gh-pr-create`または`gh-pr-create-no-git` |

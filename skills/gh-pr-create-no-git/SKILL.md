@@ -3,8 +3,9 @@ name: gh-pr-create-no-git
 description: >
   AIによるGitコマンド実行が禁止されたプロジェクトで、指定されたpush済みブランチからPull Requestを作成する。
   diffを取るため先に空の下書きを作り、確認済みのタイトルと本文を入れてreadyにする。
+  Pull Request テンプレートがあればその構成で、無ければスキーマに沿って本文を作る。
   Gitと.gitには触れない。
-  例: gh-pr-create-no-git --repo owner/repo --head feat/example --issue 123。
+  例: gh-pr-create-no-git --head feat/example --issue 123。
   「PRを作成」「プルリクエストを開く」「レビューのために送信」などの操作を、Gitコマンドを使わずに行う際に使用する。
 ---
 
@@ -14,16 +15,16 @@ description: >
 
 - Gitと`.git`を使わず、指定されたpush済みブランチからPull Requestを作成する
 - 本文を書く前に下書きを作り、そのdiffとコミットを取得する
-- `gh-pr-schema`に沿ってタイトルと本文を組み立てる
+- Pull Request テンプレートがあればその構成で、無ければ `gh-pr-schema` で本文を組み立てる
 - 確認済みのタイトルと本文を、作成したPRへ入れてreadyにする
 - 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
 
 - `gh-pr-create-no-git`
-- `gh-pr-create-no-git --repo owner/repo --head feat/example`
-- `gh-pr-create-no-git --repo owner/repo --head feat/example --base develop`
-- `gh-pr-create-no-git --repo owner/repo --head feat/example --issue 123`
+- `gh-pr-create-no-git --head feat/example`
+- `gh-pr-create-no-git --head feat/example --base develop`
+- `gh-pr-create-no-git --head feat/example --issue 123`
 - AIによるGitコマンド実行が禁止されたプロジェクトでPull Requestを作成するとき
 - GitHub上にpush済みのheadを明示してPull Requestを作成するとき
 
@@ -33,13 +34,21 @@ description: >
 
 プロジェクトの指示を読み、AIによるGitコマンド実行が禁止されていることを確認する。
 
-このスキルでは、読み取り専用を含むすべての`git`コマンドを実行しない。Gitを内部で呼び出すツールや、`.git`を直接読んで同等の情報を取得する方法も使わない。
+このスキルでは、読み取り専用を含むすべての`git`コマンドを実行しない。`.git`を直接読んで同等の情報を取得しない。
 
-`gh`には対象リポジトリを常に`owner/repo`で明示し、カレントディレクトリのGit情報へ依存させない。
+対象リポジトリは、引数なしの`gh repo view`で取る。以降の`gh`には、ここで得た`owner/repo`を`--repo`で渡す。`gh api`のパスにもその`owner/repo`を使う。
 
 ### Step 2: 対象リポジトリとブランチを決める
 
-対象リポジトリは`--repo owner/repo`で指定された値を使う。省略されている場合は、Gitから推測せずユーザーに聞く。
+対象リポジトリは、引数なしの`gh repo view`で取る。
+
+```bash
+gh repo view --json nameWithOwner,defaultBranchRef --jq '{repo:.nameWithOwner,default_branch:.defaultBranchRef.name}'
+```
+
+`repo`を`owner/repo`にする。`default_branch`はデフォルトブランチである。
+
+取得できなければ停止する。Gitコマンドや`.git`からは取らない。
 
 headは次の順で決める。
 
@@ -48,17 +57,11 @@ headは次の順で決める。
 
 headを特定できない場合はユーザーに聞く。ローカルブランチから推測しない。
 
-対象リポジトリとデフォルトブランチをGitHubから取得する。
-
-```bash
-gh repo view <owner/repo> --json nameWithOwner,defaultBranchRef --jq '{repo:.nameWithOwner,base:.defaultBranchRef.name}'
-```
-
 baseは次の順で決める。
 
 1. `--base`で指定されたブランチ
 2. 会話で指定されたブランチ
-3. 対象リポジトリのデフォルトブランチ
+3. `gh repo view`で得たデフォルトブランチ
 
 baseとheadが同じ場合は停止する。
 
@@ -154,7 +157,6 @@ diffを取得できなければ本文を作らない。現在のファイル内�
 
 - 変更目的は会話から取る。diffから推測しない
 - 変更内容はPRのdiffにある事実だけを書く
-- テスト内容は`gh-pr-schema`に従い、diffにあるテストの追加・変更から取る
 - ローカルファイルや会話中の未push変更をPR本文へ含めない
 
 ### Step 10: 足りない情報を聞く
@@ -165,10 +167,19 @@ diffを取得できなければ本文を作らない。現在のファイル内�
 
 ### Step 11: タイトルと本文を組む
 
-タイトルと本文は`gh-pr-schema`に従う。
+本文の前に、プロジェクトルートの`.github/PULL_REQUEST_TEMPLATE.md`と`.github/PULL_REQUEST_TEMPLATE`を見る。
+
+`.md`が無いときは、本文は`gh-pr-schema`の文書構成で書く。`PULL_REQUEST_TEMPLATE.md`があればそれを使う。1件ならそれを使う。複数ならファイル名を一度聞いてから使う。
+
+テンプレートの見出しの並びで書く。意味が近い節は、`gh-pr-schema`のその節の書き方で埋める。書き方は`report-patterns`にも従う。
+
 - 作成したPRのdiffにない変更を本文へ含めない
 
-### Step 12: 更新前に確認する
+### Step 12: 可読性を確認する
+
+ユーザー確認の前に`report-patterns`を読み、Step 11のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、採用した見出し構成と記載した事実は変えずに直す。
+
+### Step 13: 更新前に確認する
 
 タイトルと本文をチャットへ出す。更新後に下書きを解除してreadyにすることと、そのときレビュー依頼と通知が飛ぶことをあわせて出す。
 
@@ -176,7 +187,7 @@ diffを取得できなければ本文を作らない。現在のファイル内�
 
 修正指示があれば反映し、タイトルと本文を再度出す。確認前に仮タイトルと空の本文を変更しない。
 
-### Step 13: PRを更新する
+### Step 14: PRを更新する
 
 確認済みのタイトルと本文をJSONへ変換し、リポジトリ外の一時ファイルへ保存する。
 
@@ -197,7 +208,7 @@ Issueを起票しない。コミットしない。pushしない。
 
 RESTの更新では下書きは解除できない。タイトルと本文を先に反映し、一致したあとだけreadyにする。
 
-### Step 14: 内容が一致したらreadyにする
+### Step 15: 内容が一致したらreadyにする
 
 更新されたPRを取得する。
 
@@ -239,22 +250,25 @@ gh pr ready <number> --repo <owner/repo>
 - Gitを内部で呼び出すツールを使わない
 - `.git`を直接読んで禁止を迂回しない
 - 下書きPRを作る前にdiffを取得しない
-- 対象リポジトリ、base、headをGitから推測しない
+- 対象リポジトリを`gh repo view`以外から取らない
+- baseとheadをローカルブランチから推測しない
 - 同じheadのPRを重複して作成しない
 - ユーザー確認前に下書きPRを作成しない
 - 作成したPR以外のdiffを本文作成に使わない
 - PRのdiffにない変更を本文へ含めない
 - ユーザー確認前に仮タイトルと空の本文を更新しない
+- `report-patterns`を読まずにユーザー確認へ進まない
 - タイトルと本文が確認済みの内容と一致する前にreadyにしない
 - 作成や更新に失敗しても、PRを無断で閉じたり削除したりしない
 
 ## スキル連携
 
 | 状況 | 使用するスキル |
-|---|---|
+| --- | --- |
 | Gitコマンドを実行できる | `gh-pr-create` |
 | Gitコマンドを実行でき、既存PRを更新する | `gh-pr-update` |
 | AIによるGitコマンド実行が禁止されている | `gh-pr-create-no-git` |
 | AIによるGitコマンド実行が禁止され、既存PRを更新する | `gh-pr-update-no-git` |
 | headがGitHubへpushされていない | ユーザーがpushした後に再開する |
 | PR本文の型 | `gh-pr-schema` |
+| 本文の書き方・可読性 | `report-patterns` |

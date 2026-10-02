@@ -133,7 +133,7 @@ gh issue view <number> --repo <owner/repo> --json number,title,state,body,url,is
 ## スキル連携
 
 | ユーザーの依頼 | ワークフロー |
-|---|---|
+| --- | --- |
 | openなIssue一覧 | `gh-issue-list` |
 | Issueを読むだけ | `gh-issue-load` |
 | Issueを起票 | `gh-issue-create` |
@@ -143,7 +143,7 @@ gh issue view <number> --repo <owner/repo> --json number,title,state,body,url,is
 ## コマンドリファレンス
 
 | コマンド | 用途 |
-|---|---|
+| --- | --- |
 | `gh repo view <owner/repo> --json nameWithOwner` | 対象リポジトリを確認する |
 | `gh issue view <number> --repo <owner/repo> --json ...` | 既存Issueと作業状況を確認する |
 | `gh api user --jq .login` | 現在のGitHubユーザーを確認する |

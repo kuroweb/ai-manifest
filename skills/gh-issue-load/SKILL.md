@@ -49,7 +49,7 @@ gh issue view <number> --repo <owner/repo> --json number,title,state,body,url
 ## スキル連携
 
 | ユーザーの依頼 | ワークフロー |
-|---|---|
+| --- | --- |
 | openなIssue一覧 | `gh-issue-list` |
 | Issueを読むだけ | `gh-issue-load` |
 | Issueを起票 | `gh-issue-create` |
@@ -59,6 +59,6 @@ gh issue view <number> --repo <owner/repo> --json number,title,state,body,url
 ## コマンドリファレンス
 
 | コマンド | 用途 |
-|---|---|
+| --- | --- |
 | `gh repo view <owner/repo> --json nameWithOwner --jq .nameWithOwner` | 対象リポジトリを特定する |
 | `gh issue view <number> --repo <owner/repo> --json number,title,state,body,url` | Issue を読み込む |

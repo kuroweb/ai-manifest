@@ -2,8 +2,9 @@
 name: gh-pr-create
 description: >
   push済みブランチからGitHub Pull Requestを構造化して確認後に作成する。
-  対象リポジトリ、base、head、既存PR、リモートとの差分を確認し、スキーマに沿って本文を作る。
-  例: gh-pr-create、gh-pr-create --repo owner/repo --issue 123。
+  対象リポジトリ、base、head、既存PR、リモートとの差分を確認する。
+  Pull Request テンプレートがあればその構成で、無ければスキーマに沿って本文を作る。
+  例: gh-pr-create、gh-pr-create --issue 123。
   「PRを作成」「プルリクエストを開く」「レビューのために送信」などの操作を行う際に使用する。
 ---
 
@@ -13,15 +14,14 @@ description: >
 
 - push済みブランチからGitHub Pull Requestを作成する
 - 対象リポジトリ、base、head、既存PR、差分コミットを作成前に確認する
-- `gh-pr-schema`に沿ってタイトルと本文を組み立てる
+- Pull Request テンプレートがあればその構成で、無ければ `gh-pr-schema` で本文を組み立てる
 - 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
 
 - `gh-pr-create`
-- `gh-pr-create --repo owner/repo`
-- `gh-pr-create --repo owner/repo --head feat/example`
-- `gh-pr-create --repo owner/repo --head feat/example --base develop`
+- `gh-pr-create --head feat/example`
+- `gh-pr-create --head feat/example --base develop`
 - `gh-pr-create --issue 123`
 - push済みブランチからPull Requestを作成するとき
 
@@ -29,19 +29,21 @@ description: >
 
 ### Step 1: 対象リポジトリとブランチを決める
 
-対象リポジトリは`--repo owner/repo`で指定する。省略時はカレントディレクトリのリポジトリとする。
+対象リポジトリは、引数なしの`gh repo view`で取る。
 
 ```bash
-gh repo view <owner/repo> --json nameWithOwner,defaultBranchRef --jq '{repo:.nameWithOwner,base:.defaultBranchRef.name}'
+gh repo view --json nameWithOwner,defaultBranchRef --jq '{repo:.nameWithOwner,default_branch:.defaultBranchRef.name}'
 ```
 
-対象リポジトリを省略した呼び出しでは、コマンドの`<owner/repo>`も省略する。
+`repo`を`owner/repo`にする。`default_branch`はデフォルトブランチである。
+
+以降の`gh`には、ここで得た`owner/repo`を`--repo`で渡す。
 
 baseは次の順で決める。
 
 1. `--base`で指定されたブランチ
 2. 会話で指定されたブランチ
-3. 対象リポジトリのデフォルトブランチ
+3. `gh repo view`で得たデフォルトブランチ
 
 headは次の順で決める。
 
@@ -71,7 +73,7 @@ git ls-remote --exit-code --heads <remote> refs/heads/<head>
 
 headが存在しない場合は停止し、`git-push`でpushしてから再開する。
 
-カレントディレクトリが対象リポジトリの場合は、ローカルHEADとリモートheadのSHAを比較する。
+ローカルHEADとリモートheadのSHAを比較する。
 
 ```bash
 git rev-parse HEAD
@@ -125,7 +127,6 @@ git --no-pager diff <remote>/<base>...HEAD
 
 - 変更目的は会話から取る。差分から推測しない
 - 変更内容は差分にある事実だけを書く
-- テスト内容は`gh-pr-schema`に従い、差分にあるテストの追加・変更から取る
 
 ### Step 6: 足りない情報を聞く
 
@@ -135,15 +136,23 @@ git --no-pager diff <remote>/<base>...HEAD
 
 ### Step 7: タイトルと本文を組む
 
-タイトルと本文は`gh-pr-schema`に従う。
+本文の前に、プロジェクトルートの`.github/PULL_REQUEST_TEMPLATE.md`と`.github/PULL_REQUEST_TEMPLATE`を見る。
 
-### Step 8: 作成前に確認する
+`.md`が無いときは、本文は`gh-pr-schema`の文書構成で書く。`PULL_REQUEST_TEMPLATE.md`があればそれを使う。1件ならそれを使う。複数ならファイル名を一度聞いてから使う。
+
+テンプレートの見出しの並びで書く。意味が近い節は、`gh-pr-schema`のその節の書き方で埋める。書き方は`report-patterns`にも従う。
+
+### Step 8: 可読性を確認する
+
+ユーザー確認の前に`report-patterns`を読み、Step 7のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、採用した見出し構成と記載した事実は変えずに直す。
+
+### Step 9: 作成前に確認する
 
 タイトルと本文をチャットに出す。ユーザーが認めたあとだけ作成する。
 
 修正指示があれば反映し、タイトルと本文を再度出す。確認前にPRを作成しない。
 
-### Step 9: PRを作成する
+### Step 10: PRを作成する
 
 本文をリポジトリ外の一時ファイルへ書き、`--body-file`で渡す。複数行の本文を`--body`へ埋め込まない。
 
@@ -153,7 +162,7 @@ gh pr create --repo <owner/repo> --base <base> --head <head> --title "<title>" -
 
 Issueを起票しない。コミットしない。pushしない。
 
-### Step 10: 作成結果を検証する
+### Step 11: 作成結果を検証する
 
 作成されたPRのタイトル、本文、base、head、URLを取得する。
 
@@ -179,12 +188,13 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headR
 - baseとの差分コミットがない状態でPRを作成しない
 - 同じheadのopen、merged、closed PRがある場合は新しいPRを作成しない
 - ユーザー確認前にPRを作成しない
+- `report-patterns`を読まずにユーザー確認へ進まない
 - 本文は`--body-file`で渡す
 
 ## スキル連携
 
 | ユーザーの依頼 | ワークフロー |
-|---|---|
+| --- | --- |
 | PR作成 | `gh-pr-create` |
 | PR更新 | `gh-pr-update` |
 | Gitコマンド禁止環境でPR作成 | `gh-pr-create-no-git` |
@@ -192,12 +202,13 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headR
 | pushしてPR作成 | `git-push` → `gh-pr-create` |
 | コミットしてPR作成 | `git-commit` → `git-push` → `gh-pr-create` |
 | PR本文の型 | `gh-pr-schema` |
+| 本文の書き方・可読性 | `report-patterns` |
 
 ## コマンドリファレンス
 
 | コマンド | 用途 |
-|---|---|
-| `gh repo view <owner/repo> --json nameWithOwner,defaultBranchRef` | 対象リポジトリとデフォルトブランチを確認する |
+| --- | --- |
+| `gh repo view --json nameWithOwner,defaultBranchRef --jq '{repo:.nameWithOwner,default_branch:.defaultBranchRef.name}'` | 対象リポジトリとデフォルトブランチを確認する |
 | `git rev-parse --abbrev-ref --symbolic-full-name '@{upstream}'` | ローカルブランチのupstreamを確認する |
 | `git fetch <remote> <base>` | リモートbaseを更新する |
 | `git ls-remote --heads <remote> refs/heads/<head>` | リモートheadの存在とSHAを確認する |

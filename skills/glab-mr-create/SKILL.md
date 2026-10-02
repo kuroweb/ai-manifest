@@ -2,8 +2,9 @@
 name: glab-mr-create
 description: >
   push済みブランチからGitLab Merge Requestを構造化して確認後に作成する。
-  対象プロジェクト、base、head、既存MR、リモートとの差分を確認し、スキーマに沿って本文を作る。
-  例: glab-mr-create、glab-mr-create --repo group/project --issue 123。
+  対象プロジェクト、base、head、既存MR、リモートとの差分を確認する。
+  `.gitlab/merge_request_templates` があればその構成で、無ければスキーマに沿って本文を作る。
+  例: glab-mr-create、glab-mr-create --issue 123。
   「MRを作成」「マージリクエストを開く」「レビューのために送信」などの操作を行う際に使用する。
 ---
 
@@ -13,15 +14,14 @@ description: >
 
 - push済みブランチからGitLab Merge Requestを作成する
 - 対象プロジェクト、base、head、既存MR、差分コミットを作成前に確認する
-- `glab-mr-schema`に沿ってタイトルと本文を組み立てる
+- `.gitlab/merge_request_templates` があればその構成で、無ければ `glab-mr-schema` で本文を組み立てる
 - 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
 
 - `glab-mr-create`
-- `glab-mr-create --repo group/project`
-- `glab-mr-create --repo group/subgroup/project --head feat/example`
-- `glab-mr-create --repo group/project --head feat/example --base develop`
+- `glab-mr-create --head feat/example`
+- `glab-mr-create --head feat/example --base develop`
 - `glab-mr-create --issue 123`
 - push済みブランチからMerge Requestを作成するとき
 
@@ -31,19 +31,19 @@ GitHubのPull Requestには使わない。
 
 ### Step 1: 対象プロジェクトとブランチを決める
 
-対象プロジェクトは`--repo`で指定する。`group/project`、`group/subgroup/project`、またはURL。省略時はカレントディレクトリのリポジトリとする。URLの場合は末尾の`.git`を除いたパスをプロジェクトパスにする。
+対象プロジェクトは、引数なしの`glab repo view`で取る。
 
 ```bash
-glab repo view <project> -F json --jq '{path:.path_with_namespace,base:.default_branch,web_url:.web_url}'
+glab repo view -F json --jq '{path:.path_with_namespace,default_branch:.default_branch,web_url:.web_url}'
 ```
 
-対象プロジェクトを省略した呼び出しでは、コマンドの`<project>`も省略する。
+`path`をプロジェクトパスにする。ホストは`web_url`から取る。スキームとパスを除く。ポートがあれば`host:port`。`default_branch`はデフォルトブランチである。
 
 baseは次の順で決める。
 
 1. `--base`で指定されたブランチ
 2. 会話で指定されたブランチ
-3. 対象プロジェクトのデフォルトブランチ
+3. `glab repo view`で得たデフォルトブランチ
 
 headは次の順で決める。
 
@@ -75,7 +75,7 @@ git ls-remote --exit-code --heads <remote> refs/heads/<head>
 
 headが存在しない場合は停止し、`git-push`でpushしてから再開する。
 
-カレントディレクトリが対象プロジェクトの場合は、ローカルHEADとリモートheadのSHAを比較する。
+ローカルHEADとリモートheadのSHAを比較する。
 
 ```bash
 git rev-parse HEAD
@@ -131,7 +131,6 @@ git --no-pager diff <remote>/<base>...HEAD
 
 - 変更目的は会話から取る。差分から推測しない
 - 変更内容は差分にある事実だけを書く
-- テスト内容は`glab-mr-schema`に従い、差分にあるテストの追加・変更から取る
 
 ### Step 6: 足りない情報を聞く
 
@@ -141,17 +140,23 @@ git --no-pager diff <remote>/<base>...HEAD
 
 ### Step 7: タイトルと本文を組む
 
-タイトルと本文は`glab-mr-schema`に従う。
+本文の前に、プロジェクトルートの`.gitlab/merge_request_templates`を見る。
 
-- 本文の行を`/`で始めない
+`.md`が無いときは、本文は`glab-mr-schema`の文書構成で書く。あるときはそのファイルを構成にする。`Default.md`があればそれを使う。1件ならそれを使う。複数で`Default.md`が無ければ、ファイル名を一度聞いてから使う。
 
-### Step 8: 作成前に確認する
+テンプレートの見出しの並びで書く。意味が近い節は、`glab-mr-schema`のその節の書き方で埋める。書き方は`report-patterns`にも従う。
+
+### Step 8: 可読性を確認する
+
+ユーザー確認の前に`report-patterns`を読み、Step 7のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、採用した見出し構成と記載した事実は変えずに直す。
+
+### Step 9: 作成前に確認する
 
 タイトルと本文をチャットに出す。ユーザーが認めたあとだけ作成する。
 
 修正指示があれば反映し、タイトルと本文を再度出す。確認前にMRを作成しない。
 
-### Step 9: MRを作成する
+### Step 10: MRを作成する
 
 本文をリポジトリ外の一時ファイルへ書き、`--description-file`で渡す。複数行の本文を`--description`へ埋め込まない。
 
@@ -163,7 +168,7 @@ glab mr create --repo <remote-url> --source-branch <head> --target-branch <base>
 
 Issueを起票しない。コミットしない。pushしない。フォークから上流へのMRは作らない。
 
-### Step 10: 作成結果を検証する
+### Step 11: 作成結果を検証する
 
 作成コマンドの出力からMRのURLとiidを取る。作成されたMRのタイトル、本文、base、headを取得する。
 
@@ -190,14 +195,14 @@ glab mr view <iid> --repo <remote-url> -F json
 - baseとの差分コミットがない状態でMRを作成しない
 - 同じheadのopened、locked、merged、closed MRがある場合は新しいMRを作成しない
 - ユーザー確認前にMRを作成しない
+- `report-patterns`を読まずにユーザー確認へ進まない
 - 本文は`--description-file`で渡す
-- 本文の行を`/`で始めない
 - `--push`や`--fill`でpushしない
 
 ## スキル連携
 
 | ユーザーの依頼 | ワークフロー |
-|---|---|
+| --- | --- |
 | MR作成 | `glab-mr-create` |
 | MR更新 | `glab-mr-update` |
 | Gitコマンド禁止環境でMR作成 | `glab-mr-create-no-git` |
@@ -205,13 +210,14 @@ glab mr view <iid> --repo <remote-url> -F json
 | pushしてMR作成 | `git-push` → `glab-mr-create` |
 | コミットしてMR作成 | `git-commit` → `git-push` → `glab-mr-create` |
 | MR本文の型 | `glab-mr-schema` |
+| 本文の書き方・可読性 | `report-patterns` |
 | GitHubのPull Request | `gh-pr-create` |
 
 ## コマンドリファレンス
 
 | コマンド | 用途 |
-|---|---|
-| `glab repo view <project> -F json --jq '{path:.path_with_namespace,base:.default_branch,web_url:.web_url}'` | 対象プロジェクトとデフォルトブランチを確認する |
+| --- | --- |
+| `glab repo view -F json --jq '{path:.path_with_namespace,default_branch:.default_branch,web_url:.web_url}'` | 対象プロジェクトとデフォルトブランチを確認する |
 | `git rev-parse --abbrev-ref --symbolic-full-name '@{upstream}'` | ローカルブランチのupstreamを確認する |
 | `git fetch <remote> <base>` | リモートbaseを更新する |
 | `git ls-remote --heads <remote> refs/heads/<head>` | リモートheadの存在とSHAを確認する |

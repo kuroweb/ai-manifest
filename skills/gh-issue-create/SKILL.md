@@ -127,7 +127,7 @@ gh issue view <url> --repo <owner/repo> --json number,title,state,body,url,issue
 ## スキル連携
 
 | ユーザーの依頼 | ワークフロー |
-|---|---|
+| --- | --- |
 | openなIssue一覧 | `gh-issue-list` |
 | Issueを読むだけ | `gh-issue-load` |
 | Issueを起票 | `gh-issue-create` |
@@ -137,7 +137,7 @@ gh issue view <url> --repo <owner/repo> --json number,title,state,body,url,issue
 ## コマンドリファレンス
 
 | コマンド | 用途 |
-|---|---|
+| --- | --- |
 | `gh repo view <owner/repo> --json nameWithOwner` | 対象リポジトリを確認する |
 | `gh api graphql`（`issueTypes`） | 利用できるIssue typeを確認する |
 | `gh issue list --repo <owner/repo> --search "<keywords>" --state all` | 起票前に重複Issueを探す |

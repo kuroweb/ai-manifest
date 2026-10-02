@@ -2,8 +2,9 @@
 name: glab-mr-update
 description: >
   指定したGitLab Merge Requestのタイトルと本文を確認後に更新する。
-  対象プロジェクト、既存MR、そのMRの差分を確認し、スキーマに沿って本文を作る。
-  例: glab-mr-update --mr 42、glab-mr-update --repo group/project --mr 42。
+  対象プロジェクト、既存MR、そのMRの差分を確認する。
+  `.gitlab/merge_request_templates` があればその構成で、無ければスキーマに沿って本文を作る。
+  例: glab-mr-update --mr 42。
   「MRを更新」「MRの説明を修正」「MRのタイトルを変更」などの操作を行う際に使用する。
   `--mr`が無いときはiidを聞く。
 ---
@@ -14,14 +15,12 @@ description: >
 
 - 指定したGitLab Merge Requestの既存内容を保ちながら、要求された箇所を更新する
 - 対象プロジェクト、既存MR、そのMRの差分を更新前に確認する
-- `glab-mr-schema`に沿ってタイトルと本文を組み立てる
+- `.gitlab/merge_request_templates` があればその構成で、無ければ `glab-mr-schema` で本文を組み立てる
 - 更新後のタイトル、本文、base、head、state、draftを検証する
 
 ## いつ使うか
 
 - `glab-mr-update --mr <iid>`
-- `glab-mr-update --repo group/project --mr <iid>`
-- `glab-mr-update --repo group/subgroup/project --mr <iid>`
 - 既存Merge Requestのタイトルや本文を変えるとき
 
 GitHubのPull Requestには使わない。
@@ -30,17 +29,17 @@ GitHubのPull Requestには使わない。
 
 ### Step 1: 対象を決める
 
-対象プロジェクトは`--repo`で指定する。`group/project`、`group/subgroup/project`、またはURL。省略時はカレントディレクトリのリポジトリとする。URLの場合は末尾の`.git`を除いたパスをプロジェクトパスにする。
+対象プロジェクトは、引数なしの`glab repo view`で取る。
 
 ```bash
-glab repo view <project> -F json --jq '{path:.path_with_namespace,base:.default_branch,web_url:.web_url}'
+glab repo view -F json --jq '{path:.path_with_namespace,web_url:.web_url}'
 ```
 
-対象プロジェクトを省略した呼び出しでは、コマンドの`<project>`も省略する。
+`path`をプロジェクトパスにする。ホストは`web_url`から取る。スキームとパスを除く。ポートがあれば`host:port`。
 
 MRのiidは`--mr`で指定する。`--mr`が無いときだけ止まって聞く。
 
-対象プロジェクトに対応するgit remoteを、remote URLのホストとプロジェクトパスから特定する。パス比較では末尾の`.git`を除く。対応するremoteが無い、または複数あって一意でない場合は停止する。カレントディレクトリが対象プロジェクトでない場合も停止する。
+対象プロジェクトに対応するgit remoteを、remote URLのホストとプロジェクトパスから特定する。パス比較では末尾の`.git`を除く。対応するremoteが無い、または複数あって一意でない場合は停止する。
 
 以降の`glab`には、そのremote URLを`--repo`で渡す。Self-Managedでもカレントディレクトリのホスト設定に依存しない。
 
@@ -83,21 +82,28 @@ diffを取得できなければ本文を作らない。
 
 ### Step 5: タイトルと本文を組む
 
-タイトルと本文は`glab-mr-schema`に従う。
+本文の前に、プロジェクトルートの`.gitlab/merge_request_templates`を見る。
 
-要求された変更と整合に必要な変更だけを加える。既存本文がスキーマに沿っている箇所は残し、空になった見出しは残さない。
+`.md`が無いときは、本文は`glab-mr-schema`の文書構成で書く。あるときはそのファイルを構成にする。`Default.md`があればそれを使う。1件ならそれを使う。複数で`Default.md`が無ければ、ファイル名を一度聞いてから使う。
+
+テンプレートの見出しの並びで書く。意味が近い節は、`glab-mr-schema`のその節の書き方で埋める。書き方は`report-patterns`にも従う。
+
+要求された変更と整合に必要な変更だけを加える。既存本文が採用した見出し構成に沿っている箇所は残し、空になった見出しは残さない。
 
 - MRのdiffにない変更を本文へ含めない
-- 本文の行を`/`で始めない
 - `draft`がtrueで、ユーザーがreadyにすると明示していないときは、タイトル先頭の`Draft:`を残す。外すとGitLabはそのMRをreadyにする
 
-### Step 6: 更新前に確認する
+### Step 6: 可読性を確認する
+
+ユーザー確認の前に`report-patterns`を読み、Step 5のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、採用した見出し構成と記載した事実は変えずに直す。
+
+### Step 7: 更新前に確認する
 
 対象プロジェクト、iid、タイトル、本文をチャットに出す。変更する箇所が分かるように示す。draftを維持するときは、そのことも出す。
 
 ユーザーが認めたあとだけ更新する。修正指示があれば反映し、タイトルと本文を再度出す。確認前に更新しない。
 
-### Step 7: MRを更新する
+### Step 8: MRを更新する
 
 本文をリポジトリ外の一時ファイルへ書き、`--description-file`で渡す。複数行の本文を`--description`へ埋め込まない。
 
@@ -111,7 +117,7 @@ glab mr update <iid> --repo <remote-url> --title "<title>" --description-file <b
 
 Issueを起票しない。コミットしない。pushしない。
 
-### Step 8: 更新結果を検証する
+### Step 9: 更新結果を検証する
 
 ```bash
 glab mr view <iid> --repo <remote-url> -F json
@@ -132,13 +138,13 @@ glab mr view <iid> --repo <remote-url> -F json
 ## 安全条件
 
 - ユーザー確認前にMRを更新しない
+- `report-patterns`を読まずにユーザー確認へ進まない
 - `opened`でないMRを、明示的な続行指示なしに更新しない
 - 更新対象外のタイトル、本文、base、head、state、draftを変えない
 - ユーザーの明示なしに`Draft:`を外さない
 - MRのdiffにない変更を本文へ含めない
 - 未pushのコミットを本文へ含めない
 - 本文は`--description-file`で渡す
-- 本文の行を`/`で始めない
 - iidと`--repo`を省略しない
 - `--push`、`--fill`、`--ready`を使わない
 - 更新後の値を再取得して検証する
@@ -146,20 +152,21 @@ glab mr view <iid> --repo <remote-url> -F json
 ## スキル連携
 
 | ユーザーの依頼 | ワークフロー |
-|---|---|
+| --- | --- |
 | MR作成 | `glab-mr-create` |
 | MR更新 | `glab-mr-update` |
 | Gitコマンド禁止環境でMR作成 | `glab-mr-create-no-git` |
 | Gitコマンド禁止環境でMR更新 | `glab-mr-update-no-git` |
 | pushしてから本文を更新 | `git-push` → `glab-mr-update` |
 | MR本文の型 | `glab-mr-schema` |
+| 本文の書き方・可読性 | `report-patterns` |
 | GitHubのPull Request | `gh-pr-update` |
 
 ## コマンドリファレンス
 
 | コマンド | 用途 |
-|---|---|
-| `glab repo view <project> -F json --jq '{path:.path_with_namespace,base:.default_branch,web_url:.web_url}'` | 対象プロジェクトとデフォルトブランチを確認する |
+| --- | --- |
+| `glab repo view -F json --jq '{path:.path_with_namespace,web_url:.web_url}'` | 対象プロジェクトを確認する |
 | `glab mr view <iid> --repo <remote-url> -F json` | 既存MRと更新結果を確認する |
 | `git fetch <remote> <base> <head>` | リモートのbaseとheadを取得する |
 | `git ls-remote --heads <remote> refs/heads/<head>` | リモートheadのSHAを確認する |

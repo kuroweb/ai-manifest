@@ -50,7 +50,7 @@ gh issue list --repo <owner/repo> --state open --limit 100 --json number,title,l
 1件以上なら、更新日の新しい順に次の表で出す。ラベルが無いセルは空にする。更新日は `updatedAt` の日付（YYYY-MM-DD）にする。
 
 | # | タイトル | ラベル | 更新日 |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | [#番号](url) | タイトル | ラベル名をカンマ区切り | YYYY-MM-DD |
 
 起票、更新、クローズ、実装、PR はしない。
@@ -58,7 +58,7 @@ gh issue list --repo <owner/repo> --state open --limit 100 --json number,title,l
 ## スキル連携
 
 | ユーザーの依頼 | ワークフロー |
-|---|---|
+| --- | --- |
 | openなIssue一覧 | `gh-issue-list` |
 | Issueを読むだけ | `gh-issue-load` |
 | Issueを起票 | `gh-issue-create` |
@@ -68,6 +68,6 @@ gh issue list --repo <owner/repo> --state open --limit 100 --json number,title,l
 ## コマンドリファレンス
 
 | コマンド | 用途 |
-|---|---|
+| --- | --- |
 | `gh repo view <owner/repo> --json nameWithOwner --jq .nameWithOwner` | 対象リポジトリを特定する |
 | `gh issue list --repo <owner/repo> --state open --limit 100 --json number,title,labels,updatedAt,url` | open な Issue を取得する |
