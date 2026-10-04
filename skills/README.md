@@ -12,6 +12,12 @@
 | [git-commit-no-git](git-commit-no-git/SKILL.md) | Gitコマンドを実行せず、コミット手順を作る |
 | [git-push](git-push/SKILL.md) | 既存コミットをリモートへ push する |
 
+## Worktree
+
+| スキル | すること |
+|---|---|
+| [wt-switch-create](wt-switch-create/SKILL.md) | `wt`でワークツリーを作成し、移動コマンドを返す |
+
 ## GitHub Issue
 
 | スキル | すること |
