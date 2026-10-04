@@ -57,7 +57,7 @@
 |---|---|
 | [code-review](code-review/SKILL.md) | baseとheadの三点比較diffをgitで取り、レビューする |
 | [code-review-no-git](code-review-no-git/SKILL.md) | Gitコマンドを実行せず、貼られたdiffをレビューする |
-| [code-reviewing](code-reviewing/SKILL.md) | 渡されたdiffと変更目的をレビューする。結果の型も持つ。他のスキルが読む |
+| [code-reviewing](code-reviewing/SKILL.md) | 渡されたdiffと変更目的をチェックリストに沿ってレビューする。他のスキルが読む |
 
 ## 調査
 
