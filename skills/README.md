@@ -87,8 +87,9 @@
 
 | スキル | すること |
 |---|---|
-| [handover](handover/SKILL.md) | 次のセッション用の引き継ぎノートを書く |
+| [handover-create](handover-create/SKILL.md) | 次のセッション用の引き継ぎノートを書く |
 | [handover-resume](handover-resume/SKILL.md) | 引き継ぎノートを読み込んで再開する |
+| [handover-remove](handover-remove/SKILL.md) | 選んだ引き継ぎノートを確認後に削除する |
 | [plan-export](plan-export/SKILL.md) | 固めたプランを `~/.docs/plans` に保存する |
 
 ## スキル自体
