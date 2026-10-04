@@ -1,8 +1,8 @@
 ---
 name: handover-resume
 description: |
-  `/handover-resume` 実行時に `~/.docs/handovers/` から再開対象を特定して読み込む。
-  `~/.docs/handovers/` に複数ファイルがある場合は、どれを読むか必ずユーザーにヒアリングする。
+  `/handover-resume` 実行時に `~/.docs/handovers/<project>/` から再開対象を特定して読み込む。
+  `~/.docs/handovers/<project>/` に複数ファイルがある場合は、どれを読むか必ずユーザーにヒアリングする。
   トリガー: `/handover-resume`, 「引き継ぎ再開」, 「前回の続きから」, 「handoverを読み込んで」。
 ---
 # セッション再開（handover-resume）
@@ -16,12 +16,23 @@ description: |
 
 ## 手順
 
-1. `~/.docs/handovers/` ディレクトリの存在を確認する
-2. `~/.docs/handovers/` 配下の `*.md` を列挙する
-3. 候補が 0 件なら、引き継ぎノートがない旨を伝えて通常進行する
-4. 候補が 1 件なら、そのファイルを読み込む
-5. 候補が複数件なら、どのファイルを読むか必ずユーザーに確認する
-6. ユーザー指定のファイルを読み込み、要点を簡潔に共有する
+1. `<project>` を決める（下記「project の決め方」）
+2. `~/.docs/handovers/<project>/` ディレクトリの存在を確認する
+3. `~/.docs/handovers/<project>/` 配下の `*.md` を列挙する
+4. 候補が 0 件なら、引き継ぎノートがない旨を伝えて通常進行する
+5. 候補が 1 件なら、そのファイルを読み込む
+6. 候補が複数件なら、どのファイルを読むか必ずユーザーに確認する
+7. ユーザー指定のファイルを読み込み、要点を簡潔に共有する
+
+## project の決め方
+
+`handover-create` と同じ規則で決める。リポジトリ名を、ワークツリーでも同じ名前になるよう共通の `.git` ディレクトリの親から取る。
+
+```bash
+basename "$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")"
+```
+
+Git 管理外のディレクトリ、またはプロジェクト規約で Git コマンドが禁止されている場合は、カレントディレクトリ名を使う。
 
 ## 複数ファイル時のルール
 
@@ -32,7 +43,7 @@ description: |
 ## 確認テンプレート
 
 ```text
-`~/.docs/handovers/` に引き継ぎノートが複数あります。どれを読み込みますか？
+`~/.docs/handovers/<project>/` に引き継ぎノートが複数あります。どれを読み込みますか？
 1. <filename1>
 2. <filename2>
 3. <filename3>
