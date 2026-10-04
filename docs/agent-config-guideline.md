@@ -28,7 +28,6 @@ config/
 ├── .codex/
 │   ├── agents/                        # generate → ~/.codex/agents/
 │   └── config.toml                    # 手動 → ~/.codex/config.toml
-├── .docs/                             # → ~/.docs
 ├── .env                               # → ~/.config/ai-manifest/.env
 ├── CLAUDE.md                          # generate → ~/.claude/CLAUDE.md
 ├── AGENTS.md                          # generate → ~/.codex/AGENTS.md
@@ -69,7 +68,7 @@ config/
 ### 対象ファイルの編集
 
 - `config/` 内を直接編集する。
-  - 直接編集 + symlink: `settings.json`、`scripts/`、`hooks/`、`mcp.json`、`hooks.json`、`.docs/`、`.env` など
+  - 直接編集 + symlink: `settings.json`、`scripts/`、`hooks/`、`mcp.json`、`hooks.json`、`.env` など
   - 手動コピペ: `cli-config.json`、`.claude.mcp.json`、`config.toml`
 
 ### symlink での反映

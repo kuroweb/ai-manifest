@@ -219,12 +219,6 @@ link_entries ".codex" "agents"
 link_root_file ".codex" "AGENTS.md"
 echo ""
 
-# ~/.docs -> ./config/.docs
-echo "Setting up .docs..."
-mkdir -p "$CONFIG_ROOT/.docs"
-ln -sfn "$CONFIG_ROOT/.docs" "$HOME/.docs"
-echo ""
-
 # ~/.config/ai-manifest/.env にシンボリックリンクを作成
 echo "Setting up .config/ai-manifest/.env..."
 mkdir -p "$HOME/.config/ai-manifest"
