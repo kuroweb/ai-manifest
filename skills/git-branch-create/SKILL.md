@@ -70,15 +70,7 @@ git ls-remote --exit-code --heads origin refs/heads/<branch>
 
 いずれかに同名ブランチが存在する場合は作成せず、どこに存在するか（ローカル/リモート）を報告する。リモート確認自体に失敗した場合はその旨を報告し、次のステップへ進む。
 
-### Step 4: 未コミット変更を確認する
-
-```bash
-git status --short
-```
-
-未コミット変更がある場合は、変更が新しいブランチへ引き継がれることを示し、ユーザーの確認後に続ける。確認を得られなければ作成しない。
-
-### Step 5: 作成元の最新状態を取得する
+### Step 4: 作成元の最新状態を取得する
 
 作成元ブランチを`origin`から取得する。
 
@@ -96,16 +88,15 @@ git show-ref --verify --quiet refs/heads/<base>
 
 ローカルの`<base>`が存在すれば、fetchが失敗したことを報告し、`<base>`を`<base-ref>`とする。存在しなければ停止する。
 
-### Step 6: ローカルブランチを作成する
+### Step 5: ローカルブランチを作成する
 
 確定した`<base-ref>`からローカルブランチを新規作成する。
-未コミット変更がなければ、追加の確認を求めずに作成する。
 
 ```bash
 git switch -c <branch> <base-ref>
 ```
 
-### Step 7: 作成結果を確認する
+### Step 6: 作成結果を確認する
 
 ```bash
 git branch --show-current
@@ -130,7 +121,6 @@ git rev-parse --verify refs/heads/<branch>
 | `git symbolic-ref --short refs/remotes/origin/HEAD` | ローカルの`origin/HEAD`からデフォルトブランチを確認する |
 | `git show-ref --verify --quiet refs/heads/<branch>` | 同名のローカルブランチが存在するか確認する |
 | `git ls-remote --exit-code --heads origin refs/heads/<branch>` | 同名のリモートブランチが存在するか確認する |
-| `git status --short` | 未コミット変更を確認する |
 | `git fetch origin <base>` | `origin`から作成元ブランチを取得する |
 | `git show-ref --verify --quiet refs/heads/<base>` | フォールバック先のローカルブランチが存在するか確認する |
 | `git switch -c <branch> <base-ref>` | 確定した作成元からローカルブランチを作成する |
