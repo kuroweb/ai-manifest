@@ -85,6 +85,7 @@ diffを取得できなければ次へ進まない。現在のファイル内容�
 | ユーザーの依頼 | ワークフロー |
 | --- | --- |
 | 指定したGitHub PRをレビューする | `gh-pr-review` → `code-reviewing` |
+| CIから指定したGitHub PRをレビューする | `gh-pr-review-ci` |
 | 指定したGitLab MRをレビューする | `glab-mr-review` |
 | ローカルブランチのdiffをgitで取る | `code-review` |
 | Gitコマンドを実行せず、貼られたdiffをレビューする | `code-review-no-git` |

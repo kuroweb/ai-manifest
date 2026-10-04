@@ -72,4 +72,5 @@ Step 4の本文をチャットへ返す。
 | ローカルブランチのdiffをgitで取る | `code-review` |
 | AIによるGitコマンド実行が禁止されている | `code-review-no-git` |
 | 指定したGitHub PRをレビューする | `gh-pr-review` |
+| CIから指定したGitHub PRをレビューする | `gh-pr-review-ci` |
 | 指定したGitLab MRをレビューする | `glab-mr-review` |

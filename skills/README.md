@@ -37,6 +37,7 @@
 | [gh-pr-create-no-git](gh-pr-create-no-git/SKILL.md) | Gitコマンドを実行せず、PRを作成する |
 | [gh-pr-update-no-git](gh-pr-update-no-git/SKILL.md) | Gitコマンドを実行せず、既存PRのタイトルと本文を更新する |
 | [gh-pr-review](gh-pr-review/SKILL.md) | 指定したPRの説明とdiffを取り、レビューする |
+| [gh-pr-review-ci](gh-pr-review-ci/SKILL.md) | CIから指定したPRの説明とdiffを取り、聞き返さずにレビューする |
 | [gh-pr-schema](gh-pr-schema/SKILL.md) | PRのタイトルと本文の型。作成と更新が読む |
 
 ## GitLab Merge Request
