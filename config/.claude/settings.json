@@ -19,10 +19,10 @@
     ],
     "deny": [
       "Bash(cat .env*)",
-      "Bash(curl *|* sh:*)",
+      "Bash(curl *|* sh*)",
       "Bash(rm -rf /:*)",
       "Bash(sudo:*)",
-      "Bash(wget *|* sh:*)",
+      "Bash(wget *|* sh*)",
       "Read(.env)"
     ],
     "defaultMode": "auto"
