@@ -1,9 +1,9 @@
 ---
 name: glab-mr-update-no-git
 description: >
-  AIによるGitコマンド実行が禁止されたプロジェクトで、指定したMerge Requestのタイトルと本文を確認後に更新する。
+  AIによるGitコマンド実行が禁止されたプロジェクトで、指定したMerge Requestのタイトルと本文を更新する。
   Gitと.gitには触れない。
-  `.gitlab/merge_request_templates` があればその構成で、無ければスキーマに沿って本文を作る。
+  スキーマに沿って本文を作る。
   例: glab-mr-update-no-git --mr 42。
   「MRを更新」「MRの説明を修正」「MRのタイトルを変更」などの操作を、Gitコマンドを使わずに行う際に使用する。
   `--mr`が無いときは聞いてから進む。
@@ -15,7 +15,7 @@ description: >
 
 - Gitと`.git`を使わず、指定したMerge Requestの既存内容を保ちながら、要求された箇所を更新する
 - そのMRのdiffとコミットだけを本文の根拠にする
-- `.gitlab/merge_request_templates` があればその構成で、無ければ `glab-mr-schema` で本文を組み立てる
+- `glab-mr-schema` で本文を組み立てる
 - 更新後のタイトル、本文、base、head、state、draftを検証する
 
 ## いつ使うか
@@ -87,30 +87,20 @@ diffを取得できなければ本文を作らない。`collapsed`または`too_
 
 ### Step 6: タイトルと本文を組む
 
-本文の前に、プロジェクトルートの`.gitlab/merge_request_templates`を見る。
+本文は`glab-mr-schema`の文書構成で書く。書き方は`report-patterns`にも従う。
 
-`.md`が無いときは、本文は`glab-mr-schema`の文書構成で書く。あるときはそのファイルを構成にする。`Default.md`があればそれを使う。1件ならそれを使う。複数で`Default.md`が無ければ、ファイル名を一度聞いてから使う。
-
-テンプレートの見出しの並びで書く。意味が近い節は、`glab-mr-schema`のその節の書き方で埋める。書き方は`report-patterns`にも従う。
-
-要求された変更と整合に必要な変更だけを加える。既存本文が採用した見出し構成に沿っている箇所は残し、空になった見出しは残さない。
+要求された変更と整合に必要な変更だけを加える。既存本文がスキーマの見出し構成に沿っている箇所は残し、空になった見出しは残さない。
 
 - そのMRのdiffにない変更を本文へ含めない
 - `draft`がtrueで、ユーザーがreadyにすると明示していないときは、タイトル先頭の`Draft:`を残す。外すとGitLabはそのMRをreadyにする
 
 ### Step 7: 可読性を確認する
 
-ユーザー確認の前に`report-patterns`を読み、Step 6のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、採用した見出し構成と記載した事実は変えずに直す。
+更新の前に`report-patterns`を読み、Step 6のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、見出し構成と記載した事実は変えずに直す。
 
-### Step 8: 更新前に確認する
+### Step 8: MRを更新する
 
-対象プロジェクト、ホスト、iid、タイトル、本文をチャットに出す。変更する箇所が分かるように示す。draftを維持するときは、そのことも出す。
-
-ユーザーが認めたあとだけ更新する。修正指示があれば反映し、タイトルと本文を再度出す。確認前に更新しない。
-
-### Step 9: MRを更新する
-
-確認済みのタイトルと本文をJSONへ変換し、リポジトリ外の一時ファイルへ保存する。ファイル名は`.json`で終わるものにする。文字列を手作業でJSONエスケープせず、JSONを安全に生成できる手段を使う。
+組んだタイトルと本文をJSONへ変換し、リポジトリ外の一時ファイルへ保存する。ファイル名は`.json`で終わるものにする。文字列を手作業でJSONエスケープせず、JSONを安全に生成できる手段を使う。
 
 ```json
 {
@@ -127,7 +117,7 @@ glab api --hostname <host> --method PUT -H "Content-Type: application/json" "pro
 
 Issueを起票しない。コミットしない。pushしない。
 
-### Step 10: 更新結果を検証する
+### Step 9: 更新結果を検証する
 
 ```bash
 glab api --hostname <host> "projects/<encoded-path>/merge_requests/<iid>"
@@ -135,15 +125,15 @@ glab api --hostname <host> "projects/<encoded-path>/merge_requests/<iid>"
 
 次を確認する。
 
-- titleが確認済みのタイトルと一致する
-- descriptionが確認済みの本文と一致する
+- titleが組んだタイトルと一致する
+- descriptionが組んだ本文と一致する
 - stateが更新前と一致する
 - draftが更新前と一致する
 - source_branchが更新前と一致する
 - target_branchが更新前と一致する
 - closeするIssueが、本文末尾の`Closes`行に書かれている
 
-一致しない場合は成功として扱わず、差異とMR URLを返す。すべて一致したらMR URLを返す。一時ファイルは削除する。
+一致しない場合は成功として扱わず、差異とMR URLを返す。すべて一致したらMR URLと、変更した箇所を返す。一時ファイルは削除する。
 
 ## 安全条件
 
@@ -155,8 +145,7 @@ glab api --hostname <host> "projects/<encoded-path>/merge_requests/<iid>"
 - `glab api`の`--hostname`は、`glab repo view`の`web_url`から取ったホストにする
 - 対象プロジェクトとホストを`glab repo view`以外から取らない
 - iidをローカルブランチから推測しない
-- ユーザー確認前にMRを更新しない
-- `report-patterns`を読まずにユーザー確認へ進まない
+- `report-patterns`を読まずに更新しない
 - `opened`でないMRを、明示的な続行指示なしに更新しない
 - 更新対象外のタイトル、本文、base、head、state、draftを変えない
 - ユーザーの明示なしに`Draft:`を外さない

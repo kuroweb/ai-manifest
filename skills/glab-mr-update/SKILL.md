@@ -1,9 +1,9 @@
 ---
 name: glab-mr-update
 description: >
-  指定したGitLab Merge Requestのタイトルと本文を確認後に更新する。
+  指定したGitLab Merge Requestのタイトルと本文を更新する。
   対象プロジェクト、既存MR、そのMRの差分を確認する。
-  `.gitlab/merge_request_templates` があればその構成で、無ければスキーマに沿って本文を作る。
+  スキーマに沿って本文を作る。
   例: glab-mr-update --mr 42。
   「MRを更新」「MRの説明を修正」「MRのタイトルを変更」などの操作を行う際に使用する。
   `--mr`が無いときはiidを聞く。
@@ -15,7 +15,7 @@ description: >
 
 - 指定したGitLab Merge Requestの既存内容を保ちながら、要求された箇所を更新する
 - 対象プロジェクト、既存MR、そのMRの差分を更新前に確認する
-- `.gitlab/merge_request_templates` があればその構成で、無ければ `glab-mr-schema` で本文を組み立てる
+- `glab-mr-schema` で本文を組み立てる
 - 更新後のタイトル、本文、base、head、state、draftを検証する
 
 ## いつ使うか
@@ -82,28 +82,18 @@ diffを取得できなければ本文を作らない。
 
 ### Step 5: タイトルと本文を組む
 
-本文の前に、プロジェクトルートの`.gitlab/merge_request_templates`を見る。
+本文は`glab-mr-schema`の文書構成で書く。書き方は`report-patterns`にも従う。
 
-`.md`が無いときは、本文は`glab-mr-schema`の文書構成で書く。あるときはそのファイルを構成にする。`Default.md`があればそれを使う。1件ならそれを使う。複数で`Default.md`が無ければ、ファイル名を一度聞いてから使う。
-
-テンプレートの見出しの並びで書く。意味が近い節は、`glab-mr-schema`のその節の書き方で埋める。書き方は`report-patterns`にも従う。
-
-要求された変更と整合に必要な変更だけを加える。既存本文が採用した見出し構成に沿っている箇所は残し、空になった見出しは残さない。
+要求された変更と整合に必要な変更だけを加える。既存本文がスキーマの見出し構成に沿っている箇所は残し、空になった見出しは残さない。
 
 - MRのdiffにない変更を本文へ含めない
 - `draft`がtrueで、ユーザーがreadyにすると明示していないときは、タイトル先頭の`Draft:`を残す。外すとGitLabはそのMRをreadyにする
 
 ### Step 6: 可読性を確認する
 
-ユーザー確認の前に`report-patterns`を読み、Step 5のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、採用した見出し構成と記載した事実は変えずに直す。
+更新の前に`report-patterns`を読み、Step 5のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、見出し構成と記載した事実は変えずに直す。
 
-### Step 7: 更新前に確認する
-
-対象プロジェクト、iid、タイトル、本文をチャットに出す。変更する箇所が分かるように示す。draftを維持するときは、そのことも出す。
-
-ユーザーが認めたあとだけ更新する。修正指示があれば反映し、タイトルと本文を再度出す。確認前に更新しない。
-
-### Step 8: MRを更新する
+### Step 7: MRを更新する
 
 本文をリポジトリ外の一時ファイルへ書き、`--description-file`で渡す。複数行の本文を`--description`へ埋め込まない。
 
@@ -117,7 +107,7 @@ glab mr update <iid> --repo <remote-url> --title "<title>" --description-file <b
 
 Issueを起票しない。コミットしない。pushしない。
 
-### Step 9: 更新結果を検証する
+### Step 8: 更新結果を検証する
 
 ```bash
 glab mr view <iid> --repo <remote-url> -F json
@@ -125,20 +115,19 @@ glab mr view <iid> --repo <remote-url> -F json
 
 次を確認する。
 
-- titleが確認済みのタイトルと一致する
-- descriptionが確認済みの本文と一致する
+- titleが組んだタイトルと一致する
+- descriptionが組んだ本文と一致する
 - stateが更新前と一致する
 - draftが更新前と一致する
 - source_branchが更新前と一致する
 - target_branchが更新前と一致する
 - closeするIssueが、本文末尾の`Closes`行に書かれている
 
-一致しない場合は成功として扱わず、差異とMR URLを返す。すべて一致したらMR URLを返す。
+一致しない場合は成功として扱わず、差異とMR URLを返す。すべて一致したらMR URLと、変更した箇所を返す。
 
 ## 安全条件
 
-- ユーザー確認前にMRを更新しない
-- `report-patterns`を読まずにユーザー確認へ進まない
+- `report-patterns`を読まずに更新しない
 - `opened`でないMRを、明示的な続行指示なしに更新しない
 - 更新対象外のタイトル、本文、base、head、state、draftを変えない
 - ユーザーの明示なしに`Draft:`を外さない
@@ -172,4 +161,4 @@ glab mr view <iid> --repo <remote-url> -F json
 | `git ls-remote --heads <remote> refs/heads/<head>` | リモートheadのSHAを確認する |
 | `git --no-pager log <remote>/<base>..<remote>/<head> --format=%s%n%b` | MRに含まれるコミットを確認する |
 | `git --no-pager diff <remote>/<base>...<remote>/<head>` | MRに含まれる差分を確認する |
-| `glab mr update <iid> --repo <remote-url> --title "<title>" --description-file <body-file> --yes` | 確認済みのタイトルと本文で更新する |
+| `glab mr update <iid> --repo <remote-url> --title "<title>" --description-file <body-file> --yes` | 組んだタイトルと本文で更新する |

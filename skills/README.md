@@ -32,8 +32,8 @@
 
 | スキル | すること |
 |---|---|
-| [gh-pr-create](gh-pr-create/SKILL.md) | push済みブランチからPRを確認後に作成する |
-| [gh-pr-update](gh-pr-update/SKILL.md) | 既存PRのタイトルと本文を確認後に更新する |
+| [gh-pr-create](gh-pr-create/SKILL.md) | push済みブランチからPRを作成する |
+| [gh-pr-update](gh-pr-update/SKILL.md) | 既存PRのタイトルと本文を更新する |
 | [gh-pr-create-no-git](gh-pr-create-no-git/SKILL.md) | Gitコマンドを実行せず、PRを作成する |
 | [gh-pr-update-no-git](gh-pr-update-no-git/SKILL.md) | Gitコマンドを実行せず、既存PRのタイトルと本文を更新する |
 | [gh-pr-review](gh-pr-review/SKILL.md) | 指定したPRの説明とdiffを取り、レビューする |
@@ -44,8 +44,8 @@
 
 | スキル | すること |
 |---|---|
-| [glab-mr-create](glab-mr-create/SKILL.md) | push済みブランチからMRを確認後に作成する |
-| [glab-mr-update](glab-mr-update/SKILL.md) | 既存MRのタイトルと本文を確認後に更新する |
+| [glab-mr-create](glab-mr-create/SKILL.md) | push済みブランチからMRを作成する |
+| [glab-mr-update](glab-mr-update/SKILL.md) | 既存MRのタイトルと本文を更新する |
 | [glab-mr-create-no-git](glab-mr-create-no-git/SKILL.md) | Gitコマンドを実行せず、MRを作成する |
 | [glab-mr-update-no-git](glab-mr-update-no-git/SKILL.md) | Gitコマンドを実行せず、既存MRのタイトルと本文を更新する |
 | [glab-mr-review](glab-mr-review/SKILL.md) | 指定したMRの説明とdiffを取り、レビューする |

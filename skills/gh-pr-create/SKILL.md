@@ -1,9 +1,9 @@
 ---
 name: gh-pr-create
 description: >
-  push済みブランチからGitHub Pull Requestを構造化して確認後に作成する。
+  push済みブランチからGitHub Pull Requestを構造化して作成する。
   対象リポジトリ、base、head、既存PR、リモートとの差分を確認する。
-  Pull Request テンプレートがあればその構成で、無ければスキーマに沿って本文を作る。
+  スキーマに沿って本文を作る。
   例: gh-pr-create、gh-pr-create --issue 123。
   「PRを作成」「プルリクエストを開く」「レビューのために送信」などの操作を行う際に使用する。
 ---
@@ -14,7 +14,7 @@ description: >
 
 - push済みブランチからGitHub Pull Requestを作成する
 - 対象リポジトリ、base、head、既存PR、差分コミットを作成前に確認する
-- Pull Request テンプレートがあればその構成で、無ければ `gh-pr-schema` で本文を組み立てる
+- `gh-pr-schema` で本文を組み立てる
 - 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
@@ -136,23 +136,13 @@ git --no-pager diff <remote>/<base>...HEAD
 
 ### Step 7: タイトルと本文を組む
 
-本文の前に、プロジェクトルートの`.github/PULL_REQUEST_TEMPLATE.md`と`.github/PULL_REQUEST_TEMPLATE`を見る。
-
-`.md`が無いときは、本文は`gh-pr-schema`の文書構成で書く。`PULL_REQUEST_TEMPLATE.md`があればそれを使う。1件ならそれを使う。複数ならファイル名を一度聞いてから使う。
-
-テンプレートの見出しの並びで書く。意味が近い節は、`gh-pr-schema`のその節の書き方で埋める。書き方は`report-patterns`にも従う。
+本文は`gh-pr-schema`の文書構成で書く。書き方は`report-patterns`にも従う。
 
 ### Step 8: 可読性を確認する
 
-ユーザー確認の前に`report-patterns`を読み、Step 7のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、採用した見出し構成と記載した事実は変えずに直す。
+作成の前に`report-patterns`を読み、Step 7のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、見出し構成と記載した事実は変えずに直す。
 
-### Step 9: 作成前に確認する
-
-タイトルと本文をチャットに出す。ユーザーが認めたあとだけ作成する。
-
-修正指示があれば反映し、タイトルと本文を再度出す。確認前にPRを作成しない。
-
-### Step 10: PRを作成する
+### Step 9: PRを作成する
 
 本文をリポジトリ外の一時ファイルへ書き、`--body-file`で渡す。複数行の本文を`--body`へ埋め込まない。
 
@@ -162,7 +152,7 @@ gh pr create --repo <owner/repo> --base <base> --head <head> --title "<title>" -
 
 Issueを起票しない。コミットしない。pushしない。
 
-### Step 11: 作成結果を検証する
+### Step 10: 作成結果を検証する
 
 作成されたPRのタイトル、本文、base、head、URLを取得する。
 
@@ -173,8 +163,8 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headR
 次を確認する。
 
 - stateが`OPEN`
-- titleが確認済みのタイトルと一致する
-- bodyが確認済みの本文と一致する
+- titleが組んだタイトルと一致する
+- bodyが組んだ本文と一致する
 - headRefNameがheadと一致する
 - baseRefNameがbaseと一致する
 - closeするIssueが、本文末尾の`Closes`行に書かれている
@@ -187,8 +177,7 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headR
 - ローカルHEADとリモートheadのSHAが異なる状態でPRを作成しない
 - baseとの差分コミットがない状態でPRを作成しない
 - 同じheadのopen、merged、closed PRがある場合は新しいPRを作成しない
-- ユーザー確認前にPRを作成しない
-- `report-patterns`を読まずにユーザー確認へ進まない
+- `report-patterns`を読まずに作成しない
 - 本文は`--body-file`で渡す
 
 ## スキル連携
@@ -216,5 +205,5 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headR
 | `git --no-pager log <remote>/<base>..HEAD --format=%s%n%b` | PRに含まれるコミットを確認する |
 | `git --no-pager diff <remote>/<base>...HEAD` | PRの変更内容を確認する |
 | `gh pr list --repo <owner/repo> --head <head> --state all --json number,state,url,headRefName,baseRefName` | 同じheadの既存PRを確認する |
-| `gh pr create --repo <owner/repo> --base <base> --head <head> --title "<title>" --body-file <body-file>` | 確認済み内容でPRを作成する |
+| `gh pr create --repo <owner/repo> --base <base> --head <head> --title "<title>" --body-file <body-file>` | 組んだ内容でPRを作成する |
 | `gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headRefName,baseRefName` | 作成結果を検証する |

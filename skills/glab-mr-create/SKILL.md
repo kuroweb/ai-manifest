@@ -1,9 +1,9 @@
 ---
 name: glab-mr-create
 description: >
-  push済みブランチからGitLab Merge Requestを構造化して確認後に作成する。
+  push済みブランチからGitLab Merge Requestを構造化して作成する。
   対象プロジェクト、base、head、既存MR、リモートとの差分を確認する。
-  `.gitlab/merge_request_templates` があればその構成で、無ければスキーマに沿って本文を作る。
+  スキーマに沿って本文を作る。
   例: glab-mr-create、glab-mr-create --issue 123。
   「MRを作成」「マージリクエストを開く」「レビューのために送信」などの操作を行う際に使用する。
 ---
@@ -14,7 +14,7 @@ description: >
 
 - push済みブランチからGitLab Merge Requestを作成する
 - 対象プロジェクト、base、head、既存MR、差分コミットを作成前に確認する
-- `.gitlab/merge_request_templates` があればその構成で、無ければ `glab-mr-schema` で本文を組み立てる
+- `glab-mr-schema` で本文を組み立てる
 - 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
@@ -140,23 +140,13 @@ git --no-pager diff <remote>/<base>...HEAD
 
 ### Step 7: タイトルと本文を組む
 
-本文の前に、プロジェクトルートの`.gitlab/merge_request_templates`を見る。
-
-`.md`が無いときは、本文は`glab-mr-schema`の文書構成で書く。あるときはそのファイルを構成にする。`Default.md`があればそれを使う。1件ならそれを使う。複数で`Default.md`が無ければ、ファイル名を一度聞いてから使う。
-
-テンプレートの見出しの並びで書く。意味が近い節は、`glab-mr-schema`のその節の書き方で埋める。書き方は`report-patterns`にも従う。
+本文は`glab-mr-schema`の文書構成で書く。書き方は`report-patterns`にも従う。
 
 ### Step 8: 可読性を確認する
 
-ユーザー確認の前に`report-patterns`を読み、Step 7のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、採用した見出し構成と記載した事実は変えずに直す。
+作成の前に`report-patterns`を読み、Step 7のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、見出し構成と記載した事実は変えずに直す。
 
-### Step 9: 作成前に確認する
-
-タイトルと本文をチャットに出す。ユーザーが認めたあとだけ作成する。
-
-修正指示があれば反映し、タイトルと本文を再度出す。確認前にMRを作成しない。
-
-### Step 10: MRを作成する
+### Step 9: MRを作成する
 
 本文をリポジトリ外の一時ファイルへ書き、`--description-file`で渡す。複数行の本文を`--description`へ埋め込まない。
 
@@ -168,7 +158,7 @@ glab mr create --repo <remote-url> --source-branch <head> --target-branch <base>
 
 Issueを起票しない。コミットしない。pushしない。フォークから上流へのMRは作らない。
 
-### Step 11: 作成結果を検証する
+### Step 10: 作成結果を検証する
 
 作成コマンドの出力からMRのURLとiidを取る。作成されたMRのタイトル、本文、base、headを取得する。
 
@@ -180,8 +170,8 @@ glab mr view <iid> --repo <remote-url> -F json
 
 - stateが`opened`
 - draftが`false`
-- titleが確認済みのタイトルと一致する
-- descriptionが確認済みの本文と一致する
+- titleが組んだタイトルと一致する
+- descriptionが組んだ本文と一致する
 - source_branchがheadと一致する
 - target_branchがbaseと一致する
 - closeするIssueが、本文末尾の`Closes`行に書かれている
@@ -194,8 +184,7 @@ glab mr view <iid> --repo <remote-url> -F json
 - ローカルHEADとリモートheadのSHAが異なる状態でMRを作成しない
 - baseとの差分コミットがない状態でMRを作成しない
 - 同じheadのopened、locked、merged、closed MRがある場合は新しいMRを作成しない
-- ユーザー確認前にMRを作成しない
-- `report-patterns`を読まずにユーザー確認へ進まない
+- `report-patterns`を読まずに作成しない
 - 本文は`--description-file`で渡す
 - `--push`や`--fill`でpushしない
 
@@ -225,5 +214,5 @@ glab mr view <iid> --repo <remote-url> -F json
 | `git --no-pager log <remote>/<base>..HEAD --format=%s%n%b` | MRに含まれるコミットを確認する |
 | `git --no-pager diff <remote>/<base>...HEAD` | MRの変更内容を確認する |
 | `glab mr list --repo <remote-url> --source-branch <head> --all -F json` | 同じheadの既存MRを確認する |
-| `glab mr create --repo <remote-url> --source-branch <head> --target-branch <base> --title "<title>" --description-file <body-file> --yes` | 確認済み内容でMRを作成する |
+| `glab mr create --repo <remote-url> --source-branch <head> --target-branch <base> --title "<title>" --description-file <body-file> --yes` | 組んだ内容でMRを作成する |
 | `glab mr view <iid> --repo <remote-url> -F json` | 作成結果を検証する |
