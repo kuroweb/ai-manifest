@@ -2,8 +2,8 @@
 name: glab-mr-create-no-git
 description: >
   AIによるGitコマンド実行が禁止されたプロジェクトで、指定されたpush済みブランチからMerge Requestを作成する。
-  diffを取るため先に空の下書きを作り、組んだタイトルと本文を入れてreadyにする。
-  スキーマに沿って本文を作る。
+  diffを取るため先に空の下書きを作り、書いたタイトルと本文を入れてreadyにする。
+  本文は`glab-mr-writing`で書く。
   Gitと.gitには触れない。
   例: glab-mr-create-no-git --head feat/example --issue 123。
   「MRを作成」「マージリクエストを開く」「レビューのために送信」などの操作を、Gitコマンドを使わずに行う際に使用する。
@@ -15,8 +15,8 @@ description: >
 
 - Gitと`.git`を使わず、指定されたpush済みブランチからMerge Requestを作成する
 - 本文を書く前に下書きを作り、そのdiffとコミットを取得する
-- `glab-mr-schema` で本文を組み立てる
-- 組んだタイトルと本文を、作成したMRへ入れてreadyにする
+- タイトルと本文は`glab-mr-writing`で書く
+- 書いたタイトルと本文を、作成したMRへ入れてreadyにする
 - 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
@@ -139,41 +139,17 @@ glab api --hostname <host> --paginate "projects/<encoded-path>/merge_requests/<i
 glab api --hostname <host> --paginate "projects/<encoded-path>/merge_requests/<iid>/diffs?unidiff=true"
 ```
 
-diffを取得できなければ本文を作らない。`collapsed`または`too_large`のファイルがある場合も、欠けたdiffを補わず停止する。現在のファイル内容や会話中の未push変更からdiffを補わない。
-
-### Step 7: スキーマを読む
-
-`glab-mr-schema`を読む。タイトルや本文を組む前に読む。
-
-### Step 8: MR本文に必要な情報を集める
-
-変更目的、変更内容、テスト内容が書けるところまで、会話、作成したMRのコミット、作成したMRのdiffから集める。
-
 コミットは取得した`title`と`message`だけを使う。
 
-- 変更目的は会話から取る。diffから推測しない
-- 変更内容はMRのdiffにある事実だけを書く
-- ローカルファイルや会話中の未push変更をMR本文へ含めない
+diffを取得できなければ本文を作らない。`collapsed`または`too_large`のファイルがある場合も、欠けたdiffを補わず停止する。現在のファイル内容や会話中の未push変更からdiffを補わない。
 
-### Step 9: 足りない情報を聞く
+### Step 7: タイトルと本文を書く
 
-本文に書けない情報だけを、一度に一つ聞く。選択肢と推奨回答を出す。
+`glab-mr-writing`で書く。根拠はStep 6で取ったコミットとdiff、closeするIssueはStep 3のIssueにする。
 
-- 変更目的が会話に無ければ聞く
+### Step 8: MRを更新する
 
-### Step 10: タイトルと本文を組む
-
-本文は`glab-mr-schema`の文書構成で書く。書き方は`report-patterns`にも従う。
-
-- 作成したMRのdiffにない変更を本文へ含めない
-
-### Step 11: 可読性を確認する
-
-更新の前に`report-patterns`を読み、Step 10のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、見出し構成と記載した事実は変えずに直す。
-
-### Step 12: MRを更新する
-
-組んだタイトルと本文をJSONへ変換し、リポジトリ外の一時ファイルへ保存する。
+書いたタイトルと本文をJSONへ変換し、リポジトリ外の一時ファイルへ保存する。
 
 ```json
 {
@@ -190,7 +166,7 @@ glab api --hostname <host> --method PUT -H "Content-Type: application/json" "pro
 
 Issueを起票しない。コミットしない。pushしない。
 
-### Step 13: 更新結果を検証する
+### Step 9: 更新結果を検証する
 
 更新されたMRを取得する。
 
@@ -202,8 +178,8 @@ glab api --hostname <host> "projects/<encoded-path>/merge_requests/<iid>"
 
 - stateが`opened`
 - draftが`false`
-- titleが組んだタイトルと一致する
-- descriptionが組んだ本文と一致する
+- titleが書いたタイトルと一致する
+- descriptionが書いた本文と一致する
 - source_branchがheadと一致する
 - target_branchがbaseと一致する
 - closeするIssueが、本文末尾の`Closes`行に書かれている
@@ -223,8 +199,6 @@ glab api --hostname <host> "projects/<encoded-path>/merge_requests/<iid>"
 - 下書きMRを作る前にdiffを取得しない
 - 同じheadのMRを重複して作成しない
 - 作成したMR以外のdiffを本文作成に使わない
-- MRのdiffにない変更を本文へ含めない
-- `report-patterns`を読まずに更新しない
 - 作成や更新に失敗しても、MRを無断で閉じたり削除したりしない
 
 ## スキル連携
@@ -236,6 +210,5 @@ glab api --hostname <host> "projects/<encoded-path>/merge_requests/<iid>"
 | AIによるGitコマンド実行が禁止されている | `glab-mr-create-no-git` |
 | AIによるGitコマンド実行が禁止され、既存MRを更新する | `glab-mr-update-no-git` |
 | headがGitLabへpushされていない | ユーザーがpushした後に再開する |
-| MR本文の型 | `glab-mr-schema` |
-| 本文の書き方・可読性 | `report-patterns` |
+| MRの書き方 | `glab-mr-writing` |
 | GitHubのPull Request | `gh-pr-create`または`gh-pr-create-no-git` |

@@ -38,7 +38,7 @@
 | [gh-pr-update-no-git](gh-pr-update-no-git/SKILL.md) | Gitコマンドを実行せず、既存PRのタイトルと本文を更新する |
 | [gh-pr-review](gh-pr-review/SKILL.md) | 指定したPRの説明とdiffを取り、レビューする |
 | [gh-pr-review-ci](gh-pr-review-ci/SKILL.md) | CIから指定したPRの説明とdiffを取り、聞き返さずにレビューする |
-| [gh-pr-schema](gh-pr-schema/SKILL.md) | PRのタイトルと本文の型。作成と更新が読む |
+| [gh-pr-writing](gh-pr-writing/SKILL.md) | PRのタイトルと本文の書き方。作成と更新が読む |
 
 ## GitLab Merge Request
 
@@ -49,7 +49,7 @@
 | [glab-mr-create-no-git](glab-mr-create-no-git/SKILL.md) | Gitコマンドを実行せず、MRを作成する |
 | [glab-mr-update-no-git](glab-mr-update-no-git/SKILL.md) | Gitコマンドを実行せず、既存MRのタイトルと本文を更新する |
 | [glab-mr-review](glab-mr-review/SKILL.md) | 指定したMRの説明とdiffを取り、レビューする |
-| [glab-mr-schema](glab-mr-schema/SKILL.md) | MRのタイトルと本文の型。作成と更新が読む |
+| [glab-mr-writing](glab-mr-writing/SKILL.md) | MRのタイトルと本文の書き方。作成と更新が読む |
 
 ## コードレビュー
 

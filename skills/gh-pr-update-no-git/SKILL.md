@@ -3,7 +3,7 @@ name: gh-pr-update-no-git
 description: >
   AIによるGitコマンド実行が禁止されたプロジェクトで、指定したPull Requestのタイトルと本文を更新する。
   Gitと.gitには触れない。
-  スキーマに沿って本文を作る。
+  本文は`gh-pr-writing`で書く。
   例: gh-pr-update-no-git --pr 42。
   「PRを更新」「PRの説明を修正」「PRのタイトルを変更」などの操作を、Gitコマンドを使わずに行う際に使用する。
   `--pr`が無いときは聞いてから進む。
@@ -15,7 +15,7 @@ description: >
 
 - Gitと`.git`を使わず、指定したPull Requestの既存内容を保ちながら、要求された箇所を更新する
 - そのPRのdiffとコミットだけを本文の根拠にする
-- `gh-pr-schema` で本文を組み立てる
+- タイトルと本文は`gh-pr-writing`で書く
 - 更新後のタイトル、本文、base、head、state、draftを検証する
 
 ## いつ使うか
@@ -47,9 +47,7 @@ gh repo view --json nameWithOwner --jq '{repo:.nameWithOwner}'
 
 PR番号は`--pr`で指定する。無いときはユーザーに聞く。ローカルブランチから推測しない。
 
-### Step 3: スキーマと既存PRを読む
-
-`gh-pr-schema`を読む。タイトルや本文を組む前に読む。
+### Step 3: 既存PRを読む
 
 ```bash
 gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,isDraft,headRefName,baseRefName,commits
@@ -67,28 +65,13 @@ gh pr diff <number> --repo <owner/repo>
 
 diffを取得できなければ本文を作らない。現在のファイル内容や会話中の未push変更からdiffを補わない。
 
-### Step 5: 足りない情報を聞く
+### Step 5: タイトルと本文を書く
 
-本文に書けない情報だけを、一度に一つ聞く。選択肢と推奨回答を出す。変えない箇所については聞かない。
+`gh-pr-writing`で書く。既存PRはStep 3で読んだもの、根拠はStep 3のコミットとStep 4のdiffにする。
 
-- 変更目的を書き換えるのに会話へ無ければ聞く。diffから推測しない
-- closeするIssueを変更するときは、会話で示されたIssue番号を使う
+### Step 6: PRを更新する
 
-### Step 6: タイトルと本文を組む
-
-本文は`gh-pr-schema`の文書構成で書く。書き方は`report-patterns`にも従う。
-
-要求された変更と整合に必要な変更だけを加える。既存本文がスキーマの見出し構成に沿っている箇所は残し、空になった見出しは残さない。
-
-- そのPRのdiffにない変更を本文へ含めない
-
-### Step 7: 可読性を確認する
-
-更新の前に`report-patterns`を読み、Step 6のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、見出し構成と記載した事実は変えずに直す。
-
-### Step 8: PRを更新する
-
-組んだタイトルと本文をJSONへ変換し、リポジトリ外の一時ファイルへ保存する。文字列を手作業でJSONエスケープせず、JSONを安全に生成できる手段を使う。
+書いたタイトルと本文をJSONへ変換し、リポジトリ外の一時ファイルへ保存する。文字列を手作業でJSONエスケープせず、JSONを安全に生成できる手段を使う。
 
 ```json
 {
@@ -105,7 +88,7 @@ gh api --method PATCH "repos/<owner>/<repo>/pulls/<number>" --input <payload-fil
 
 Issueを起票しない。コミットしない。pushしない。`gh pr ready`と`gh pr draft`は使わない。
 
-### Step 9: 更新結果を検証する
+### Step 7: 更新結果を検証する
 
 ```bash
 gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,isDraft,headRefName,baseRefName
@@ -113,8 +96,8 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,isDra
 
 次を確認する。
 
-- titleが組んだタイトルと一致する
-- bodyが組んだ本文と一致する
+- titleが書いたタイトルと一致する
+- bodyが書いた本文と一致する
 - stateが更新前と一致する
 - isDraftが更新前と一致する
 - headRefNameが更新前と一致する
@@ -131,10 +114,8 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,isDra
 - 対象リポジトリを`gh repo view`以外から取らない
 - PR番号をローカルブランチから推測しない
 - 番号や`--repo`を省略した`gh pr`コマンドを使わない
-- `report-patterns`を読まずに更新しない
 - `OPEN`でないPRを、明示的な続行指示なしに更新しない
 - 更新対象外のタイトル、本文、base、head、state、draftを変えない
-- そのPRのdiffにない変更を本文へ含めない
 - 作成や更新に失敗しても、PRを無断で閉じたり削除したりしない
 
 ## スキル連携
@@ -144,5 +125,4 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,isDra
 | Gitコマンドを実行できる | `gh-pr-update` |
 | AIによるGitコマンド実行が禁止されている | `gh-pr-update-no-git` |
 | PRを新規作成する | `gh-pr-create`または`gh-pr-create-no-git` |
-| PR本文の型 | `gh-pr-schema` |
-| 本文の書き方・可読性 | `report-patterns` |
+| PRの書き方 | `gh-pr-writing` |
