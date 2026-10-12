@@ -216,6 +216,7 @@ echo ""
 echo "Setting up .codex..."
 mkdir -p "$HOME/.codex"
 link_entries ".codex" "agents"
+link_file ".codex" "hooks.json"
 link_root_file ".codex" "AGENTS.md"
 echo ""
 

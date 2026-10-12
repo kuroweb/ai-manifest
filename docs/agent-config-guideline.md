@@ -27,6 +27,7 @@ config/
 │   └── .claude.mcp.json               # 手動 → ~/.claude.json
 ├── .codex/
 │   ├── agents/                        # generate → ~/.codex/agents/
+│   ├── hooks.json                     # → ~/.codex/hooks.json
 │   └── config.toml                    # 手動 → ~/.codex/config.toml
 ├── .env                               # → ~/.config/ai-manifest/.env
 ├── CLAUDE.md                          # generate → ~/.claude/CLAUDE.md
@@ -83,7 +84,7 @@ config/
 
   ```bash
   ls -la ~/.cursor/agents ~/.cursor/rules ~/.claude/agents ~/.claude/rules ~/.codex/agents
-  ls -la ~/.cursor/mcp.json ~/.claude/settings.json ~/.config/ai-manifest/.env
+  ls -la ~/.cursor/mcp.json ~/.cursor/hooks.json ~/.codex/hooks.json ~/.claude/settings.json ~/.config/ai-manifest/.env
   ```
 
 ### 手動コピペでの反映

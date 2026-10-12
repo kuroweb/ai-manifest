@@ -19,7 +19,7 @@ ai-manifest/
     ├── .rulesync/       # エージェント設定正本（rules / subagents）
     ├── .cursor/         # rulesync 生成物 + 手動管理ファイル
     ├── .claude/         # rulesync 生成物 + 手動管理ファイル
-    ├── .codex/          # rulesync 生成物
+    ├── .codex/          # rulesync 生成物 + 手動管理ファイル
     ├── .env             # MCPなどのシークレットを記述する
     ├── rulesync.jsonc
     ├── CLAUDE.md        # rulesync generate の成果物
@@ -53,7 +53,6 @@ ai-manifest/
    ```bash
    cp -n config/.env.example config/.env
    cp -n config/.cursor/mcp.json.example config/.cursor/mcp.json
-   cp -n config/.cursor/hooks.json.example config/.cursor/hooks.json
    ```
 
 5. **スキルインストール**
