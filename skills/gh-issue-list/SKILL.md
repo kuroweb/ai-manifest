@@ -63,7 +63,6 @@ gh issue list --repo <owner/repo> --state open --limit 100 --json number,title,l
 | Issueを読むだけ | `gh-issue-load` |
 | Issueを起票 | `gh-issue-create` |
 | Issueを更新 | `gh-issue-update` |
-| Issue本文の型 | `gh-issue-schema` |
 
 ## コマンドリファレンス
 

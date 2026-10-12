@@ -54,7 +54,6 @@ gh issue view <number> --repo <owner/repo> --json number,title,state,body,url
 | Issueを読むだけ | `gh-issue-load` |
 | Issueを起票 | `gh-issue-create` |
 | Issueを更新 | `gh-issue-update` |
-| Issue本文の型 | `gh-issue-schema` |
 
 ## コマンドリファレンス
 
