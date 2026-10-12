@@ -49,7 +49,7 @@
 | [glab-mr-create-no-git](glab-mr-create-no-git/SKILL.md) | Gitコマンドを実行せず、MRを作成する |
 | [glab-mr-update-no-git](glab-mr-update-no-git/SKILL.md) | Gitコマンドを実行せず、既存MRのタイトルと本文を更新する |
 | [glab-mr-review](glab-mr-review/SKILL.md) | 指定したMRの説明とdiffを取り、レビューする |
-| [glab-mr-schema](glab-mr-schema/SKILL.md) | MRのタイトルと本文の型。作成と更新が読む |
+| [glab-mr-writing](glab-mr-writing/SKILL.md) | MRのタイトルと本文の書き方。作成と更新が読む |
 
 ## コードレビュー
 
