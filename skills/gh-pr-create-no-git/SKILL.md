@@ -2,8 +2,8 @@
 name: gh-pr-create-no-git
 description: >
   AIによるGitコマンド実行が禁止されたプロジェクトで、指定されたpush済みブランチからPull Requestを作成する。
-  diffを取るため先に空の下書きを作り、組んだタイトルと本文を入れてreadyにする。
-  スキーマに沿って本文を作る。
+  diffを取るため先に空の下書きを作り、書いたタイトルと本文を入れてreadyにする。
+  本文は`gh-pr-writing`で書く。
   Gitと.gitには触れない。
   例: gh-pr-create-no-git --head feat/example --issue 123。
   「PRを作成」「プルリクエストを開く」「レビューのために送信」などの操作を、Gitコマンドを使わずに行う際に使用する。
@@ -15,8 +15,8 @@ description: >
 
 - Gitと`.git`を使わず、指定されたpush済みブランチからPull Requestを作成する
 - 本文を書く前に下書きを作り、そのdiffとコミットを取得する
-- `gh-pr-schema` で本文を組み立てる
-- 組んだタイトルと本文を、作成したPRへ入れてreadyにする
+- タイトルと本文は`gh-pr-writing`で書く
+- 書いたタイトルと本文を、作成したPRへ入れてreadyにする
 - 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
@@ -133,37 +133,13 @@ gh pr diff <number> --repo <owner/repo>
 
 diffを取得できなければ本文を作らない。現在のファイル内容や会話中の未push変更からdiffを補わない。
 
-### Step 7: スキーマを読む
+### Step 7: タイトルと本文を書く
 
-`gh-pr-schema`を読む。タイトルや本文を組む前に読む。
+`gh-pr-writing`で書く。根拠はStep 6で取ったコミットとdiff、closeするIssueはStep 3のIssueにする。
 
-### Step 8: PR本文に必要な情報を集める
+### Step 8: PRを更新する
 
-変更目的、変更内容、テスト内容が書けるところまで、会話、作成したPRのコミット、作成したPRのdiffから集める。
-
-- 変更目的は会話から取る。diffから推測しない
-- 変更内容はPRのdiffにある事実だけを書く
-- ローカルファイルや会話中の未push変更をPR本文へ含めない
-
-### Step 9: 足りない情報を聞く
-
-本文に書けない情報だけを、一度に一つ聞く。選択肢と推奨回答を出す。
-
-- 変更目的が会話に無ければ聞く
-
-### Step 10: タイトルと本文を組む
-
-本文は`gh-pr-schema`の文書構成で書く。書き方は`report-patterns`にも従う。
-
-- 作成したPRのdiffにない変更を本文へ含めない
-
-### Step 11: 可読性を確認する
-
-更新の前に`report-patterns`を読み、Step 10のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、見出し構成と記載した事実は変えずに直す。
-
-### Step 12: PRを更新する
-
-組んだタイトルと本文をJSONへ変換し、リポジトリ外の一時ファイルへ保存する。
+書いたタイトルと本文をJSONへ変換し、リポジトリ外の一時ファイルへ保存する。
 
 ```json
 {
@@ -182,7 +158,7 @@ Issueを起票しない。コミットしない。pushしない。
 
 RESTの更新では下書きは解除できない。タイトルと本文を先に反映し、一致したあとだけreadyにする。
 
-### Step 13: 内容が一致したらreadyにする
+### Step 9: 内容が一致したらreadyにする
 
 更新されたPRを取得する。
 
@@ -193,8 +169,8 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,isDra
 次が一致する場合だけreadyにする。
 
 - stateが`OPEN`
-- titleが組んだタイトルと一致する
-- bodyが組んだ本文と一致する
+- titleが書いたタイトルと一致する
+- bodyが書いた本文と一致する
 - headRefNameがheadと一致する
 - baseRefNameがbaseと一致する
 
@@ -210,8 +186,8 @@ gh pr ready <number> --repo <owner/repo>
 
 - stateが`OPEN`
 - isDraftが`false`
-- titleが組んだタイトルと一致する
-- bodyが組んだ本文と一致する
+- titleが書いたタイトルと一致する
+- bodyが書いた本文と一致する
 - headRefNameがheadと一致する
 - baseRefNameがbaseと一致する
 - closeするIssueが、本文末尾の`Closes`行に書かれている
@@ -228,9 +204,7 @@ gh pr ready <number> --repo <owner/repo>
 - baseとheadをローカルブランチから推測しない
 - 同じheadのPRを重複して作成しない
 - 作成したPR以外のdiffを本文作成に使わない
-- PRのdiffにない変更を本文へ含めない
-- `report-patterns`を読まずに更新しない
-- タイトルと本文が組んだ内容と一致する前にreadyにしない
+- タイトルと本文が書いた内容と一致する前にreadyにしない
 - 作成や更新に失敗しても、PRを無断で閉じたり削除したりしない
 
 ## スキル連携
@@ -242,5 +216,4 @@ gh pr ready <number> --repo <owner/repo>
 | AIによるGitコマンド実行が禁止されている | `gh-pr-create-no-git` |
 | AIによるGitコマンド実行が禁止され、既存PRを更新する | `gh-pr-update-no-git` |
 | headがGitHubへpushされていない | ユーザーがpushした後に再開する |
-| PR本文の型 | `gh-pr-schema` |
-| 本文の書き方・可読性 | `report-patterns` |
+| PRの書き方 | `gh-pr-writing` |

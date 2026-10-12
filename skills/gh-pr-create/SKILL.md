@@ -3,7 +3,7 @@ name: gh-pr-create
 description: >
   push済みブランチからGitHub Pull Requestを構造化して作成する。
   対象リポジトリ、base、head、既存PR、リモートとの差分を確認する。
-  スキーマに沿って本文を作る。
+  本文は`gh-pr-writing`で書く。
   例: gh-pr-create、gh-pr-create --issue 123。
   「PRを作成」「プルリクエストを開く」「レビューのために送信」などの操作を行う際に使用する。
 ---
@@ -14,7 +14,7 @@ description: >
 
 - push済みブランチからGitHub Pull Requestを作成する
 - 対象リポジトリ、base、head、既存PR、差分コミットを作成前に確認する
-- `gh-pr-schema` で本文を組み立てる
+- タイトルと本文は`gh-pr-writing`で書く
 - 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
@@ -105,44 +105,27 @@ gh pr list --repo <owner/repo> --head <head> --state all --json number,state,url
 - `OPEN`のPRがあれば、新しいPRを作成せずURLを返す。タイトルや本文を変えるときは`gh-pr-update`を使う
 - `MERGED`または`CLOSED`のPRがあれば、同じheadを再利用せず、新しいブランチを使う
 
-### Step 3: スキーマを読む
-
-`gh-pr-schema`を読む。タイトルや本文を組む前に読む。
-
-### Step 4: closeするIssueを確認する
+### Step 3: closeするIssueを確認する
 
 closeするIssueは次の順で決める。
 
 1. `--issue`で指定されたIssue
 2. 会話で示されたIssue
 
-### Step 5: PR本文に必要な情報を集める
+### Step 4: PRの差分を取る
 
-変更目的、変更内容、テスト内容が書けるところまで、会話、コミット、差分から集める。
+PRに含まれるコミットとdiffを取る。
 
 ```bash
 git --no-pager log <remote>/<base>..HEAD --format=%s%n%b
 git --no-pager diff <remote>/<base>...HEAD
 ```
 
-- 変更目的は会話から取る。差分から推測しない
-- 変更内容は差分にある事実だけを書く
+### Step 5: タイトルと本文を書く
 
-### Step 6: 足りない情報を聞く
+`gh-pr-writing`で書く。根拠はStep 4のコミットとdiff、closeするIssueはStep 3のIssueにする。
 
-本文に書けない情報だけを、一度に一つ聞く。選択肢と推奨回答を出す。
-
-- 変更目的が会話に無ければ聞く
-
-### Step 7: タイトルと本文を組む
-
-本文は`gh-pr-schema`の文書構成で書く。書き方は`report-patterns`にも従う。
-
-### Step 8: 可読性を確認する
-
-作成の前に`report-patterns`を読み、Step 7のタイトルと本文がその書き方で読みやすくできるか確認する。できる箇所があれば、見出し構成と記載した事実は変えずに直す。
-
-### Step 9: PRを作成する
+### Step 6: PRを作成する
 
 本文をリポジトリ外の一時ファイルへ書き、`--body-file`で渡す。複数行の本文を`--body`へ埋め込まない。
 
@@ -152,7 +135,7 @@ gh pr create --repo <owner/repo> --base <base> --head <head> --title "<title>" -
 
 Issueを起票しない。コミットしない。pushしない。
 
-### Step 10: 作成結果を検証する
+### Step 7: 作成結果を検証する
 
 作成されたPRのタイトル、本文、base、head、URLを取得する。
 
@@ -163,8 +146,8 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headR
 次を確認する。
 
 - stateが`OPEN`
-- titleが組んだタイトルと一致する
-- bodyが組んだ本文と一致する
+- titleが書いたタイトルと一致する
+- bodyが書いた本文と一致する
 - headRefNameがheadと一致する
 - baseRefNameがbaseと一致する
 - closeするIssueが、本文末尾の`Closes`行に書かれている
@@ -177,7 +160,6 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headR
 - ローカルHEADとリモートheadのSHAが異なる状態でPRを作成しない
 - baseとの差分コミットがない状態でPRを作成しない
 - 同じheadのopen、merged、closed PRがある場合は新しいPRを作成しない
-- `report-patterns`を読まずに作成しない
 - 本文は`--body-file`で渡す
 
 ## スキル連携
@@ -190,8 +172,7 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headR
 | Gitコマンド禁止環境でPR更新 | `gh-pr-update-no-git` |
 | pushしてPR作成 | `git-push` → `gh-pr-create` |
 | コミットしてPR作成 | `git-commit` → `git-push` → `gh-pr-create` |
-| PR本文の型 | `gh-pr-schema` |
-| 本文の書き方・可読性 | `report-patterns` |
+| PRの書き方 | `gh-pr-writing` |
 
 ## コマンドリファレンス
 
@@ -205,5 +186,5 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headR
 | `git --no-pager log <remote>/<base>..HEAD --format=%s%n%b` | PRに含まれるコミットを確認する |
 | `git --no-pager diff <remote>/<base>...HEAD` | PRの変更内容を確認する |
 | `gh pr list --repo <owner/repo> --head <head> --state all --json number,state,url,headRefName,baseRefName` | 同じheadの既存PRを確認する |
-| `gh pr create --repo <owner/repo> --base <base> --head <head> --title "<title>" --body-file <body-file>` | 組んだ内容でPRを作成する |
+| `gh pr create --repo <owner/repo> --base <base> --head <head> --title "<title>" --body-file <body-file>` | 書いた内容でPRを作成する |
 | `gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headRefName,baseRefName` | 作成結果を検証する |
