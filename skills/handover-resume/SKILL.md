@@ -69,7 +69,7 @@ ls -1r ~/.docs/handovers/<project>/*.md
 ## スキル連携
 
 | ユーザーの依頼 | ワークフロー |
-|---|---|
+| --- | --- |
 | 引き継ぎノートを作成 | `handover-create` |
 | 引き継ぎノートから再開 | `handover-resume` |
 | 引き継ぎノートを削除 | `handover-remove` |
@@ -77,6 +77,6 @@ ls -1r ~/.docs/handovers/<project>/*.md
 ## コマンドリファレンス
 
 | コマンド | 用途 |
-|---|---|
+| --- | --- |
 | `basename "$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")"` | `<project>`を決める |
 | `ls -1r ~/.docs/handovers/<project>/*.md` | ノートを新しい順に列挙する |

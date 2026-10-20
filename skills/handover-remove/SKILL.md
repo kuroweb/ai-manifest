@@ -74,16 +74,16 @@ rm <path1> <path2>
 rmdir ~/.docs/handovers/<project>
 ```
 
-## 安全条件
+## 禁止事項
 
-- ユーザーが選んでいないノートを削除しない
-- 確認を取らずに削除しない
-- `~/.docs/handovers/<project>/`以外のファイルを削除しない
+- ユーザーが選んでいないノートを削除しないこと
+- 確認を取らずに削除しないこと
+- `~/.docs/handovers/<project>/`以外のファイルを削除しないこと
 
 ## スキル連携
 
 | ユーザーの依頼 | ワークフロー |
-|---|---|
+| --- | --- |
 | 引き継ぎノートを作成 | `handover-create` |
 | 引き継ぎノートから再開 | `handover-resume` |
 | 引き継ぎノートを削除 | `handover-remove` |
@@ -91,7 +91,7 @@ rmdir ~/.docs/handovers/<project>
 ## コマンドリファレンス
 
 | コマンド | 用途 |
-|---|---|
+| --- | --- |
 | `basename "$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")"` | `<project>`を決める |
 | `ls -1r ~/.docs/handovers/<project>/*.md` | ノートを新しい順に列挙する |
 | `rm <path1> <path2>` | 選ばれたノートを削除する |

@@ -152,20 +152,20 @@ git ls-remote --heads <remote> refs/heads/<remote-branch>
 - リモートブランチのSHA
 - 残っている未コミット変更の有無
 
-## 安全条件
+## 禁止事項
 
-- `main`、`master`、デフォルトブランチへ直接pushしない
-- upstreamとして設定されたリモートブランチが削除されていたらpushしない
-- behindまたは分岐しているブランチへ通常pushしない
-- push先が曖昧な状態でpushしない
-- dry runが失敗した状態でpushしない
-- force pushには`--force-with-lease`を使い、`--force`は使わない
-- タグはpushしない
+- `main`、`master`、デフォルトブランチへ直接pushしないこと
+- upstreamとして設定されたリモートブランチが削除されていたらpushしないこと
+- behindまたは分岐しているブランチへ通常pushしないこと
+- push先が曖昧な状態でpushしないこと
+- dry runが失敗した状態でpushしないこと
+- `--force-with-lease`以外でforce pushしないこと
+- タグはpushしないこと
 
 ## スキル連携
 
 | ユーザーの依頼 | ワークフロー |
-|---|---|
+| --- | --- |
 | コミット | `git-commit` |
 | push | `git-push` |
 | コミットしてpush | `git-commit` → `git-push` |
@@ -179,7 +179,7 @@ git ls-remote --heads <remote> refs/heads/<remote-branch>
 ## コマンドリファレンス
 
 | コマンド | 用途 |
-|---|---|
+| --- | --- |
 | `git status --porcelain=v2 --branch` | 変更、upstream、ahead/behindを確認する |
 | `git rev-parse --abbrev-ref --symbolic-full-name '@{upstream}'` | upstreamを確認する |
 | `git ls-remote --symref <remote> HEAD` | リモートのデフォルトブランチを確認する |

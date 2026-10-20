@@ -97,12 +97,12 @@ gh issue view <number> --repo <owner/repo> --json number,title,state,body,url,is
 
 一致しない場合は成功として扱わず、差異をユーザーへ返す。すべて一致したらIssue URLと、変更した箇所を返す。
 
-## 安全条件
+## 禁止事項
 
-- closed Issue、関連するopen PR、他者の担当、`in-progress`を無視して更新しない
-- 更新対象外のタイトル、本文、Issue type、状態、担当者、ラベルを変えない
-- 本文は`--body-file`で渡す
-- 更新後の値を再取得して検証する
+- closed Issue、関連するopen PR、他者の担当、`in-progress`を無視して更新しないこと
+- 更新対象外のタイトル、本文、Issue type、状態、担当者、ラベルを変えないこと
+- 本文を`--body`へ埋め込まないこと
+- 更新後の値を再取得せずに成功として扱わないこと
 
 ## スキル連携
 

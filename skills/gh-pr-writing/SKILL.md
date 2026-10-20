@@ -55,11 +55,11 @@ diffが無ければ本文を書かない。
 
 `report-patterns`を読み、Step 4のタイトルと本文がその書き方で読みやすくできるか確かめる。できる箇所があれば、見出し構成と記載した事実は変えずに直す。
 
-## 安全条件
+## 禁止事項
 
-- `references/schema.md` と`report-patterns`を読まずに書かない
-- PRのdiffにない変更を本文へ含めない
-- 会話、Issue、コミット、diffで確かめていない事実を推測で書かない
+- `references/schema.md` と`report-patterns`を読まずに書かないこと
+- PRのdiffにない変更を本文へ含めないこと
+- 会話、Issue、コミット、diffで確かめていない事実を推測で書かないこと
 
 ## スキル連携
 

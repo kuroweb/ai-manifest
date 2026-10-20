@@ -154,13 +154,13 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headR
 
 一致しない場合は成功として扱わず、差異をユーザーへ返す。すべて一致したらPR URLを返す。
 
-## 安全条件
+## 禁止事項
 
-- pushされていないheadからPRを作成しない
-- ローカルHEADとリモートheadのSHAが異なる状態でPRを作成しない
-- baseとの差分コミットがない状態でPRを作成しない
-- 同じheadのopen、merged、closed PRがある場合は新しいPRを作成しない
-- 本文は`--body-file`で渡す
+- pushされていないheadからPRを作成しないこと
+- ローカルHEADとリモートheadのSHAが異なる状態でPRを作成しないこと
+- baseとの差分コミットがない状態でPRを作成しないこと
+- 同じheadのopen、merged、closed PRがある場合は新しいPRを作成しないこと
+- 本文を`--body`へ埋め込まないこと
 
 ## スキル連携
 

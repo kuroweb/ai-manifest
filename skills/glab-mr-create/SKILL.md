@@ -161,14 +161,14 @@ glab mr view <iid> --repo <remote-url> -F json
 
 一致しない場合は成功として扱わず、差異をユーザーへ返す。すべて一致したらMR URLを返す。
 
-## 安全条件
+## 禁止事項
 
-- pushされていないheadからMRを作成しない
-- ローカルHEADとリモートheadのSHAが異なる状態でMRを作成しない
-- baseとの差分コミットがない状態でMRを作成しない
-- 同じheadのopened、locked、merged、closed MRがある場合は新しいMRを作成しない
-- 本文は`--description-file`で渡す
-- `--push`や`--fill`でpushしない
+- pushされていないheadからMRを作成しないこと
+- ローカルHEADとリモートheadのSHAが異なる状態でMRを作成しないこと
+- baseとの差分コミットがない状態でMRを作成しないこと
+- 同じheadのopened、locked、merged、closed MRがある場合は新しいMRを作成しないこと
+- 本文を`--description`へ埋め込まないこと
+- `--push`や`--fill`でpushしないこと
 
 ## スキル連携
 
