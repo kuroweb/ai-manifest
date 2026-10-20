@@ -17,8 +17,8 @@ description: >
 
 ## いつ使うか
 
-- `ワークツリーを作って`
-- `worktreeを切って`
+- ワークツリーを作って
+- worktreeを切って
 - `wt-switch-create --base develop`
 
 ## 手順

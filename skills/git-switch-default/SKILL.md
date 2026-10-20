@@ -20,12 +20,11 @@ description: >
 
 ## いつ使うか
 
-- `デフォルトブランチに切り替えて`
-- `デフォルトブランチに戻って`
-- `mainに戻って`
-- `masterに戻って`
-- `作業ブランチから戻って`
-- 戻ったあと新しいブランチを作るときは、このスキルのあと `git-branch-create` を使う
+- デフォルトブランチに切り替えて
+- デフォルトブランチに戻って
+- mainに戻って
+- masterに戻って
+- 作業ブランチから戻って
 - デフォルト以外のブランチ名を指定して、そのブランチへ移るときは使わない
 - 新しいブランチやワークツリーを作るときは使わない
 - コミットや push の依頼では使わない
@@ -168,7 +167,7 @@ git status --porcelain=v2 --branch
 ## スキル連携
 
 | ユーザーの依頼 | ワークフロー |
-|---|---|
+| --- | --- |
 | デフォルトブランチへ戻る | `git-switch-default` |
 | 戻ってからブランチを作る | `git-switch-default` → `git-branch-create` |
 | ブランチを作る | `git-branch-naming` → `git-branch-create` |
@@ -177,7 +176,7 @@ git status --porcelain=v2 --branch
 ## コマンドリファレンス
 
 | コマンド | 用途 |
-|---|---|
+| --- | --- |
 | `git status --porcelain=v2 --branch` | 未コミットの変更とブランチ状態を確認する |
 | `git branch --show-current` | 現在のブランチを確認する |
 | `git ls-remote --symref origin HEAD` | `origin` のデフォルトブランチを確認する |

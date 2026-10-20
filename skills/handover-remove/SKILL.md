@@ -17,10 +17,9 @@ description: >
 ## いつ使うか
 
 - `handover-remove`
-- `/handover-remove`
-- `引き継ぎノートを削除`
-- `handoverを消して`
-- `古い引き継ぎを掃除して`
+- 引き継ぎノートを削除
+- handoverを消して
+- 古い引き継ぎを掃除して
 
 ## 手順
 

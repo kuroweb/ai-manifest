@@ -20,7 +20,6 @@ description: >
 - `gh-issue-load --issue <number>`
 - `gh-issue-load --repo owner/repo --issue <number>`
 - 指定した Issue の内容を確認するとき
-- `--issue` が無いときは番号を聞く
 
 ## 手順
 

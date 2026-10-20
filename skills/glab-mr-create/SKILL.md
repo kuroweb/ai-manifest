@@ -23,7 +23,6 @@ description: >
 - push済みブランチからMerge Requestを作成するとき
 
 GitHubのPull Requestには使わない。
-
 ## 手順
 
 ### Step 1: 対象プロジェクトとブランチを決める

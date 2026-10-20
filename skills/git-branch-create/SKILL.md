@@ -17,8 +17,8 @@ description: >
 
 ## いつ使うか
 
-- `ブランチを作って`
-- `新しいブランチを切って`
+- ブランチを作って
+- 新しいブランチを切って
 - `git-branch-create --base develop`
 - `git-branch-naming`で決めた名前のブランチを作成するとき
 

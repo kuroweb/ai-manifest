@@ -16,10 +16,9 @@ description: >
 ## いつ使うか
 
 - `handover-create`
-- `/handover-create`
-- `引き継ぎノートを作成`
-- `handover`
-- `引き継ぎして`
+- 引き継ぎノートを作成
+- handover
+- 引き継ぎして
 - セッション終了時、作業の区切り
 
 ## 手順

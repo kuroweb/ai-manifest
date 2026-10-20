@@ -17,10 +17,9 @@ description: >
 ## いつ使うか
 
 - `handover-resume`
-- `/handover-resume`
-- `引き継ぎ再開`
-- `前回の続きから`
-- `handoverを読み込んで`
+- 引き継ぎ再開
+- 前回の続きから
+- handoverを読み込んで
 
 ## 手順
 

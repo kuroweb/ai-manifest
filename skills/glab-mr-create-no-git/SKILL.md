@@ -25,7 +25,6 @@ description: >
 - GitLab上にpush済みのheadを明示してMerge Requestを作成するとき
 
 GitHubのPull Requestには使わない。
-
 ## 手順
 
 ### Step 1: Git操作の禁止範囲を確認する
