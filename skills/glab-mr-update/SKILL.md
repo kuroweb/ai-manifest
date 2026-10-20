@@ -13,10 +13,7 @@ description: >
 
 ## できること
 
-- 指定したGitLab Merge Requestの既存内容を保ちながら、要求された箇所を更新する
-- 対象プロジェクト、既存MR、そのMRの差分を更新前に確認する
-- タイトルと本文は`glab-mr-writing`で書く
-- 更新後のタイトル、本文、base、head、state、draftを検証する
+- GitLab Merge Requestの既存内容を保ちながら、タイトルと本文の要求された箇所を更新する
 
 ## いつ使うか
 

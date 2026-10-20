@@ -13,10 +13,7 @@ description: >
 
 ## できること
 
-- Gitと`.git`を使わず、指定したMerge Requestの既存内容を保ちながら、要求された箇所を更新する
-- そのMRのdiffとコミットだけを本文の根拠にする
-- タイトルと本文は`glab-mr-writing`で書く
-- 更新後のタイトル、本文、base、head、state、draftを検証する
+- Gitコマンドを使わずに、GitLab Merge Requestのタイトルと本文の要求された箇所を更新する
 
 ## いつ使うか
 

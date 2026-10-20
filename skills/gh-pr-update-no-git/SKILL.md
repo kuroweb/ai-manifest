@@ -13,10 +13,7 @@ description: >
 
 ## できること
 
-- Gitと`.git`を使わず、指定したPull Requestの既存内容を保ちながら、要求された箇所を更新する
-- そのPRのdiffとコミットだけを本文の根拠にする
-- タイトルと本文は`gh-pr-writing`で書く
-- 更新後のタイトル、本文、base、head、state、draftを検証する
+- Gitコマンドを使わずに、GitHub Pull Requestのタイトルと本文の要求された箇所を更新する
 
 ## いつ使うか
 

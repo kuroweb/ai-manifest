@@ -13,11 +13,7 @@ description: >
 
 ## できること
 
-- Gitと`.git`を使わず、指定されたpush済みブランチからPull Requestを作成する
-- 本文を書く前に下書きを作り、そのdiffとコミットを取得する
-- タイトルと本文は`gh-pr-writing`で書く
-- 書いたタイトルと本文を、作成したPRへ入れてreadyにする
-- 作成後のタイトル、本文、base、headを検証する
+- Gitコマンドを使わずに、push済みブランチからGitHub Pull Requestを作成する
 
 ## いつ使うか
 

@@ -13,9 +13,6 @@ description: >
 ## できること
 
 - push済みブランチからGitLab Merge Requestを作成する
-- 対象プロジェクト、base、head、既存MR、差分コミットを作成前に確認する
-- タイトルと本文は`glab-mr-writing`で書く
-- 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
 

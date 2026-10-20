@@ -13,10 +13,7 @@ description: >
 
 ## できること
 
-- 指定したGitHub Pull Requestの既存内容を保ちながら、要求された箇所を更新する
-- 対象リポジトリ、既存PR、そのPRの差分を更新前に確認する
-- タイトルと本文は`gh-pr-writing`で書く
-- 更新後のタイトル、本文、base、head、state、draftを検証する
+- GitHub Pull Requestの既存内容を保ちながら、タイトルと本文の要求された箇所を更新する
 
 ## いつ使うか
 

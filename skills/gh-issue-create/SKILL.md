@@ -11,9 +11,8 @@ description: >
 
 ## できること
 
-- `gh-issue-writing`で書いたタイトルと本文でGitHub Issueを起票する
-- 重複Issueを起票前に確認する
-- Issue typeが使えるかを確かめ、起票後の内容を検証する
+- GitHub Issueを起票する
+- 重複しそうな既存Issueがあれば、起票前に知らせる
 
 ## いつ使うか
 

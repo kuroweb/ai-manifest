@@ -13,9 +13,6 @@ description: >
 ## できること
 
 - push済みブランチからGitHub Pull Requestを作成する
-- 対象リポジトリ、base、head、既存PR、差分コミットを作成前に確認する
-- タイトルと本文は`gh-pr-writing`で書く
-- 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
 

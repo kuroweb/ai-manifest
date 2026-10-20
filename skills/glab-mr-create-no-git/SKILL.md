@@ -13,11 +13,7 @@ description: >
 
 ## できること
 
-- Gitと`.git`を使わず、指定されたpush済みブランチからMerge Requestを作成する
-- 本文を書く前に下書きを作り、そのdiffとコミットを取得する
-- タイトルと本文は`glab-mr-writing`で書く
-- 書いたタイトルと本文を、作成したMRへ入れてreadyにする
-- 作成後のタイトル、本文、base、headを検証する
+- Gitコマンドを使わずに、push済みブランチからGitLab Merge Requestを作成する
 
 ## いつ使うか
 

@@ -9,8 +9,7 @@ description: >
 
 ## できること
 
-- `references/schema.md` の種類から、Issueの種類を一つ選ぶ
-- 選んだ種類の型に沿って、タイトル、本文、Issue typeを書く
+- Issueのタイトル、本文、Issue typeを、種類ごとの型に沿って書く
 - 既存Issueを更新するときは、変える箇所だけを書き直す
 
 ## いつ使うか

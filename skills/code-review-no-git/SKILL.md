@@ -11,8 +11,7 @@ description: >
 
 ## できること
 
-- Gitと`.git`を使わず、チャットへ貼られたdiffを受け取る
-- レビューは`code-reviewing`に任せる
+- Gitコマンドを使わずに、貼られたdiffをレビューする
 
 ## いつ使うか
 

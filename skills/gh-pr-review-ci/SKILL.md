@@ -12,9 +12,7 @@ description: >
 
 ## できること
 
-- 指定したGitHub Pull Requestの説明とdiffを取得する
-- レビューは`code-reviewing`に任せる
-- 聞き返さずにレビュー結果を最終回答として返す
+- CIなど対話できない環境で、聞き返さずにGitHub Pull Requestをレビューする
 
 ## いつ使うか
 

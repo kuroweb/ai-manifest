@@ -11,8 +11,7 @@ description: >
 
 ## できること
 
-- 指定したGitHub Pull Requestの説明とdiffを取得する
-- レビューは`code-reviewing`に任せる
+- GitHub Pull Requestを、説明とdiffをもとにレビューする
 
 ## いつ使うか
 

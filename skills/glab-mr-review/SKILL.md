@@ -11,8 +11,7 @@ description: >
 
 ## できること
 
-- 指定したGitLab Merge Requestの説明とdiffを取得する
-- レビューは`code-reviewing`に任せる
+- GitLab Merge Requestを、説明とdiffをもとにレビューする
 
 ## いつ使うか
 
