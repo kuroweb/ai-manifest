@@ -2,7 +2,7 @@
 name: handover-remove
 description: >
   `~/.docs/handovers/<project>/` の引き継ぎノートから、ユーザーが選んだものを確認後に削除する。
-  例: handover-remove、/handover-remove。
+  例: handover-remove。
   「引き継ぎノートを削除」「handoverを消して」「古い引き継ぎを掃除して」などの操作を行う際に使用する。
   削除対象は必ずユーザーに選んでもらう。
 ---

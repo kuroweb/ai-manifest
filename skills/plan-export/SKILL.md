@@ -2,7 +2,7 @@
 name: plan-export
 description: >
   エージェントと相談して固めたプラン内容を ~/.docs/plans に Markdown で保存する。
-  例: plan-export、/plan-export。
+  例: plan-export。
   「プランを保存して」「相談したプランを ~/.docs/plans に出力して」「この計画を書き出して」などの操作を行う際に使用する。
 ---
 

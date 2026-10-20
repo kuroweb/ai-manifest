@@ -2,7 +2,7 @@
 name: handover-create
 description: >
   次のセッション用の引き継ぎノートを `~/.docs/handovers/<project>/` に作成し、パスを返す。
-  例: handover-create、/handover-create。
+  例: handover-create。
   「引き継ぎノートを作成」「handover」「引き継ぎして」などの操作や、セッション終了時・作業の区切りに使用する。
 ---
 

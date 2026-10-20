@@ -2,7 +2,7 @@
 name: handover-resume
 description: >
   `~/.docs/handovers/<project>/` の引き継ぎノートを読み込み、セッションの再開を補助する。
-  例: handover-resume、/handover-resume。
+  例: handover-resume。
   「引き継ぎ再開」「前回の続きから」「handoverを読み込んで」などの操作を行う際に使用する。
   ノートが複数あるときは、どれを読むかユーザーに選んでもらう。
 ---
