@@ -13,10 +13,7 @@ description: >
 
 ## できること
 
-- 指定したGitLab Merge Requestの既存内容を保ちながら、要求された箇所を更新する
-- 対象プロジェクト、既存MR、そのMRの差分を更新前に確認する
-- タイトルと本文は`glab-mr-writing`で書く
-- 更新後のタイトル、本文、base、head、state、draftを検証する
+- GitLab Merge Requestの既存内容を保ちながら、タイトルと本文の要求された箇所を更新する
 
 ## いつ使うか
 
@@ -107,16 +104,16 @@ glab mr view <iid> --repo <remote-url> -F json
 
 一致しない場合は成功として扱わず、差異とMR URLを返す。すべて一致したらMR URLと、変更した箇所を返す。
 
-## 安全条件
+## 禁止事項
 
-- `opened`でないMRを、明示的な続行指示なしに更新しない
-- 更新対象外のタイトル、本文、base、head、state、draftを変えない
-- ユーザーの明示なしに`Draft:`を外さない
-- 未pushのコミットを本文へ含めない
-- 本文は`--description-file`で渡す
-- iidと`--repo`を省略しない
-- `--push`、`--fill`、`--ready`を使わない
-- 更新後の値を再取得して検証する
+- `opened`でないMRを、明示的な続行指示なしに更新しないこと
+- 更新対象外のタイトル、本文、base、head、state、draftを変えないこと
+- ユーザーの明示なしに`Draft:`を外さないこと
+- 未pushのコミットを本文へ含めないこと
+- 本文を`--description`へ埋め込まないこと
+- iidと`--repo`を省略しないこと
+- `--push`、`--fill`、`--ready`を使わないこと
+- 更新後の値を再取得せずに成功として扱わないこと
 
 ## スキル連携
 

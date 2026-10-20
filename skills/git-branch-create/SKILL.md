@@ -2,25 +2,23 @@
 name: git-branch-create
 description: >
   ローカルGitブランチを新規作成するスキル。
-  ユーザーが「ブランチを作って」「新しいブランチを切って」など、
-  ブランチ作成を依頼した場合に使用する。
   ユーザーが名前を指定した場合はその名前を使用し、指定がない場合は命名規則に従う候補を提示して選んでもらう。
   作成元はリポジトリのデフォルトブランチとし、--baseが指定された場合はそのブランチを使用する。
   作成元の参照はoriginのブランチを優先し、利用できない場合はローカルブランチを使用する。
+  ユーザーが「ブランチを作って」「新しいブランチを切って」など、
+  ブランチ作成を依頼した場合に使用する。
 ---
 
 # git-branch-create
 
 ## できること
 
-- ブランチ名の候補を提示し、選択されたブランチ名と作成元を確定する
-- ローカルブランチを新規作成する
-- 作成結果を確認する
+- 命名規則に沿った候補から選んだ名前で、ローカルブランチを新規作成する
 
 ## いつ使うか
 
-- `ブランチを作って`
-- `新しいブランチを切って`
+- ブランチを作って
+- 新しいブランチを切って
 - `git-branch-create --base develop`
 - `git-branch-naming`で決めた名前のブランチを作成するとき
 
@@ -108,7 +106,7 @@ git rev-parse --verify refs/heads/<branch>
 ## スキル連携
 
 | ユーザーの依頼 | ワークフロー |
-|---|---|
+| --- | --- |
 | ブランチ名を決める | `git-branch-naming` |
 | ブランチを作成 | `git-branch-naming` → `git-branch-create` |
 | 指定された名前でブランチを作成 | `git-branch-create` |
@@ -116,7 +114,7 @@ git rev-parse --verify refs/heads/<branch>
 ## コマンドリファレンス
 
 | コマンド | 用途 |
-|---|---|
+| --- | --- |
 | `git ls-remote --symref origin HEAD` | `origin`のデフォルトブランチを確認する |
 | `git symbolic-ref --short refs/remotes/origin/HEAD` | ローカルの`origin/HEAD`からデフォルトブランチを確認する |
 | `git show-ref --verify --quiet refs/heads/<branch>` | 同名のローカルブランチが存在するか確認する |

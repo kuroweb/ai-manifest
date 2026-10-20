@@ -11,8 +11,7 @@ description: >
 
 ## できること
 
-- gitで三点比較のdiffを取得する
-- レビューは`code-reviewing`に任せる
+- マージ先と作業ブランチの差分をレビューする
 
 ## いつ使うか
 
@@ -71,15 +70,15 @@ diffが取得できるまで次へ進まない。
 
 渡す情報は、Step 2のdiffである。変更目的の確認は`code-reviewing`に任せる。
 
-## 安全条件
+## 禁止事項
 
-- diffなしで`code-reviewing`に進まない
-- `code-reviewing`を読まずにレビュー結果を組み立てない
-- baseとheadが同じ場合はレビューしない
+- diffなしで`code-reviewing`に進まないこと
+- `code-reviewing`を読まずにレビュー結果を組み立てないこと
+- baseとheadが同じ場合はレビューしないこと
 
 ## スキル連携
 
-| 状況 | 使用するスキル |
+| ユーザーの依頼 | ワークフロー |
 | --- | --- |
 | ローカルブランチのdiffをgitで取る | `code-review` |
 | レビュー | `code-reviewing` |

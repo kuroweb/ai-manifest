@@ -2,24 +2,23 @@
 name: wt-switch-create
 description: >
   `wt`（worktrunk）でGitワークツリーを新規作成し、移動コマンドを返すスキル。
-  ユーザーが「ワークツリーを作って」「worktreeを切って」「wtで作業ブランチを作って」など、
-  ワークツリーの作成を依頼した場合に使用する。
   ブランチ名は`git-branch-naming`に従って決め、作成後はユーザーが自分のシェルで実行する
   `cd`コマンドまたは`wt switch`コマンドを返す。作成元はデフォルトブランチとし、--baseが指定された場合はそのブランチを使用する。
+  ユーザーが「ワークツリーを作って」「worktreeを切って」「wtで作業ブランチを作って」など、
+  ワークツリーの作成を依頼した場合に使用する。
 ---
 
 # wt-switch-create
 
 ## できること
 
-- ブランチ名を確定する
-- `wt switch --create`でブランチとワークツリーを作成する
+- ブランチとワークツリーを作成する
 - 作成したワークツリーへ移動するコマンドを返す
 
 ## いつ使うか
 
-- `ワークツリーを作って`
-- `worktreeを切って`
+- ワークツリーを作って
+- worktreeを切って
 - `wt-switch-create --base develop`
 
 ## 手順
@@ -74,14 +73,14 @@ wt switch <branch>
 ## スキル連携
 
 | ユーザーの依頼 | ワークフロー |
-|---|---|
+| --- | --- |
 | ワークツリーを作成 | `git-branch-naming` → `wt-switch-create` |
 | 指定された名前でワークツリーを作成 | `wt-switch-create` |
 
 ## コマンドリファレンス
 
 | コマンド | 用途 |
-|---|---|
+| --- | --- |
 | `wt list --format=json` | ワークツリーの一覧とパスを取得する |
 | `wt switch --create <branch> --no-cd` | ブランチとワークツリーを作成する。シェルの移動はしない |
 | `wt switch --create <branch> --base <base> --no-cd` | 作成元を指定して作成する |

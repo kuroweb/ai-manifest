@@ -13,11 +13,7 @@ description: >
 
 ## できること
 
-- Gitと`.git`を使わず、指定されたpush済みブランチからMerge Requestを作成する
-- 本文を書く前に下書きを作り、そのdiffとコミットを取得する
-- タイトルと本文は`glab-mr-writing`で書く
-- 書いたタイトルと本文を、作成したMRへ入れてreadyにする
-- 作成後のタイトル、本文、base、headを検証する
+- Gitコマンドを使わずに、push済みブランチからGitLab Merge Requestを作成する
 
 ## いつ使うか
 
@@ -29,7 +25,6 @@ description: >
 - GitLab上にpush済みのheadを明示してMerge Requestを作成するとき
 
 GitHubのPull Requestには使わない。
-
 ## 手順
 
 ### Step 1: Git操作の禁止範囲を確認する
@@ -186,29 +181,40 @@ glab api --hostname <host> "projects/<encoded-path>/merge_requests/<iid>"
 
 一致しない場合は成功として扱わず、差異とMR URLをユーザーへ返す。すべて一致したらMR URLを返す。一時ファイルは削除する。
 
-## 安全条件
+## 禁止事項
 
-- 読み取り専用を含む`git`コマンドを実行しない
-- Gitを内部で呼び出すツールを使わない
-- `.git`を直接読んで禁止を迂回しない
-- `glab mr`を使わない
-- APIパスのプレースホルダを使わない
-- `glab api`の`--hostname`は、`glab repo view`の`web_url`から取ったホストにする
-- 対象プロジェクトとホストを`glab repo view`以外から取らない
-- baseとheadをローカルブランチから推測しない
-- 下書きMRを作る前にdiffを取得しない
-- 同じheadのMRを重複して作成しない
-- 作成したMR以外のdiffを本文作成に使わない
-- 作成や更新に失敗しても、MRを無断で閉じたり削除したりしない
+- 読み取り専用を含む`git`コマンドを実行しないこと
+- Gitを内部で呼び出すツールを使わないこと
+- `.git`を直接読んで禁止を迂回しないこと
+- `glab mr`を使わないこと
+- APIパスのプレースホルダを使わないこと
+- `glab api`の`--hostname`に、`glab repo view`の`web_url`以外から取ったホストを使わないこと
+- 対象プロジェクトとホストを`glab repo view`以外から取らないこと
+- baseとheadをローカルブランチから推測しないこと
+- 下書きMRを作る前にdiffを取得しないこと
+- 同じheadのMRを重複して作成しないこと
+- 作成したMR以外のdiffを本文作成に使わないこと
+- 作成や更新に失敗しても、MRを無断で閉じたり削除したりしないこと
 
 ## スキル連携
 
-| 状況 | 使用するスキル |
+| ユーザーの依頼 | ワークフロー |
 | --- | --- |
 | Gitコマンドを実行できる | `glab-mr-create` |
 | Gitコマンドを実行でき、既存MRを更新する | `glab-mr-update` |
 | AIによるGitコマンド実行が禁止されている | `glab-mr-create-no-git` |
 | AIによるGitコマンド実行が禁止され、既存MRを更新する | `glab-mr-update-no-git` |
-| headがGitLabへpushされていない | ユーザーがpushした後に再開する |
 | MRの書き方 | `glab-mr-writing` |
-| GitHubのPull Request | `gh-pr-create`または`gh-pr-create-no-git` |
+| GitHubのPull Request | `gh-pr-create-no-git` |
+
+## コマンドリファレンス
+
+| コマンド | 用途 |
+| --- | --- |
+| `glab repo view -F json` | 対象プロジェクトとデフォルトブランチを取る |
+| `glab api --hostname <host> --paginate "projects/<encoded-path>/merge_requests?state=all&source_branch=<encoded-head>"` | 同じheadの既存MRを確認する |
+| `glab api --hostname <host> --method POST ... "projects/<encoded-path>/merge_requests" --input <payload-file>` | 下書きMRを作成する |
+| `glab api --hostname <host> "projects/<encoded-path>/merge_requests/<iid>"` | MRの状態を取得する |
+| `glab api --hostname <host> --paginate "projects/<encoded-path>/merge_requests/<iid>/commits"` | MRのコミットを取得する |
+| `glab api --hostname <host> --paginate "projects/<encoded-path>/merge_requests/<iid>/diffs?unidiff=true"` | MRのdiffを取得する |
+| `glab api --hostname <host> --method PUT ... "projects/<encoded-path>/merge_requests/<iid>" --input <payload-file>` | タイトルと本文を更新する |

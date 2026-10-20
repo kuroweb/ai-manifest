@@ -13,10 +13,7 @@ description: >
 
 ## できること
 
-- Gitと`.git`を使わず、指定したMerge Requestの既存内容を保ちながら、要求された箇所を更新する
-- そのMRのdiffとコミットだけを本文の根拠にする
-- タイトルと本文は`glab-mr-writing`で書く
-- 更新後のタイトル、本文、base、head、state、draftを検証する
+- Gitコマンドを使わずに、GitLab Merge Requestのタイトルと本文の要求された箇所を更新する
 
 ## いつ使うか
 
@@ -117,27 +114,37 @@ glab api --hostname <host> "projects/<encoded-path>/merge_requests/<iid>"
 
 一致しない場合は成功として扱わず、差異とMR URLを返す。すべて一致したらMR URLと、変更した箇所を返す。一時ファイルは削除する。
 
-## 安全条件
+## 禁止事項
 
-- 読み取り専用を含む`git`コマンドを実行しない
-- Gitを内部で呼び出すツールを使わない
-- `.git`を直接読んで禁止を迂回しない
-- `glab mr`を使わない
-- APIパスのプレースホルダを使わない
-- `glab api`の`--hostname`は、`glab repo view`の`web_url`から取ったホストにする
-- 対象プロジェクトとホストを`glab repo view`以外から取らない
-- iidをローカルブランチから推測しない
-- `opened`でないMRを、明示的な続行指示なしに更新しない
-- 更新対象外のタイトル、本文、base、head、state、draftを変えない
-- ユーザーの明示なしに`Draft:`を外さない
-- 作成や更新に失敗しても、MRを無断で閉じたり削除したりしない
+- 読み取り専用を含む`git`コマンドを実行しないこと
+- Gitを内部で呼び出すツールを使わないこと
+- `.git`を直接読んで禁止を迂回しないこと
+- `glab mr`を使わないこと
+- APIパスのプレースホルダを使わないこと
+- `glab api`の`--hostname`に、`glab repo view`の`web_url`以外から取ったホストを使わないこと
+- 対象プロジェクトとホストを`glab repo view`以外から取らないこと
+- iidをローカルブランチから推測しないこと
+- `opened`でないMRを、明示的な続行指示なしに更新しないこと
+- 更新対象外のタイトル、本文、base、head、state、draftを変えないこと
+- ユーザーの明示なしに`Draft:`を外さないこと
+- 作成や更新に失敗しても、MRを無断で閉じたり削除したりしないこと
 
 ## スキル連携
 
-| 状況 | 使用するスキル |
+| ユーザーの依頼 | ワークフロー |
 | --- | --- |
 | Gitコマンドを実行できる | `glab-mr-update` |
 | AIによるGitコマンド実行が禁止されている | `glab-mr-update-no-git` |
-| MRを新規作成する | `glab-mr-create`または`glab-mr-create-no-git` |
+| MRを新規作成する | `glab-mr-create-no-git` |
 | MRの書き方 | `glab-mr-writing` |
-| GitHubのPull Request | `gh-pr-update`または`gh-pr-update-no-git` |
+| GitHubのPull Request | `gh-pr-update-no-git` |
+
+## コマンドリファレンス
+
+| コマンド | 用途 |
+| --- | --- |
+| `glab repo view -F json` | 対象プロジェクトを取る |
+| `glab api --hostname <host> "projects/<encoded-path>/merge_requests/<iid>"` | 既存MRの状態を取得する |
+| `glab api --hostname <host> --paginate "projects/<encoded-path>/merge_requests/<iid>/commits"` | MRのコミットを取得する |
+| `glab api --hostname <host> --paginate "projects/<encoded-path>/merge_requests/<iid>/diffs?unidiff=true"` | MRのdiffを取得する |
+| `glab api --hostname <host> --method PUT ... "projects/<encoded-path>/merge_requests/<iid>" --input <payload-file>` | タイトルと本文を更新する |

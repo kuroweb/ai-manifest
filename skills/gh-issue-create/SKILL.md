@@ -11,9 +11,8 @@ description: >
 
 ## できること
 
-- `gh-issue-writing`で書いたタイトルと本文でGitHub Issueを起票する
-- 重複Issueを起票前に確認する
-- Issue typeが使えるかを確かめ、起票後の内容を検証する
+- GitHub Issueを起票する
+- 重複しそうな既存Issueがあれば、起票前に知らせる
 
 ## いつ使うか
 
@@ -86,11 +85,11 @@ gh issue view <url> --repo <owner/repo> --json number,title,state,body,url,issue
 
 一致しない場合は成功として扱わず、差異をユーザーへ返す。すべて一致したらIssue URLを返す。
 
-## 安全条件
+## 禁止事項
 
-- 重複の可能性があるIssueを、明示的な続行指示なしに起票しない
-- 本文は`--body-file`で渡す
-- 起票後の値を再取得して検証する
+- 重複の可能性があるIssueを、明示的な続行指示なしに起票しないこと
+- 本文を`--body`へ埋め込まないこと
+- 起票後の値を再取得せずに成功として扱わないこと
 
 ## スキル連携
 

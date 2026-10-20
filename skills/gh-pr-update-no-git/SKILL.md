@@ -13,10 +13,7 @@ description: >
 
 ## できること
 
-- Gitと`.git`を使わず、指定したPull Requestの既存内容を保ちながら、要求された箇所を更新する
-- そのPRのdiffとコミットだけを本文の根拠にする
-- タイトルと本文は`gh-pr-writing`で書く
-- 更新後のタイトル、本文、base、head、state、draftを検証する
+- Gitコマンドを使わずに、GitHub Pull Requestのタイトルと本文の要求された箇所を更新する
 
 ## いつ使うか
 
@@ -106,23 +103,32 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,isDra
 
 一致しない場合は成功として扱わず、差異とPR URLを返す。すべて一致したらPR URLと、変更した箇所を返す。一時ファイルは削除する。
 
-## 安全条件
+## 禁止事項
 
-- 読み取り専用を含む`git`コマンドを実行しない
-- Gitを内部で呼び出すツールを使わない
-- `.git`を直接読んで禁止を迂回しない
-- 対象リポジトリを`gh repo view`以外から取らない
-- PR番号をローカルブランチから推測しない
-- 番号や`--repo`を省略した`gh pr`コマンドを使わない
-- `OPEN`でないPRを、明示的な続行指示なしに更新しない
-- 更新対象外のタイトル、本文、base、head、state、draftを変えない
-- 作成や更新に失敗しても、PRを無断で閉じたり削除したりしない
+- 読み取り専用を含む`git`コマンドを実行しないこと
+- Gitを内部で呼び出すツールを使わないこと
+- `.git`を直接読んで禁止を迂回しないこと
+- 対象リポジトリを`gh repo view`以外から取らないこと
+- PR番号をローカルブランチから推測しないこと
+- 番号や`--repo`を省略した`gh pr`コマンドを使わないこと
+- `OPEN`でないPRを、明示的な続行指示なしに更新しないこと
+- 更新対象外のタイトル、本文、base、head、state、draftを変えないこと
+- 作成や更新に失敗しても、PRを無断で閉じたり削除したりしないこと
 
 ## スキル連携
 
-| 状況 | 使用するスキル |
+| ユーザーの依頼 | ワークフロー |
 | --- | --- |
 | Gitコマンドを実行できる | `gh-pr-update` |
 | AIによるGitコマンド実行が禁止されている | `gh-pr-update-no-git` |
-| PRを新規作成する | `gh-pr-create`または`gh-pr-create-no-git` |
+| PRを新規作成する | `gh-pr-create-no-git` |
 | PRの書き方 | `gh-pr-writing` |
+
+## コマンドリファレンス
+
+| コマンド | 用途 |
+| --- | --- |
+| `gh repo view --json nameWithOwner` | 対象リポジトリを取る |
+| `gh pr view <number> --repo <owner/repo> --json ...` | 既存PRの状態とコミットを取得する |
+| `gh pr diff <number> --repo <owner/repo>` | PRのdiffを取得する |
+| `gh api --method PATCH "repos/<owner>/<repo>/pulls/<number>" --input <payload-file>` | タイトルと本文を更新する |

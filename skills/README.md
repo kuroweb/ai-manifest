@@ -1,6 +1,6 @@
 # スキル
 
-正本はこのディレクトリ。手順の詳細は各 `SKILL.md`。運用は [docs/skills-guideline.md](../docs/skills-guideline.md)。
+正本はこのディレクトリ。手順の詳細は各 `SKILL.md`。運用と書き方は [docs/agent-skills/index.md](../docs/agent-skills/index.md)。
 
 ## Git
 
@@ -74,7 +74,9 @@
 | スキル | すること |
 |---|---|
 | [grill-me](grill-me/SKILL.md) | プランが固まるまで質問する |
+| [grilling](grilling/SKILL.md) | プランや判断を、共通理解に至るまで質問で詰める。`grill-me`が呼ぶ |
 | [grill-with-docs](grill-with-docs/SKILL.md) | プランを既存の用語と文書に突き合わせ、決まったら CONTEXT.md と ADR を更新する |
+| [domain-modeling](domain-modeling/SKILL.md) | プロジェクトの用語集と ADR を作り、ドメインモデルを磨く |
 | [intent-based-dedup](intent-based-dedup/SKILL.md) | 字面ではなく意図で、コードを共通化するか判断する |
 | [law-of-demeter](law-of-demeter/SKILL.md) | 連鎖呼び出しを減らし、直接の相手とだけ話す設計にする |
 

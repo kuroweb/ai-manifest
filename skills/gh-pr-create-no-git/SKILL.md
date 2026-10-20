@@ -13,11 +13,7 @@ description: >
 
 ## できること
 
-- Gitと`.git`を使わず、指定されたpush済みブランチからPull Requestを作成する
-- 本文を書く前に下書きを作り、そのdiffとコミットを取得する
-- タイトルと本文は`gh-pr-writing`で書く
-- 書いたタイトルと本文を、作成したPRへ入れてreadyにする
-- 作成後のタイトル、本文、base、headを検証する
+- Gitコマンドを使わずに、push済みブランチからGitHub Pull Requestを作成する
 
 ## いつ使うか
 
@@ -194,26 +190,37 @@ gh pr ready <number> --repo <owner/repo>
 
 一致しない場合は成功として扱わず、差異とPR URLをユーザーへ返す。すべて一致したらPR URLを返す。一時ファイルは削除する。
 
-## 安全条件
+## 禁止事項
 
-- 読み取り専用を含む`git`コマンドを実行しない
-- Gitを内部で呼び出すツールを使わない
-- `.git`を直接読んで禁止を迂回しない
-- 下書きPRを作る前にdiffを取得しない
-- 対象リポジトリを`gh repo view`以外から取らない
-- baseとheadをローカルブランチから推測しない
-- 同じheadのPRを重複して作成しない
-- 作成したPR以外のdiffを本文作成に使わない
-- タイトルと本文が書いた内容と一致する前にreadyにしない
-- 作成や更新に失敗しても、PRを無断で閉じたり削除したりしない
+- 読み取り専用を含む`git`コマンドを実行しないこと
+- Gitを内部で呼び出すツールを使わないこと
+- `.git`を直接読んで禁止を迂回しないこと
+- 下書きPRを作る前にdiffを取得しないこと
+- 対象リポジトリを`gh repo view`以外から取らないこと
+- baseとheadをローカルブランチから推測しないこと
+- 同じheadのPRを重複して作成しないこと
+- 作成したPR以外のdiffを本文作成に使わないこと
+- タイトルと本文が書いた内容と一致する前にreadyにしないこと
+- 作成や更新に失敗しても、PRを無断で閉じたり削除したりしないこと
 
 ## スキル連携
 
-| 状況 | 使用するスキル |
+| ユーザーの依頼 | ワークフロー |
 | --- | --- |
 | Gitコマンドを実行できる | `gh-pr-create` |
 | Gitコマンドを実行でき、既存PRを更新する | `gh-pr-update` |
 | AIによるGitコマンド実行が禁止されている | `gh-pr-create-no-git` |
 | AIによるGitコマンド実行が禁止され、既存PRを更新する | `gh-pr-update-no-git` |
-| headがGitHubへpushされていない | ユーザーがpushした後に再開する |
 | PRの書き方 | `gh-pr-writing` |
+
+## コマンドリファレンス
+
+| コマンド | 用途 |
+| --- | --- |
+| `gh repo view --json nameWithOwner,defaultBranchRef` | 対象リポジトリとデフォルトブランチを取る |
+| `gh pr list --repo <owner/repo> --head <head> --state all` | 同じheadの既存PRを確認する |
+| `gh api --method POST "repos/<owner>/<repo>/pulls" --input <payload-file>` | 下書きPRを作成する |
+| `gh pr view <number> --repo <owner/repo> --json ...` | PRの状態とコミットを取得する |
+| `gh pr diff <number> --repo <owner/repo>` | PRのdiffを取得する |
+| `gh api --method PATCH "repos/<owner>/<repo>/pulls/<number>" --input <payload-file>` | タイトルと本文を更新する |
+| `gh pr ready <number> --repo <owner/repo>` | 下書きを解除する |

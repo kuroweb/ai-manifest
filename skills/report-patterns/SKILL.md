@@ -7,6 +7,16 @@ description: >-
 
 # report-patterns
 
+## できること
+
+- レポート、PR・MR本文、引き継ぎノートで使う記述パターンを示す
+- 書いた本文が、記述パターンで読みやすくできるかを確かめる
+
+## いつ使うか
+
+- 他のスキルが`report-patterns`を読むよう指示したとき
+- ユーザーが`report-patterns`と明示したとき
+
 ## 記述パターン
 
 ### 見出し
@@ -104,6 +114,17 @@ sequenceDiagram
 - 複数置いてよい
 - `participant` を増やしすぎない
 - `[補足]` には図に表せない前提や制約を書く。図の内容を言い直さない。不要なら省略する
+
+## スキル連携
+
+| ユーザーの依頼 | ワークフロー |
+| --- | --- |
+| 不具合の原因を調べる | `report-bug-cause` → `report-patterns` |
+| 実装できるかを調べる | `report-can-implement` → `report-patterns` |
+| それ以外の問いを調べる | `report-question` → `report-patterns` |
+| PRのタイトルと本文を書く | `gh-pr-writing` → `report-patterns` |
+| MRのタイトルと本文を書く | `glab-mr-writing` → `report-patterns` |
+| 引き継ぎノートを作成 | `handover-create` → `report-patterns` |
 
 ## このスキルを直すとき
 

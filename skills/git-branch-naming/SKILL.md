@@ -2,16 +2,25 @@
 name: git-branch-naming
 description: >
   Gitブランチ名を、種類のプレフィックス（feat/fix/chore）、Issue・開発チケットとの関連付け、
-  kebab-caseに基づいて提案・検証するときに使用する。
+  kebab-caseに基づいて決める規則。
+  他のスキルが読むよう指示したとき、またはブランチ名を提案・検証するときに使う。
 ---
 
-# Gitブランチ命名規則
+# git-branch-naming
 
-一貫したブランチ命名により、変更の追跡とリポジトリの履歴の把握が容易になる。
+## できること
 
-リポジトリに既存の命名規則がある場合は、その規則を優先する。
+- ブランチ名の種類、Issue・開発チケットの識別子、説明部分を決める
+- ブランチ名が規則に合っているかを検証する
+
+## いつ使うか
+
+- 他のスキルが`git-branch-naming`を読むよう指示したとき
+- ブランチ名を提案するとき、または検証するとき
 
 ## ブランチ名の形式
+
+リポジトリに既存の命名規則がある場合は、その規則を優先する。
 
 ```text
 {type}/{issue-or-ticket}-{short-description}
@@ -19,7 +28,7 @@ description: >
 ```
 
 | 要素 | 形式 | 必須 | 例 |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `type` | 小文字のプレフィックス | 必須 | `feat`、`fix` |
 | `issue-or-ticket` | `#`を付けないIssue番号または開発チケットID | 管理対象がある場合 | `123`、`DEV-123` |
 | `description` | 2〜5語のkebab-case | 必須 | `user-authentication` |
@@ -43,7 +52,7 @@ refactor/auth-service-split
 ## ブランチの種類
 
 | 種類 | 用途 | Conventional Commits |
-|---|---|---|
+| --- | --- | --- |
 | `feat/` | 新機能や新しい能力 | `feat:` |
 | `fix/` | バグ修正 | `fix:` |
 | `chore/` | 保守、依存関係、設定 | `chore:` |
@@ -82,7 +91,7 @@ refactor/auth-service-split
 ### Issue番号・開発チケットIDの扱い
 
 | 状況 | 識別子を含めるか | 例 |
-|---|---|---|
+| --- | --- | --- |
 | GitHub Issuesで管理している作業 | 含める | `feat/123-add-oauth` |
 | 外部システム（Jira、Notion）で管理している作業 | 含める | `feat/TASK-123-user-dashboard` |
 | 調査やスパイク | 含めない | `chore/auth-approaches` |
@@ -104,7 +113,7 @@ chore/PJ-789-update-sdk
 ### 良い説明
 
 | パターン | 例 | 良い理由 |
-|---|---|---|
+| --- | --- | --- |
 | 操作 + 対象 | `add-oauth-login` | 何をするかが明確 |
 | コンポーネント + 変更 | `auth-service-refactor` | 影響範囲を特定できる |
 | バグ + コンテキスト | `null-pointer-user-save` | 問題の内容が分かる |
@@ -112,7 +121,7 @@ chore/PJ-789-update-sdk
 ### 避けるもの
 
 | アンチパターン | 問題 | 改善例 |
-|---|---|---|
+| --- | --- | --- |
 | `fix/bug` | 曖昧すぎる | `fix/123-login-validation` |
 | `feat/new-feature` | 意味のある情報がない | `feat/user-dashboard` |
 | `feat/john-working-on-stuff` | 変更内容を表していない | `feat/456-payment-flow` |
@@ -125,7 +134,7 @@ chore/PJ-789-update-sdk
 - 最大: 5語、全体で50文字未満
 - 目安: 3〜4語（`feat/123-oauth-token-refresh`）
 
-## ブランチ名チェックリスト
+## チェックリスト
 
 - [ ] 有効な種類のプレフィックス（`feat/`、`fix/`など）で始まっている
 - [ ] 管理対象の作業にはIssue番号または開発チケットIDが含まれている
@@ -137,7 +146,8 @@ chore/PJ-789-update-sdk
 ## スキル連携
 
 | ユーザーの依頼 | ワークフロー |
-|---|---|
+| --- | --- |
 | ブランチ名を決める | `git-branch-naming` |
 | ブランチを作成 | `git-branch-naming` → `git-branch-create` |
 | 指定された名前でブランチを作成 | `git-branch-create` |
+| ワークツリーを作成 | `git-branch-naming` → `wt-switch-create` |

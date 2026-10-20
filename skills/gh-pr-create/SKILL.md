@@ -13,9 +13,6 @@ description: >
 ## できること
 
 - push済みブランチからGitHub Pull Requestを作成する
-- 対象リポジトリ、base、head、既存PR、差分コミットを作成前に確認する
-- タイトルと本文は`gh-pr-writing`で書く
-- 作成後のタイトル、本文、base、headを検証する
 
 ## いつ使うか
 
@@ -154,13 +151,13 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headR
 
 一致しない場合は成功として扱わず、差異をユーザーへ返す。すべて一致したらPR URLを返す。
 
-## 安全条件
+## 禁止事項
 
-- pushされていないheadからPRを作成しない
-- ローカルHEADとリモートheadのSHAが異なる状態でPRを作成しない
-- baseとの差分コミットがない状態でPRを作成しない
-- 同じheadのopen、merged、closed PRがある場合は新しいPRを作成しない
-- 本文は`--body-file`で渡す
+- pushされていないheadからPRを作成しないこと
+- ローカルHEADとリモートheadのSHAが異なる状態でPRを作成しないこと
+- baseとの差分コミットがない状態でPRを作成しないこと
+- 同じheadのopen、merged、closed PRがある場合は新しいPRを作成しないこと
+- 本文を`--body`へ埋め込まないこと
 
 ## スキル連携
 

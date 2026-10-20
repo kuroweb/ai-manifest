@@ -11,8 +11,7 @@ description: >
 
 ## できること
 
-- 指定したGitLab Merge Requestの説明とdiffを取得する
-- レビューは`code-reviewing`に任せる
+- GitLab Merge Requestを、説明とdiffをもとにレビューする
 
 ## いつ使うか
 
@@ -77,12 +76,12 @@ diffを取得できなければ次へ進まない。現在のファイル内容�
 
 渡す情報は、Step 3のdiffとStep 4の変更目的である。`code-reviewing`にdiffの再取得と変更目的の聞き直しをさせない。
 
-## 安全条件
+## 禁止事項
 
-- diffなしで`code-reviewing`に進まない
-- `code-reviewing`を読まずにレビュー結果を組み立てない
-- 変更目的をdiffから推測しない
-- MRのタイトル、説明、レビューコメントを変更しない
+- diffなしで`code-reviewing`に進まないこと
+- `code-reviewing`を読まずにレビュー結果を組み立てないこと
+- 変更目的をdiffから推測しないこと
+- MRのタイトル、説明、レビューコメントを変更しないこと
 
 ## スキル連携
 
