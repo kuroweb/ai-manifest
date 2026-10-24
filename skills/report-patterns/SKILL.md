@@ -3,6 +3,8 @@ name: report-patterns
 description: >-
   レポート・PR/MR 本文で、読みやすく追いやすく書けた記述パターンを取りまとめる。
   他のスキルが読むよう指示したとき、またはユーザーが `report-patterns` と明示したときに使う。
+  それ以外では使わない。
+disable-model-invocation: true
 ---
 
 # report-patterns
