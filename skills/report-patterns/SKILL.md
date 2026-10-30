@@ -119,9 +119,6 @@ sequenceDiagram
 
 | ユーザーの依頼 | ワークフロー |
 | --- | --- |
-| 不具合の原因を調べる | `report-bug-cause` → `report-patterns` |
-| 実装できるかを調べる | `report-can-implement` → `report-patterns` |
-| それ以外の問いを調べる | `report-question` → `report-patterns` |
 | PRのタイトルと本文を書く | `gh-pr-writing` → `report-patterns` |
 | MRのタイトルと本文を書く | `glab-mr-writing` → `report-patterns` |
 | 引き継ぎノートを作成 | `handover-create` → `report-patterns` |

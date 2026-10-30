@@ -5,7 +5,7 @@
 ## Git
 
 | スキル | すること |
-|---|---|
+| --- | --- |
 | [git-branch-naming](git-branch-naming/SKILL.md) | ブランチ名を種類・Issue連携・kebab-caseで決める |
 | [git-branch-create](git-branch-create/SKILL.md) | ローカルブランチを新規作成する |
 | [git-commit](git-commit/SKILL.md) | 変更を意味のある単位でコミットする |
@@ -22,7 +22,7 @@
 ## GitHub Issue
 
 | スキル | すること |
-|---|---|
+| --- | --- |
 | [gh-issue-create](gh-issue-create/SKILL.md) | Issueを確認後に起票する |
 | [gh-issue-update](gh-issue-update/SKILL.md) | 既存Issueのタイトルと本文を確認後に更新する |
 | [gh-issue-load](gh-issue-load/SKILL.md) | 指定したIssueを読み込む |
@@ -32,7 +32,7 @@
 ## GitHub Pull Request
 
 | スキル | すること |
-|---|---|
+| --- | --- |
 | [gh-pr-create](gh-pr-create/SKILL.md) | push済みブランチからPRを作成する |
 | [gh-pr-update](gh-pr-update/SKILL.md) | 既存PRのタイトルと本文を更新する |
 | [gh-pr-create-no-git](gh-pr-create-no-git/SKILL.md) | Gitコマンドを実行せず、PRを作成する |
@@ -44,7 +44,7 @@
 ## GitLab Merge Request
 
 | スキル | すること |
-|---|---|
+| --- | --- |
 | [glab-mr-create](glab-mr-create/SKILL.md) | push済みブランチからMRを作成する |
 | [glab-mr-update](glab-mr-update/SKILL.md) | 既存MRのタイトルと本文を更新する |
 | [glab-mr-create-no-git](glab-mr-create-no-git/SKILL.md) | Gitコマンドを実行せず、MRを作成する |
@@ -55,7 +55,7 @@
 ## コードレビュー
 
 | スキル | すること |
-|---|---|
+| --- | --- |
 | [code-review](code-review/SKILL.md) | baseとheadの三点比較diffをgitで取り、レビューする |
 | [code-review-no-git](code-review-no-git/SKILL.md) | Gitコマンドを実行せず、貼られたdiffをレビューする |
 | [code-reviewing](code-reviewing/SKILL.md) | 渡されたdiffと変更目的をチェックリストに沿ってレビューする。他のスキルが読む |
@@ -64,22 +64,17 @@
 
 | スキル | すること |
 | --- | --- |
-| [report-bug-cause](report-bug-cause/SKILL.md) | 不具合が今のコードのどこで、なぜ起きるかを調べてレポートにする |
-| [report-can-implement](report-can-implement/SKILL.md) | やりたいことが今のコードで実装できるかを調べてレポートにする |
-| [report-question](report-question/SKILL.md) | 個別スキルに当てはまらない問いを調べてレポートにする |
 | [feature-research](feature-research/SKILL.md) | 既存の画面や機能1つについて、現行の構成と処理の流れを調べ、日本語 Markdown の現状調査にする |
 | [report-patterns](report-patterns/SKILL.md) | レポートの記述パターン。他のスキルが読む |
 
 ## 設計と文章
 
 | スキル | すること |
-|---|---|
+| --- | --- |
 | [grill-me](grill-me/SKILL.md) | プランが固まるまで質問する |
 | [grilling](grilling/SKILL.md) | プランや判断を、共通理解に至るまで質問で詰める。`grill-me`が呼ぶ |
 | [grill-with-docs](grill-with-docs/SKILL.md) | プランを既存の用語と文書に突き合わせ、決まったら CONTEXT.md と ADR を更新する |
 | [domain-modeling](domain-modeling/SKILL.md) | プロジェクトの用語集と ADR を作り、ドメインモデルを磨く |
-| [intent-based-dedup](intent-based-dedup/SKILL.md) | 字面ではなく意図で、コードを共通化するか判断する |
-| [law-of-demeter](law-of-demeter/SKILL.md) | 連鎖呼び出しを減らし、直接の相手とだけ話す設計にする |
 
 ## 文章
 
@@ -91,7 +86,7 @@
 ## セッション
 
 | スキル | すること |
-|---|---|
+| --- | --- |
 | [handover-create](handover-create/SKILL.md) | 次のセッション用の引き継ぎノートを書く |
 | [handover-resume](handover-resume/SKILL.md) | 引き継ぎノートを読み込んで再開する |
 | [handover-remove](handover-remove/SKILL.md) | 選んだ引き継ぎノートを確認後に削除する |
