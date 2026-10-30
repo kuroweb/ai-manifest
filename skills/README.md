@@ -63,10 +63,11 @@
 ## 調査
 
 | スキル | すること |
-|---|---|
+| --- | --- |
 | [report-bug-cause](report-bug-cause/SKILL.md) | 不具合が今のコードのどこで、なぜ起きるかを調べてレポートにする |
 | [report-can-implement](report-can-implement/SKILL.md) | やりたいことが今のコードで実装できるかを調べてレポートにする |
 | [report-question](report-question/SKILL.md) | 個別スキルに当てはまらない問いを調べてレポートにする |
+| [feature-research](feature-research/SKILL.md) | 既存の画面や機能1つについて、現行の構成と処理の流れを調べ、日本語 Markdown の現状調査にする |
 | [report-patterns](report-patterns/SKILL.md) | レポートの記述パターン。他のスキルが読む |
 
 ## 設計と文章
