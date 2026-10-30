@@ -92,6 +92,12 @@
 | [handover-remove](handover-remove/SKILL.md) | 選んだ引き継ぎノートを確認後に削除する |
 | [plan-export](plan-export/SKILL.md) | 固めたプランを `~/.docs/plans` に保存する |
 
+## エージェント連携
+
+| スキル | すること |
+| --- | --- |
+| [herdr-orchestrator](herdr-orchestrator/SKILL.md) | herdr上でオーケストレーターとして複数のワーカーを別タブに起動し、作業を割り振って結果を回収する規則 |
+
 ## スキル自体
 
 | スキル | すること |
