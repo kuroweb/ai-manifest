@@ -51,10 +51,6 @@ diffが無ければ本文を書かない。
 
 - 既存MRの`draft`がtrueで、ユーザーがreadyにすると明示していないときは、タイトル先頭の`Draft:`を残す。外すとGitLabはそのMRをreadyにする
 
-### Step 5: 見直す
-
-`report-patterns`を読み、Step 4のタイトルと本文がその書き方で読みやすくできるか確かめる。できる箇所があれば、見出し構成と記載した事実は変えずに直す。
-
 ## 禁止事項
 
 - `references/schema.md` と`report-patterns`を読まずに書かないこと
