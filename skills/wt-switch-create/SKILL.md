@@ -4,8 +4,9 @@ description: >
   `wt`（worktrunk）でGitワークツリーを新規作成し、移動コマンドを返すスキル。
   ブランチ名は`git-branch-naming`に従って決め、作成後はユーザーが自分のシェルで実行する
   `cd`コマンドまたは`wt switch`コマンドを返す。作成元はデフォルトブランチとし、--baseが指定された場合はそのブランチを使用する。
-  ユーザーが「ワークツリーを作って」「worktreeを切って」「wtで作業ブランチを作って」など、
-  ワークツリーの作成を依頼した場合に使用する。
+  ユーザーが `wt-switch-create` と明示した場合にだけ使用する。スキル名が無い依頼では使わない（Orca のワークツリー操作と競合するため）。
+  例: wt-switch-create、wt-switch-create --base develop。
+disable-model-invocation: true
 ---
 
 # wt-switch-create
@@ -17,9 +18,9 @@ description: >
 
 ## いつ使うか
 
-- ワークツリーを作って
-- worktreeを切って
+- `wt-switch-create`（スキル名での明示呼び出し）
 - `wt-switch-create --base develop`
+- 「ワークツリーを作って」だけの依頼では使わない。Orca 側の操作に任せるか、ユーザーに `wt-switch-create` と明示してもらう
 
 ## 手順
 
@@ -74,8 +75,8 @@ wt switch <branch>
 
 | ユーザーの依頼 | ワークフロー |
 | --- | --- |
-| ワークツリーを作成 | `git-branch-naming` → `wt-switch-create` |
-| 指定された名前でワークツリーを作成 | `wt-switch-create` |
+| ワークツリーを作成（`wt-switch-create` と明示されたとき） | `git-branch-naming` → `wt-switch-create` |
+| 指定された名前でワークツリーを作成（`wt-switch-create` と明示） | `wt-switch-create` |
 
 ## コマンドリファレンス
 

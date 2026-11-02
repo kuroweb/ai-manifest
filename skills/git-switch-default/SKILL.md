@@ -171,7 +171,7 @@ git status --porcelain=v2 --branch
 | デフォルトブランチへ戻る | `git-switch-default` |
 | 戻ってからブランチを作る | `git-switch-default` → `git-branch-create` |
 | ブランチを作る | `git-branch-naming` → `git-branch-create` |
-| ワークツリーを作る | `wt-switch-create` |
+| ワークツリーを作る | 使わない。`wt-switch-create` はユーザーがスキル名で明示したときだけ（Orca と競合するため） |
 
 ## コマンドリファレンス
 

@@ -150,4 +150,4 @@ chore/PJ-789-update-sdk
 | ブランチ名を決める | `git-branch-naming` |
 | ブランチを作成 | `git-branch-naming` → `git-branch-create` |
 | 指定された名前でブランチを作成 | `git-branch-create` |
-| ワークツリーを作成 | `git-branch-naming` → `wt-switch-create` |
+| ワークツリーを作成 | 使わない。`wt-switch-create` はユーザーがスキル名で明示したときだけ（Orca と競合するため） |

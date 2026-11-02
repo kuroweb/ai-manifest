@@ -17,7 +17,7 @@
 
 | スキル | すること |
 |---|---|
-| [wt-switch-create](wt-switch-create/SKILL.md) | `wt`でワークツリーを作成し、移動コマンドを返す |
+| [wt-switch-create](wt-switch-create/SKILL.md) | `wt`でワークツリーを作成し、移動コマンドを返す（`wt-switch-create` と明示したときのみ。自動では呼ばない） |
 
 ## GitHub Issue
 
