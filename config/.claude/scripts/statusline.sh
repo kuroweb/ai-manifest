@@ -2,16 +2,6 @@
 # 標準入力からJSON形式のデータを読み込む
 input=$(cat)
 
-# DialDeck 向けに使用量（rate_limits）を書き出す
-rate_limits=$(printf '%s' "$input" | jq -c '.rate_limits // empty')
-if [ -n "$rate_limits" ]; then
-    usage_dir="$HOME/Library/Application Support/DialDeck"
-    mkdir -p "$usage_dir" &&
-        usage_tmp=$(mktemp "$usage_dir/claude-rate-limits.json.XXXXXX") &&
-        { printf '%s\n' "$rate_limits" > "$usage_tmp" &&
-            mv "$usage_tmp" "$usage_dir/claude-rate-limits.json"; }
-fi
-
 # 各種情報を取得
 model=$(echo "$input" | jq -r '.model.display_name // "Claude"')
 input_tokens=$(echo "$input" | jq -r '.context_window.total_input_tokens // "0"')
