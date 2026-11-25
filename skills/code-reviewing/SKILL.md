@@ -101,7 +101,6 @@ diffは必須である。呼び出し元または会話に無いときは、レ�
 | --- | --- |
 | 渡されたdiffをレビューする | `code-reviewing` |
 | ローカルブランチのdiffをgitで取る | `code-review` |
-| AIによるGitコマンド実行が禁止されている | `code-review-no-git` |
 | 指定したGitHub PRをレビューする | `gh-pr-review` |
 | CIから指定したGitHub PRをレビューする | `gh-pr-review-ci` |
 | 指定したGitLab MRをレビューする | `glab-mr-review` |

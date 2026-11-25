@@ -121,8 +121,6 @@ glab mr view <iid> --repo <remote-url> -F json
 | --- | --- |
 | MR作成 | `glab-mr-create` |
 | MR更新 | `glab-mr-update` |
-| Gitコマンド禁止環境でMR作成 | `glab-mr-create-no-git` |
-| Gitコマンド禁止環境でMR更新 | `glab-mr-update-no-git` |
 | pushしてから本文を更新 | `git-push` → `glab-mr-update` |
 | MRの書き方 | `glab-mr-writing` |
 | GitHubのPull Request | `gh-pr-update` |

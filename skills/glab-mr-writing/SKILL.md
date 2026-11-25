@@ -29,7 +29,6 @@ description: >
 
 - 変更目的は、会話、Issue、コミットメッセージから取る。diffから推測しない
 - 変更概要と変更詳細は、MRのdiffにある事実だけを書く
-- テスト内容は、このセッションで実行・操作した結果だけを書く
 - ローカルファイルや会話中の未push変更は、MRのdiffに無ければ使わない
 
 既存MRを更新するときは、変える箇所と、それに連動して直す箇所だけを集める。
@@ -64,6 +63,4 @@ diffが無ければ本文を書かない。
 | --- | --- |
 | MR作成 | `glab-mr-create` |
 | MR更新 | `glab-mr-update` |
-| Gitコマンド禁止環境でMR作成 | `glab-mr-create-no-git` |
-| Gitコマンド禁止環境でMR更新 | `glab-mr-update-no-git` |
 | 本文の書き方・可読性 | `report-patterns` |

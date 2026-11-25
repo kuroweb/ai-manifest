@@ -22,7 +22,6 @@ description: >
 - コミットして
 - 変更をコミット
 - コミットメッセージを書いて
-- AIによるGitコマンド実行が禁止されているときは使わない。`git-commit-no-git`を使う
 - pushやPull Request作成には使わない
 
 ## 手順
@@ -105,7 +104,6 @@ git log --oneline -5
 | ユーザーの依頼 | ワークフロー |
 | --- | --- |
 | コミット | `git-commit` |
-| Gitコマンド禁止環境でコミット案を作成 | `git-commit-no-git` |
 | コミットして push | `git-commit` → `git-push` |
 | コミットして PR 作成 | `git-commit` → `git-push` → `gh-pr-create` |
 | コミットして MR 作成 | `git-commit` → `git-push` → `glab-mr-create` |

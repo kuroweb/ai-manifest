@@ -121,7 +121,6 @@ sequenceDiagram
 | --- | --- |
 | PRのタイトルと本文を書く | `gh-pr-writing` → `report-patterns` |
 | MRのタイトルと本文を書く | `glab-mr-writing` → `report-patterns` |
-| 引き継ぎノートを作成 | `handover-create` → `report-patterns` |
 
 ## このスキルを直すとき
 

@@ -165,8 +165,6 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headR
 | --- | --- |
 | PR作成 | `gh-pr-create` |
 | PR更新 | `gh-pr-update` |
-| Gitコマンド禁止環境でPR作成 | `gh-pr-create-no-git` |
-| Gitコマンド禁止環境でPR更新 | `gh-pr-update-no-git` |
 | pushしてPR作成 | `git-push` → `gh-pr-create` |
 | コミットしてPR作成 | `git-commit` → `git-push` → `gh-pr-create` |
 | PRの書き方 | `gh-pr-writing` |

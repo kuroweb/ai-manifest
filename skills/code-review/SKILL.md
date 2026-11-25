@@ -82,7 +82,6 @@ diffが取得できるまで次へ進まない。
 | --- | --- |
 | ローカルブランチのdiffをgitで取る | `code-review` |
 | レビュー | `code-reviewing` |
-| AIによるGitコマンド実行が禁止されている | `code-review-no-git` |
 | 指定したGitHub PRをレビューする | `gh-pr-review` |
 | 指定したGitLab MRをレビューする | `glab-mr-review` |
 

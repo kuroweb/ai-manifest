@@ -90,7 +90,6 @@ diffを取得できなければ次へ進まない。現在のファイル内容�
 | 指定したGitLab MRをレビューする | `glab-mr-review` → `code-reviewing` |
 | 指定したGitHub PRをレビューする | `gh-pr-review` |
 | ローカルブランチのdiffをgitで取る | `code-review` |
-| Gitコマンドを実行せず、貼られたdiffをレビューする | `code-review-no-git` |
 | レビュー | `code-reviewing` |
 
 ## コマンドリファレンス

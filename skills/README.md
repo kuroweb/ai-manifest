@@ -9,15 +9,8 @@
 | [git-branch-naming](git-branch-naming/SKILL.md) | ブランチ名を種類・Issue連携・kebab-caseで決める |
 | [git-branch-create](git-branch-create/SKILL.md) | ローカルブランチを新規作成する |
 | [git-commit](git-commit/SKILL.md) | 変更を意味のある単位でコミットする |
-| [git-commit-no-git](git-commit-no-git/SKILL.md) | Gitコマンドを実行せず、コミット手順を作る |
 | [git-push](git-push/SKILL.md) | 既存コミットをリモートへ push する |
 | [git-switch-default](git-switch-default/SKILL.md) | 作業ツリーをデフォルトブランチへ切り替える |
-
-## Worktree
-
-| スキル | すること |
-|---|---|
-| [wt-switch-create](wt-switch-create/SKILL.md) | `wt`でワークツリーを作成し、移動コマンドを返す（`wt-switch-create` と明示したときのみ。自動では呼ばない） |
 
 ## GitHub Issue
 
@@ -35,8 +28,6 @@
 | --- | --- |
 | [gh-pr-create](gh-pr-create/SKILL.md) | push済みブランチからPRを作成する |
 | [gh-pr-update](gh-pr-update/SKILL.md) | 既存PRのタイトルと本文を更新する |
-| [gh-pr-create-no-git](gh-pr-create-no-git/SKILL.md) | Gitコマンドを実行せず、PRを作成する |
-| [gh-pr-update-no-git](gh-pr-update-no-git/SKILL.md) | Gitコマンドを実行せず、既存PRのタイトルと本文を更新する |
 | [gh-pr-review](gh-pr-review/SKILL.md) | 指定したPRの説明とdiffを取り、レビューする |
 | [gh-pr-review-ci](gh-pr-review-ci/SKILL.md) | CIから指定したPRの説明とdiffを取り、聞き返さずにレビューする |
 | [gh-pr-writing](gh-pr-writing/SKILL.md) | PRのタイトルと本文の書き方。作成と更新が読む |
@@ -47,8 +38,6 @@
 | --- | --- |
 | [glab-mr-create](glab-mr-create/SKILL.md) | push済みブランチからMRを作成する |
 | [glab-mr-update](glab-mr-update/SKILL.md) | 既存MRのタイトルと本文を更新する |
-| [glab-mr-create-no-git](glab-mr-create-no-git/SKILL.md) | Gitコマンドを実行せず、MRを作成する |
-| [glab-mr-update-no-git](glab-mr-update-no-git/SKILL.md) | Gitコマンドを実行せず、既存MRのタイトルと本文を更新する |
 | [glab-mr-review](glab-mr-review/SKILL.md) | 指定したMRの説明とdiffを取り、レビューする |
 | [glab-mr-writing](glab-mr-writing/SKILL.md) | MRのタイトルと本文の書き方。作成と更新が読む |
 
@@ -57,7 +46,6 @@
 | スキル | すること |
 | --- | --- |
 | [code-review](code-review/SKILL.md) | baseとheadの三点比較diffをgitで取り、レビューする |
-| [code-review-no-git](code-review-no-git/SKILL.md) | Gitコマンドを実行せず、貼られたdiffをレビューする |
 | [code-reviewing](code-reviewing/SKILL.md) | 渡されたdiffと変更目的をチェックリストに沿ってレビューする。他のスキルが読む |
 
 ## 調査
@@ -82,21 +70,13 @@
 | --- | --- |
 | [stop-ai-slop-jp](stop-ai-slop-jp/SKILL.md) | AIで書いた日本語を、人が書いた文章に戻す |
 | [humanizer-jp](humanizer-jp/SKILL.md) | AIで書いた文章を、内容は変えずに人が書いた文章へ戻す |
+| [distill-it](distill-it/SKILL.md) | 文章を短くし、足りない説明を足して密度を上げる |
 
 ## セッション
 
 | スキル | すること |
 | --- | --- |
-| [handover-create](handover-create/SKILL.md) | 次のセッション用の引き継ぎノートを書く |
-| [handover-resume](handover-resume/SKILL.md) | 引き継ぎノートを読み込んで再開する |
-| [handover-remove](handover-remove/SKILL.md) | 選んだ引き継ぎノートを確認後に削除する |
 | [plan-export](plan-export/SKILL.md) | 固めたプランを `~/.docs/plans` に保存する |
-
-## エージェント連携
-
-| スキル | すること |
-| --- | --- |
-| [herdr-orchestrator](herdr-orchestrator/SKILL.md) | herdr上でオーケストレーターとして複数のワーカーを別タブに起動し、作業を割り振って結果を回収する規則 |
 
 ## スキル自体
 
