@@ -94,7 +94,7 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,isDra
 - isDraftが更新前と一致する
 - headRefNameが更新前と一致する
 - baseRefNameが更新前と一致する
-- closeするIssueが、本文末尾の`Closes`行に書かれている
+- closeするIssueが、関連チケットの末尾の`Closes`行に書かれている
 
 一致しない場合は成功として扱わず、差異とPR URLを返す。すべて一致したらPR URLと、変更した箇所を返す。
 

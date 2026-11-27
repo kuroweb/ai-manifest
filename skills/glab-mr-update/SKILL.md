@@ -100,7 +100,7 @@ glab mr view <iid> --repo <remote-url> -F json
 - draftが更新前と一致する
 - source_branchが更新前と一致する
 - target_branchが更新前と一致する
-- closeするIssueが、本文末尾の`Closes`行に書かれている
+- closeするIssueが、関連チケットの末尾の`Closes`行に書かれている
 
 一致しない場合は成功として扱わず、差異とMR URLを返す。すべて一致したらMR URLと、変更した箇所を返す。
 

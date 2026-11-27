@@ -147,7 +147,7 @@ gh pr view <number> --repo <owner/repo> --json number,url,title,body,state,headR
 - bodyが書いた本文と一致する
 - headRefNameがheadと一致する
 - baseRefNameがbaseと一致する
-- closeするIssueが、本文末尾の`Closes`行に書かれている
+- closeするIssueが、関連チケットの末尾の`Closes`行に書かれている
 
 一致しない場合は成功として扱わず、差異をユーザーへ返す。すべて一致したらPR URLを返す。
 
