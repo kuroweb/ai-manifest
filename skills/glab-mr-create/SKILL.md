@@ -153,7 +153,7 @@ glab mr view <iid> --repo <remote-url> -F json
 - descriptionが書いた本文と一致する
 - source_branchがheadと一致する
 - target_branchがbaseと一致する
-- closeするIssueが、関連チケットの末尾の`Closes`行に書かれている
+- closeするIssueが、本文末尾の`Closes`行に書かれている
 
 一致しない場合は成功として扱わず、差異をユーザーへ返す。すべて一致したらMR URLを返す。
 
