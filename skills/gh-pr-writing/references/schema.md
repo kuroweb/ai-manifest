@@ -137,8 +137,8 @@ sequenceDiagram
 ```markdown
 ## 関連チケット
 
-- [チケットの種類]: [URLまたはID]
-- [チケットの種類]: [URLまたはID]
+- [チケットの種類]: [URL]
+- [チケットの種類]: [URL]
 
 Closes #[番号]
 ```
