@@ -44,13 +44,13 @@ diffが無ければ本文を書かない。
 
 ### Step 4: 書く
 
-`references/schema.md` の型に沿って、タイトルと本文を書く。書き方は`report-patterns`にも従う。
+`references/schema.md` の型に沿って、タイトルと本文を書く。
 
 既存PRを更新するときは、要求された変更と整合に必要な変更だけを加える。既存本文が型の見出し構成に沿っている箇所は残し、書くことが無くなった見出しは型に従って扱う。
 
 ## 禁止事項
 
-- `references/schema.md` と`report-patterns`を読まずに書かないこと
+- `references/schema.md` を読まずに書かないこと
 - PRのdiffにない変更を本文へ含めないこと
 - 会話、Issue、コミット、diffで確かめていない事実を推測で書かないこと
 
@@ -60,4 +60,3 @@ diffが無ければ本文を書かない。
 | --- | --- |
 | PR作成 | `gh-pr-create` |
 | PR更新 | `gh-pr-update` |
-| 本文の書き方・可読性 | `report-patterns` |
