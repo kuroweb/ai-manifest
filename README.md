@@ -87,7 +87,7 @@ ai-manifest/
 
 ## Skills 運用
 
-一覧は [skills/README.md](skills/README.md)、運用手順と書き方は [docs/agent-skills/index.md](docs/agent-skills/index.md) を見る。
+一覧は [skills/README.md](skills/README.md)、運用手順と書き方は [docs/agent-skills/README.md](docs/agent-skills/README.md) を見る。
 
 ## エージェント設定運用
 

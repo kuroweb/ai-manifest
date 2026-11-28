@@ -1,6 +1,6 @@
 # スキル
 
-正本はこのディレクトリ。手順の詳細は各 `SKILL.md`。運用と書き方は [docs/agent-skills/index.md](../docs/agent-skills/index.md)。
+正本はこのディレクトリ。手順の詳細は各 `SKILL.md`。運用と書き方は [docs/agent-skills/README.md](../docs/agent-skills/README.md)。
 
 ## Git
 
